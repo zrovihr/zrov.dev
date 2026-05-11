@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SYS::ZROV — OPERATIVE DOSSIER</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* =============================================
+       SYSTEM :: DARKTIDE TERMINAL — zrov.dev
+       ============================================= */
+    :root {
+      --void:        #050508;
+      --void-soft:   #0c0c12;
+      --void-warm:   #111116;
+      --phosphor:    #2eff4e;
+      --phosphor-dim:#1a8c2e;
+      --phosphor-ghost: rgba(46, 255, 78, 0.06);
+      --crt-green:   #33ff33;
+      --bone:        #c4c4a8;
+      --bone-dim:    #7a7a6a;
+      --iron:        #2a2a32;
+      --iron-light:  #3e3e4a;
+      --warn:        #ff6a2e;
+      --gutter:      clamp(1rem, 4vw, 3rem);
+      --border:      1px solid var(--iron-light);
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--void);
+      color: var(--bone);
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.7;
+      letter-spacing: 0.02em;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---- TEXTURES ---- */
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--void);
+      background-image:
+        radial-gradient(ellipse at 50% 0%, rgba(46,255,78,0.03) 0%, transparent 60%);
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0,0,0,0.12) 2px,
+          rgba(0,0,0,0.12) 4px
+        );
+    }
+
+    /* ---- LAVA EMBER CANVAS ---- */
+    .ember-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0.45;
+      mix-blend-mode: screen;
+    }
+
+    /* ---- HUD / STATUS BARS ---- */
+    .hud {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: #060609;
+      background-image: url('assets/textures/dark-metal.png');
+      background-blend-mode: multiply;
+      border-bottom: 1px solid var(--iron-light);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--bone-dim);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem var(--gutter);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .hud__group {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .hud__stat {
+      display: flex;
+      gap: 0.35rem;
+      align-items: center;
+    }
+
+    .hud__label { color: var(--bone-dim); }
+    .hud__value { color: var(--phosphor); }
+    .hud__value--warn { color: var(--warn); }
+
+    .hud--bottom {
+      position: sticky;
+      top: auto;
+      bottom: 0;
+      border-bottom: none;
+      border-top: 1px solid var(--iron-light);
+      margin-top: auto;
+    }
+
+    /* ---- MAIN ---- */
+    main {
+      flex: 1;
+      max-width: 960px;
+      width: 100%;
+      margin: 0 auto;
+      padding: var(--gutter);
+    }
+
+    /* ---- HERO / SIGIL ---- */
+    .hero {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 2rem;
+      align-items: center;
+      padding: 3rem 0;
+      border-bottom: var(--border);
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('assets/textures/brick-wall-dark.png');
+      opacity: 0.08;
+      pointer-events: none;
+    }
+
+    .hero__frame {
+      position: relative;
+      width: clamp(180px, 25vw, 260px);
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 18px rgba(46,255,78,0.15));
+    }
+
+    .hero__frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .hero__frame::after {
+      content: '';
+      position: absolute;
+      inset: 8% 9% 10% 9%;
+      background: var(--void);
+      z-index: -1;
+    }
+
+    .hero__sigil {
+      position: absolute;
+      inset: 8% 9% 10% 9%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--phosphor);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      text-shadow: 0 0 20px rgba(46,255,78,0.4), 0 0 60px rgba(46,255,78,0.15);
+      pointer-events: none;
+    }
+
+    .hero__sigil span {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+    }
+
+    .hero__sigil .rune {
+      display: block;
+      font-family: 'MedievalSharp', cursive;
+      font-size: 0.55em;
+      letter-spacing: 0.15em;
+      opacity: 0.7;
+    }
+
+    .hero__dossier {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+    }
+
+    .hero__dossier::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('assets/textures/black-thread.png');
+      opacity: 0.06;
+      pointer-events: none;
+    }
+
+    .hero__name {
+      font-family: 'MedievalSharp', cursive;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      color: var(--bone);
+      letter-spacing: 0.06em;
+      line-height: 1.1;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+
+    .hero__title {
+      font-size: 0.85rem;
+      color: var(--phosphor);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      border-left: 2px solid var(--phosphor-dim);
+      padding-left: 1rem;
+    }
+
+    .hero__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tag {
+      font-size: 0.7rem;
+      padding: 0.2em 0.7em;
+      border: 1px solid var(--iron);
+      color: var(--bone-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .tag::before { content: '#'; color: var(--phosphor-dim); }
+
+    /* ---- SECTION HEADERS ---- */
+    .section-hd {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 2.5rem 0 1.2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      color: var(--bone-dim);
+      text-transform: uppercase;
+    }
+
+    .section-hd::before,
+    .section-hd::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--iron);
+    }
+
+    .section-hd h2 {
+      font-family: 'MedievalSharp', cursive;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--bone);
+      letter-spacing: 0.08em;
+      text-transform: none;
+      white-space: nowrap;
+    }
+
+    .section-hd .ref {
+      font-size: 0.7rem;
+      color: var(--phosphor-dim);
+    }
+
+    /* ---- DOSSIER ---- */
+    .dossier-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .dossier-block {
+      background: var(--void-soft);
+      border: var(--border);
+      padding: 1.2rem;
+      position: relative;
+    }
+
+    .dossier-block::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--phosphor-dim), transparent);
+    }
+
+    .dossier-label {
+      font-size: 0.7rem;
+      color: var(--phosphor-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 0.6rem;
+    }
+
+    .dossier-text {
+      color: var(--bone);
+      font-size: 0.85rem;
+      line-height: 1.8;
+    }
+
+    .dossier-text .redacted {
+      background: var(--void-warm);
+      color: var(--void-warm);
+      padding: 0 0.5em;
+      user-select: none;
+    }
+
+    /* ---- STAT TABLE ---- */
+    .stat-slate {
+      width: 100%;
+      font-size: 0.8rem;
+      border-collapse: collapse;
+      font-variant-numeric: tabular-nums;
+      background: url('assets/textures/grain.png');
+    }
+
+    .stat-slate td {
+      padding: 0.4rem 0.6rem;
+      border-bottom: 1px solid rgba(126,126,106,0.1);
+    }
+
+    .stat-slate .stat-label {
+      color: var(--bone-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      width: 40%;
+    }
+
+    .stat-slate .stat-value {
+      color: var(--phosphor);
+      text-align: right;
+    }
+
+    .stat-bar {
+      display: flex;
+      height: 6px;
+      background: var(--void-warm);
+      border: 1px solid var(--iron);
+    }
+
+    .stat-bar__fill {
+      background: var(--phosphor-dim);
+      box-shadow: 0 0 6px rgba(46,255,78,0.3);
+    }
+
+    /* ---- INVENTORY / PROJECTS ---- */
+    .inventory-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .inventory-item {
+      background: var(--void-soft);
+      border: var(--border);
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+
+    .inventory-item:hover {
+      border-color: var(--phosphor-dim);
+      background-color: var(--void-warm);
+    }
+
+    .inv-ref {
+      font-size: 0.65rem;
+      color: var(--phosphor-dim);
+      letter-spacing: 0.12em;
+    }
+
+    .inv-name {
+      font-family: 'MedievalSharp', cursive;
+      font-size: 1.1rem;
+      color: var(--bone);
+      letter-spacing: 0.04em;
+    }
+
+    .inv-desc {
+      font-size: 0.78rem;
+      color: var(--bone-dim);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .inv-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+
+    .inv-tech span {
+      font-size: 0.65rem;
+      color: var(--phosphor);
+      border: 1px solid var(--iron);
+      padding: 0.1em 0.5em;
+      letter-spacing: 0.06em;
+    }
+
+    /* ---- TERMINAL / CONNECT ---- */
+    .terminal-window {
+      background-color: var(--void-soft);
+      background-image: url('assets/textures/dark-mosaic.png');
+      border: var(--border);
+      overflow: hidden;
+    }
+
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.8rem;
+      background: var(--void-warm);
+      border-bottom: var(--border);
+      font-size: 0.7rem;
+    }
+
+    .terminal-dot {
+      width: 8px;
+      height: 8px;
+      border: 1px solid var(--iron-light);
+      background: var(--void-soft);
+    }
+
+    .terminal-dot--active { background: var(--phosphor-dim); border-color: var(--phosphor); }
+
+    .terminal-title {
+      flex: 1;
+      text-align: center;
+      color: var(--bone-dim);
+      letter-spacing: 0.08em;
+    }
+
+    .terminal-body {
+      padding: 1.2rem;
+      font-size: 0.82rem;
+      line-height: 2;
+      background: var(--void-soft);
+    }
+
+    .terminal-line {
+      color: var(--bone-dim);
+    }
+
+    .terminal-line .prompt {
+      color: var(--phosphor);
+    }
+
+    .terminal-line .cmd {
+      color: var(--bone);
+    }
+
+    .terminal-line .output {
+      color: var(--phosphor);
+      padding-left: 1.2rem;
+    }
+
+    .terminal-line .cursor {
+      display: inline-block;
+      width: 0.5em;
+      height: 1.1em;
+      background: var(--phosphor);
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    /* ---- ASCII DECOR ---- */
+    .ascii-sep {
+      text-align: center;
+      color: var(--iron);
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      padding: 0.8rem 0;
+      user-select: none;
+      overflow: hidden;
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 680px) {
+      .hero {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+        gap: 1.5rem;
+      }
+      .hero__title {
+        border-left: none;
+        padding-left: 0;
+      }
+      .hero__tags { justify-content: center; }
+      .dossier-grid { grid-template-columns: 1fr; }
+      .hud { flex-direction: column; gap: 0.3rem; }
+      .hud__group { flex-wrap: wrap; justify-content: center; }
+      .inventory-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ---- SKILL BAR ROW ---- */
+    .skill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    .skill-pip {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.7rem;
+      color: var(--bone-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .skill-pip .pip-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--phosphor);
+      box-shadow: 0 0 5px var(--phosphor);
+    }
+
+    .skill-pip .pip-dot--dim {
+      background: var(--iron-light);
+      box-shadow: none;
+    }
+
+    /* ---- WORKSHOP TILES ---- */
+    .workshop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 0.8rem;
+    }
+
+    .workshop-tile {
+      background: var(--void-soft);
+      border: var(--border);
+      padding: 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      transition: border-color 0.2s;
+    }
+
+    .workshop-tile:hover {
+      border-color: var(--phosphor-dim);
+    }
+
+    .ws-game {
+      font-size: 0.6rem;
+      color: var(--phosphor-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .ws-name {
+      font-size: 0.85rem;
+      color: var(--bone);
+      font-weight: 700;
+    }
+
+    .ws-desc {
+      font-size: 0.7rem;
+      color: var(--bone-dim);
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    /* ---- PSYCH PROFILE ---- */
+    .psych-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .psych-line {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(126,126,106,0.08);
+      font-size: 0.8rem;
+    }
+
+    .psych-line .psych-label {
+      color: var(--bone-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      width: 120px;
+      flex-shrink: 0;
+      font-size: 0.7rem;
+    }
+
+    .psych-line .psych-value {
+      color: var(--bone);
+      font-size: 0.78rem;
+    }
+
+    .psych-line .psych-hours {
+      color: var(--phosphor);
+      font-size: 0.72rem;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 680px) {
+      .hero {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+        gap: 1.5rem;
+      }
+      .hero__title {
+        border-left: none;
+        padding-left: 0;
+      }
+      .hero__tags { justify-content: center; }
+      .dossier-grid { grid-template-columns: 1fr; }
+      .hud { flex-direction: column; gap: 0.3rem; }
+      .hud__group { flex-wrap: wrap; justify-content: center; }
+      .inventory-grid { grid-template-columns: 1fr; }
+      .workshop-grid { grid-template-columns: 1fr 1fr; }
+      .psych-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ---- PRINT ---- */
+    @media print {
+      body::before { display: none; }
+      .hud { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════ LAVA EMBER PARTICLES ═══════════════ -->
+  <canvas class="ember-canvas" id="emberCanvas" aria-hidden="true"></canvas>
+
+  <!-- ═══════════════ TOP HUD ═══════════════ -->
+  <header class="hud">
+    <div class="hud__group">
+      <div class="hud__stat"><span class="hud__label">SYS</span><span class="hud__value">ONLINE</span></div>
+      <div class="hud__stat"><span class="hud__label">NODE</span><span class="hud__value">ZROV-PRIME</span></div>
+      <div class="hud__stat"><span class="hud__label">CLEARANCE</span><span class="hud__value--warn">RESTRICTED</span></div>
+    </div>
+    <div class="hud__group">
+      <div class="hud__stat"><span class="hud__label">VOX</span><span class="hud__value">TRILINGUAL</span></div>
+      <div class="hud__stat"><span class="hud__label">LOCUS</span><span class="hud__value">JP-NODE</span></div>
+      <div class="hud__stat"><span class="hud__label">PING</span><span class="hud__value">12ms</span></div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ═══════════════ HERO / SIGIL ═══════════════ -->
+    <section class="hero">
+      <div class="hero__frame">
+        <img src="assets/chain_frame.png" alt="">
+        <div class="hero__sigil">
+          <span>ZR</span>
+          <span class="rune">zrov</span>
+        </div>
+      </div>
+
+      <div class="hero__dossier">
+        <h1 class="hero__name">ZROV</h1>
+        <p class="hero__title">Game Developer &bull; Modder &bull; Code Heretic</p>
+        <div class="hero__tags">
+          <span class="tag">gamedev</span>
+          <span class="tag">unity</span>
+          <span class="tag">modding</span>
+          <span class="tag">trilingual</span>
+          <span class="tag">heretek</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ DOSSIER ═══════════════ -->
+    <div class="section-hd">
+      <h2>Classified Dossier</h2>
+      <span class="ref">REF: ZRV-Ω-7</span>
+    </div>
+
+    <div class="dossier-grid">
+      <div class="dossier-block">
+        <div class="dossier-label">// Operative Summary</div>
+        <p class="dossier-text">
+          Solo game developer building a time-travel tactical RPG in Unity.
+          Trilingual operative — EN, JP, ID — operating out of the JP node.
+          Forges mods for Minecraft, Fallout, and Skyrim between deployments.
+          Also known for writing custom Unity editor tools, AI integrations, 
+          and maintaining an unhealthy Warhammer 40K: Darktide habit.
+          <span class="redacted">REDACTED BY INQUISITION</span>
+        </p>
+      </div>
+
+      <div class="dossier-block">
+        <div class="dossier-label">// Core Stats</div>
+        <table class="stat-slate">
+          <tr><td class="stat-label">Game Dev</td><td class="stat-value">~500hrs</td></tr>
+          <tr><td class="stat-label">Modding</td><td class="stat-value">Minecraft / Fallout / Skyrim</td></tr>
+          <tr><td class="stat-label">Languages</td><td class="stat-value">EN · JP · ID</td></tr>
+          <tr><td class="stat-label">Arcana</td><td class="stat-value">65</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="ascii-sep">
+      ───── ✠ ╬ ✠ ╬ ✠ ─────
+    </div>
+
+    <!-- ═══════════════ ASSET INVENTORY ═══════════════ -->
+    <div class="section-hd">
+      <h2>Asset Inventory</h2>
+      <span class="ref">REF: ZRV-INV-3</span>
+    </div>
+
+    <div class="inventory-grid">
+      <article class="inventory-item">
+        <div class="inv-ref">PROJ-001</div>
+        <h3 class="inv-name">DIVE</h3>
+        <p class="inv-desc">Time-travel tactical RPG. 375+ scripts. FFTA meets Fallout. Cyberpunk meets dark western. Choices echo across timelines.</p>
+        <div class="inv-tech">
+          <span>Unity</span><span>C#</span><span>Ink</span><span>ML</span>
+        </div>
+      </article>
+
+      <article class="inventory-item">
+        <div class="inv-ref">PROJ-002</div>
+        <h3 class="inv-name">ZombieDOTS</h3>
+        <p class="inv-desc">Unity ECS zombie survival. Data-Oriented Tech Stack. Custom actor, selection, and player controller systems.</p>
+        <div class="inv-tech">
+          <span>Unity DOTS</span><span>C#</span><span>ECS</span>
+        </div>
+      </article>
+
+      <article class="inventory-item">
+        <div class="inv-ref">PROJ-003</div>
+        <h3 class="inv-name">desktoptts</h3>
+        <p class="inv-desc">AI desktop companion with multi-provider TTS. Indonesian + English. Python-Unity interop. Streaming audio.</p>
+        <div class="inv-tech">
+          <span>Unity</span><span>Python</span><span>Coqui</span><span>OpenAI</span>
+        </div>
+      </article>
+
+      <article class="inventory-item">
+        <div class="inv-ref">PROJ-004</div>
+        <h3 class="inv-name">AgentTools</h3>
+        <p class="inv-desc">Unity Editor utility suite. Automated asset wiring, null-field reporting, sprite slicing, batch import.</p>
+        <div class="inv-tech">
+          <span>C#</span><span>Unity Editor</span><span>Python</span>
+        </div>
+      </article>
+    </div>
+
+    <div class="ascii-sep">
+      ✠ ════ ☠ ════ ✠
+    </div>
+
+    <!-- ═══════════════ WORKSHOP MANIFEST ═══════════════ -->
+    <div class="section-hd">
+      <h2>Workshop Manifest</h2>
+      <span class="ref">REF: ZRV-MOD-11</span>
+    </div>
+
+    <div class="workshop-grid">
+      <div class="workshop-tile">
+        <div class="ws-game">Minecraft 1.21 · Fabric</div>
+        <div class="ws-name">BetterWaystonesMenu</div>
+        <div class="ws-desc">Enhanced waystone teleport UI with search, scroll, sorting, drag-drop reorder. Published on Modrinth.</div>
+      </div>
+
+      <div class="workshop-tile">
+        <div class="ws-game">Minecraft 1.21 · Fabric</div>
+        <div class="ws-name">Auto Walk Forward</div>
+        <div class="ws-desc">Toggle auto-walk keybind. Works while swimming, riding mounts, even with inventory open.</div>
+      </div>
+
+      <div class="workshop-tile">
+        <div class="ws-game">Minecraft 1.21 · Fabric</div>
+        <div class="ws-name">Cobblemon Shortcuts</div>
+        <div class="ws-desc">Keyboard shortcuts for battle HUD. Select moves, switch Pokemon — no mouse needed.</div>
+      </div>
+
+      <div class="workshop-tile">
+        <div class="ws-game">Minecraft 1.21 · Fabric</div>
+        <div class="ws-name">Cobblemon Mouse Menu</div>
+        <div class="ws-desc">Hold Alt to free cursor, interact with Cobblemon sidebar. Camera locks so you don't spin out.</div>
+      </div>
+
+      <div class="workshop-tile">
+        <div class="ws-game">Minecraft 1.21 · Fabric</div>
+        <div class="ws-name">Cobblemon Interactions</div>
+        <div class="ws-desc">Expanded interaction system for the Cobblemon mod. More ways to engage with your party.</div>
+      </div>
+
+      <div class="workshop-tile">
+        <div class="ws-game">Minecraft 1.21 · Fabric</div>
+        <div class="ws-name">DigitalFabricator</div>
+        <div class="ws-desc">Custom fabricator block mod. WIP experimental crafting system.</div>
+      </div>
+
+      <div class="workshop-tile">
+        <div class="ws-game">Fallout 4</div>
+        <div class="ws-name">Custom Mods</div>
+        <div class="ws-desc">Personal gameplay tweaks and adjustments for the Commonwealth wasteland.</div>
+      </div>
+
+      <div class="workshop-tile">
+        <div class="ws-game">Skyrim</div>
+        <div class="ws-name">Custom Mods</div>
+        <div class="ws-desc">Nordic tinkering. Custom patches and tweaks for a heavily-modded Skyrim load order.</div>
+      </div>
+    </div>
+
+    <div class="ascii-sep">
+      ─ ✠ ════ ☠ ════ ✠ ─
+    </div>
+
+    <!-- ═══════════════ PSYCH PROFILE ═══════════════ -->
+    <div class="section-hd">
+      <h2>Psych Profile</h2>
+      <span class="ref">REF: ZRV-PSY-6</span>
+    </div>
+
+    <div class="dossier-grid">
+      <div class="dossier-block">
+        <div class="dossier-label">// Inquisitorial Assessment</div>
+        <div class="psych-line">
+          <span class="psych-label">Primary Vice</span>
+          <span class="psych-value">Warhammer 40K: Darktide</span>
+          <span class="psych-hours">491hrs</span>
+        </div>
+        <div class="psych-line">
+          <span class="psych-label">Wasteland</span>
+          <span class="psych-value">Fallout 4</span>
+          <span class="psych-hours">606hrs</span>
+        </div>
+        <div class="psych-line">
+          <span class="psych-label">Pixel Sorcery</span>
+          <span class="psych-value">Aseprite</span>
+          <span class="psych-hours">346hrs</span>
+        </div>
+        <div class="psych-line">
+          <span class="psych-label">Library</span>
+          <span class="psych-value">272 games · 240 DLC</span>
+          <span class="psych-hours">13yr badge</span>
+        </div>
+        <div class="psych-line">
+          <span class="psych-label">Critiques</span>
+          <span class="psych-value">153 Steam reviews</span>
+          <span class="psych-hours"></span>
+        </div>
+        <div class="psych-line" style="border:none;">
+          <span class="psych-label">Workshop</span>
+          <span class="psych-value">10 items published · 374 screenshots</span>
+          <span class="psych-hours"></span>
+        </div>
+      </div>
+
+      <div class="dossier-block">
+        <div class="dossier-label">// Linguistic Matrix</div>
+        <div class="psych-line">
+          <span class="psych-label">EN</span>
+          <span class="psych-value" style="display:flex;gap:3px;">
+            <span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot"></span>
+          </span>
+        </div>
+        <div class="psych-line">
+          <span class="psych-label">JP</span>
+          <span class="psych-value" style="display:flex;gap:3px;">
+            <span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot--dim"></span>
+          </span>
+        </div>
+        <div class="psych-line">
+          <span class="psych-label">ID</span>
+          <span class="psych-value" style="display:flex;gap:3px;">
+            <span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot"></span>
+          </span>
+        </div>
+        <div class="psych-line" style="border:none;margin-top:0.8rem;">
+          <span class="psych-label" style="width:100%;font-size:0.72rem;color:var(--phosphor-dim);">Lived & studied in Japan. JP game servers. Mods localized in EN, JP, PT-BR, FR, ES.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ascii-sep">
+      ─ ✠ ════ ☠ ════ ✠ ─
+    </div>
+
+    <!-- ═══════════════ TERMINAL ═══════════════ -->
+    <div class="section-hd">
+      <h2>Uplink Terminal</h2>
+      <span class="ref">REF: ZRV-CON-1</span>
+    </div>
+
+    <div class="terminal-window">
+      <div class="terminal-bar">
+        <span class="terminal-dot terminal-dot--active"></span>
+        <span class="terminal-dot"></span>
+        <span class="terminal-dot"></span>
+        <span class="terminal-title">zrov@prime:~$</span>
+      </div>
+      <div class="terminal-body">
+        <div class="terminal-line">
+          <span class="output">Establishing handshake with outer node...</span>
+        </div>
+        <div class="terminal-line">
+          <span class="output">Handshake accepted. Channel open.</span>
+        </div>
+        <div class="terminal-line">
+          <span class="output">─── Uplink active. Send your signal. ───</span>
+        </div>
+        <div class="terminal-line">
+          <span class="prompt">zrov@prime:~$ </span><span class="cmd">contact --method=</span><span class="cursor"></span>
+        </div>
+        <div class="terminal-line" style="margin-top:0.6rem;">
+          <span class="output">steam&nbsp;&nbsp;&nbsp;&nbsp;: <a href="https://steamcommunity.com/id/amirullahizzan" style="color:var(--phosphor);text-decoration:none;">amirullahizzan</a></span>
+        </div>
+        <div class="terminal-line">
+          <span class="output">github&nbsp;&nbsp;: <a href="https://github.com/zrov" style="color:var(--phosphor);text-decoration:none;">github.com/zrov</a></span>
+        </div>
+        <div class="terminal-line">
+          <span class="output">modrinth : <a href="https://modrinth.com/mod/betterwaystonesmenu" style="color:var(--phosphor);text-decoration:none;">betterwaystonesmenu</a></span>
+        </div>
+        <div class="terminal-line">
+          <span class="output">soundcl. : <a href="https://soundcloud.com/amirullah-izzan" style="color:var(--phosphor);text-decoration:none;">amirullah-izzan</a></span>
+        </div>
+        <div class="terminal-line">
+          <span class="output">signal&nbsp;&nbsp;&nbsp;: [encrypted — request key]</span>
+        </div>
+        <div class="terminal-line">
+          <span class="output">email&nbsp;&nbsp;&nbsp;&nbsp;: <span style="color:var(--bone-dim);">zrov</span><span style="color:var(--iron-light);">@</span><span style="color:var(--bone-dim);">proton.me</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ascii-sep" style="padding-top:2rem;">
+      ╔══════════════════════════════════════════╗<br>
+      ║&nbsp;&nbsp;THE&nbsp;MACHINE&nbsp;SPIRIT&nbsp;WATCHES.&nbsp;SERVE&nbsp;IT&nbsp;WELL.&nbsp;&nbsp;&nbsp;║<br>
+      ╚══════════════════════════════════════════╝
+    </div>
+
+  </main>
+
+  <!-- ═══════════════ BOTTOM HUD ═══════════════ -->
+  <footer class="hud hud--bottom">
+    <div class="hud__group">
+      <div class="hud__stat"><span class="hud__label">THREAT</span><span class="hud__value--warn">NOMINAL</span></div>
+      <div class="hud__stat"><span class="hud__label">SYS::UPTIME</span><span class="hud__value" id="uptime">000d 00h 00m</span></div>
+    </div>
+    <div class="hud__group">
+      <div class="hud__stat"><span class="hud__label">AUSPEX</span><span class="hud__value">ACTIVE</span></div>
+      <div class="hud__stat"><span class="hud__label">VOX</span><span class="hud__value">EN·JP·ID</span></div>
+      <div class="hud__stat"><span class="hud__label">OMNISSIAH</span><span class="hud__value">PRAISE</span></div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════ FAKE UPTIME ═══════════════ -->
+  <script>
+    (function() {
+      const el = document.getElementById('uptime');
+      if (!el) return;
+      const start = Date.now();
+      setInterval(() => {
+        const s = Math.floor((Date.now() - start) / 1000);
+        const d = Math.floor(s / 86400);
+        const h = Math.floor((s % 86400) / 3600);
+        const m = Math.floor((s % 3600) / 60);
+        el.textContent = String(d).padStart(3,'0') + 'd ' +
+                         String(h).padStart(2,'0') + 'h ' +
+                         String(m).padStart(2,'0') + 'm';
+      }, 1000);
+    })();
+  </script>
+
+  <!-- ═══════════════ LAVA EMBER PARTICLE SYSTEM ═══════════════ -->
+  <script>
+  (function () {
+    'use strict';
+
+    const canvas = document.getElementById('emberCanvas');
+    if (!canvas) return;
+
+    // ── Shaders (domain-warped FBM, phosphor palette) ──────────
+    const VERT = `attribute vec2 a_pos; void main(){ gl_Position = vec4(a_pos,0.0,1.0); }`;
+
+    const FRAG = `precision mediump float;
+uniform vec2 u_res;
+uniform float u_time;
+uniform vec3 u_particles[20];
+uniform int u_particleCount;
+
+float hash(vec2 p) {
+  p = fract(p * vec2(123.34, 456.21));
+  p += dot(p, p + 45.32);
+  return fract(p.x * p.y);
+}
+float vnoise(vec2 p) {
+  vec2 i = floor(p), f = fract(p);
+  vec2 u = f*f*(3.0-2.0*f);
+  return mix(mix(hash(i), hash(i+vec2(1,0)), u.x),
+             mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), u.x), u.y);
+}
+float fbm(vec2 p) {
+  float v = 0.0, a = 0.5;
+  for (int i = 0; i < 4; i++) {
+    v += a * vnoise(p);
+    p *= 2.05;
+    a *= 0.5;
+  }
+  return v;
+}
+void main() {
+  vec2 uv = gl_FragCoord.xy / u_res.xy;
+  vec2 p = vec2(uv.x * (u_res.x / u_res.y), uv.y) * 2.8;
+  float t = u_time * 0.35;
+
+  vec2 q = vec2(fbm(p + vec2(0.0, t * 0.4)),
+                fbm(p + vec2(5.2, 1.3) - vec2(t * 0.3, 0.0)));
+  float n = fbm(p + 2.0 * q + vec2(t * 0.2, -t * 0.15));
+
+  float v = smoothstep(0.40, 0.78, n);
+
+  // Phosphor-green palette
+  vec3 dark  = vec3(0.0, 0.02, 0.0);
+  vec3 mid   = vec3(0.02, 0.18, 0.04);
+  vec3 hot   = vec3(0.18, 1.00, 0.31);
+  vec3 core  = vec3(0.55, 1.00, 0.65);
+
+  vec3 col = mix(dark, mid, v);
+  col = mix(col, hot,  smoothstep(0.55, 0.85, n));
+  col = mix(col, core, smoothstep(0.78, 0.94, n) * 0.7);
+
+  // Particle hot spots
+  float glow = 0.0;
+  for (int i = 0; i < 20; i++) {
+    if (i >= u_particleCount) break;
+    vec3 pt = u_particles[i];
+    if (pt.z <= 0.0) continue;
+    float dx = uv.x - pt.x;
+    float dy = (uv.y - pt.y) * (u_res.y / u_res.x);
+    float dist = sqrt(dx*dx + dy*dy);
+    float g = pt.z * exp(-dist * dist * 110.0);
+    glow += g;
+  }
+  col += glow * vec3(0.22, 1.00, 0.38);
+
+  // Edge vignette
+  float edge = smoothstep(0.0, 0.06, uv.x) * smoothstep(1.0, 0.94, uv.x)
+             * smoothstep(0.0, 0.08, uv.y) * smoothstep(1.0, 0.92, uv.y);
+
+  gl_FragColor = vec4(col * edge, edge * 0.4);
+}`;
+
+    // ── WebGL init ────────────────────────────────────────────
+    const gl = canvas.getContext('webgl', { antialias: false, premultipliedAlpha: true, alpha: true });
+    if (!gl) return;
+
+    function compile(type, src) {
+      const s = gl.createShader(type);
+      gl.shaderSource(s, src);
+      gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+        console.error('[ember] compile:', gl.getShaderInfoLog(s));
+        return null;
+      }
+      return s;
+    }
+
+    const vs = compile(gl.VERTEX_SHADER, VERT);
+    const fs = compile(gl.FRAGMENT_SHADER, FRAG);
+    if (!vs || !fs) return;
+
+    const prog = gl.createProgram();
+    gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+      console.error('[ember] link:', gl.getProgramInfoLog(prog));
+      return;
+    }
+    gl.useProgram(prog);
+
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,-1,1,1,-1,1]), gl.STATIC_DRAW);
+    const aPos = gl.getAttribLocation(prog, 'a_pos');
+    gl.enableVertexAttribArray(aPos);
+    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+    const uRes = gl.getUniformLocation(prog, 'u_res');
+    const uTime = gl.getUniformLocation(prog, 'u_time');
+    const uParticles = gl.getUniformLocation(prog, 'u_particles');
+    const uCount = gl.getUniformLocation(prog, 'u_particleCount');
+
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+    // ── Particle state ────────────────────────────────────────
+    const MAX = 20;
+    const particles = [];
+    for (let i = 0; i < MAX; i++) {
+      particles.push({ x: 0, y: 0, r: 0, vx: 0, vy: 0, life: 0, maxLife: 0 });
+    }
+
+    function spawnParticle() {
+      // Find a dead slot
+      for (let i = 0; i < MAX; i++) {
+        if (particles[i].life <= 0) {
+          const p = particles[i];
+          p.x = Math.random();
+          p.y = 0.6 + Math.random() * 0.4; // spawn lower half
+          p.r = 0; // will grow
+          p.vx = (Math.random() - 0.5) * 0.04;
+          p.vy = -(0.008 + Math.random() * 0.025); // drift upward
+          p.life = 0;
+          p.maxLife = 4.0 + Math.random() * 7.0;
+          return;
+        }
+      }
+    }
+
+    // Bootstrap initial particles
+    for (let i = 0; i < 8; i++) {
+      const p = particles[i];
+      p.x = Math.random();
+      p.y = Math.random();
+      p.r = 0.3 + Math.random() * 0.5;
+      p.vx = (Math.random() - 0.5) * 0.02;
+      p.vy = -(0.005 + Math.random() * 0.015);
+      p.life = Math.random() * p.maxLife;
+      p.maxLife = 4.0 + Math.random() * 8.0;
+    }
+
+    // ── Resize ────────────────────────────────────────────────
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      canvas.width = Math.max(2, Math.floor(w * dpr));
+      canvas.height = Math.max(2, Math.floor(h * dpr));
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      gl.viewport(0, 0, canvas.width, canvas.height);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // ── Main loop ─────────────────────────────────────────────
+    let t0 = performance.now();
+    let spawnTimer = 0;
+
+    function frame(now) {
+      const dt = Math.min((now - t0) / 1000, 0.1);
+      t0 = now;
+
+      // Spawn new particles
+      spawnTimer += dt;
+      const spawnInterval = 0.35;
+      while (spawnTimer >= spawnInterval) {
+        spawnTimer -= spawnInterval;
+        spawnParticle();
+      }
+
+      // Update particles
+      let aliveCount = 0;
+      const raw = new Float32Array(MAX * 3);
+      for (let i = 0; i < MAX; i++) {
+        const p = particles[i];
+        if (p.life > 0 || (p.life <= 0 && p.r > 0.01)) {
+          p.life += dt;
+          if (p.life > p.maxLife) {
+            p.r *= 0.92; // fade out
+            p.vy += 0.0003; // slow down
+          } else {
+            // Ramp up radius
+            const targetR = 0.35 + Math.random() * 0.02;
+            p.r += (targetR - p.r) * 2.0 * dt;
+            // Flicker
+            p.r += (Math.random() - 0.5) * 0.08 * dt;
+            p.r = Math.max(0.05, Math.min(0.7, p.r));
+          }
+          p.x += p.vx * dt;
+          p.y += p.vy * dt;
+
+          // Kill if out of bounds or faded
+          if (p.y < -0.15 || p.y > 1.15 || p.x < -0.15 || p.x > 1.15 || p.r < 0.02) {
+            p.r = 0;
+            p.life = 0;
+          }
+
+          if (p.r > 0.01) {
+            raw[aliveCount * 3]     = p.x;
+            raw[aliveCount * 3 + 1] = p.y;
+            raw[aliveCount * 3 + 2] = p.r;
+            aliveCount++;
+          }
+        }
+      }
+
+      // Render
+      gl.uniform2f(uRes, canvas.width, canvas.height);
+      gl.uniform1f(uTime, now / 1000);
+      gl.uniform3fv(uParticles, raw);
+      gl.uniform1i(uCount, aliveCount);
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+      requestAnimationFrame(frame);
+    }
+
+    requestAnimationFrame(frame);
+  })();
+  </script>
+</body>
+</html>
