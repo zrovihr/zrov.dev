@@ -1,0 +1,49 @@
+<div class="blog-body">
+  <p>How do smart pointers actually used? Let's take a look at this simple code:</p>
+<pre><code class="language-cpp">// Global declaration
+Enemy enemy;
+
+void Update()
+{
+    enemy.Update();
+}</code></pre>
+  <p>When this happens, data will be allocated on the stack immediately, even if the enemy hasn't spawned yet.<br>
+  We don't want that. So how do we fix it to only spawn dynamically when needed?</p>
+  <p>The trick is to use heap allocation. In heap, memory is temporary and manageable.</p>
+<pre><code class="language-cpp">std::shared_ptr&lt;Enemy&gt; enemy = std::make_shared&lt;Enemy&gt;();
+enemy-&gt;Update();</code></pre>
+  <p>With this, the enemy container exists dynamically in heap memory.<br>
+  "std::shared_ptr&lt;Type&gt;" means: it's empty at first, and only stays alive if someone owns it.</p>
+<pre><code class="language-cpp">// Instantly removed from memory when no longer referenced
+enemy = nullptr;</code></pre>
+  <p>Keep in mind that <code>std::shared_ptr&lt;Enemy&gt; enemy = std::make_shared&lt;Enemy&gt;();</code> must stay in scope. When it goes out of scope, it’s deleted automatically. Raw pointers do not behave this way.</p>
+<pre><code class="language-cpp">// Raw pointer example
+Enemy* enemy = new Enemy();</code></pre>
+  <p>Example inside a function:</p>
+<pre><code class="language-cpp">void CreateEnemy()
+{
+    {
+        std::shared_ptr&lt;Enemy&gt; enemy = std::make_shared&lt;Enemy&gt;();
+        enemy-&gt;SetMaxHP();
+    }
+    // Here, 'enemy' is deleted because it’s out of scope
+}</code></pre>
+  <p>To keep it alive, store the pointer somewhere persistent, like in a class:</p>
+<pre><code class="language-cpp">class GameScene
+{
+public:
+    std::shared_ptr&lt;Enemy&gt; enemy;
+};</code></pre>
+<pre><code class="language-cpp">int main()
+{
+    GameScene scene1;
+    bool gameIsRunning = true;
+
+    while (gameIsRunning)
+    {
+        scene1.Update(); // enemy lives here
+    }
+
+    return 0;
+}</code></pre>
+</div>

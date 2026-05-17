@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SYS::ZROV — OPERATIVE DOSSIER</title>
+  <title>SYS::ZROV OPERATIVE DOSSIER</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -81,6 +81,121 @@
       mix-blend-mode: screen;
     }
 
+    /* ---- GLITCH OVERLAY ---- */
+    .glitch-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    .glitch-overlay::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.09;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(46,255,78,0.18) 2px,
+        rgba(46,255,78,0.18) 3px
+      );
+      animation: glitch-scan 0.1s steps(3) infinite;
+    }
+
+    @keyframes glitch-scan {
+      0%   { transform: translateX(0); opacity: 0.06; }
+      33%  { transform: translateX(2px); opacity: 0.14; }
+      66%  { transform: translateX(-1px); opacity: 0.04; }
+      100% { transform: translateX(0); opacity: 0.06; }
+    }
+
+    .glitch-overlay::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      animation: glitch-block 7s infinite;
+      pointer-events: none;
+    }
+
+    @keyframes glitch-block {
+      0%, 72%, 100% { 
+        box-shadow: none;
+        background: transparent;
+      }
+      73% {
+        box-shadow: 
+          0 20vh 0 rgba(46,255,78,0.18),
+          0 -35vh 0 rgba(46,255,78,0.12);
+        background: linear-gradient(
+          180deg,
+          transparent 22%,
+          rgba(46,255,78,0.35) 22%,
+          rgba(46,255,78,0.35) 24%,
+          transparent 24%
+        );
+      }
+      74% {
+        box-shadow: 
+          0 15vh 0 rgba(46,255,78,0.1),
+          0 55vh 0 rgba(255,50,50,0.12);
+        background: linear-gradient(
+          180deg,
+          transparent 50%,
+          rgba(46,255,78,0.3) 50%,
+          rgba(46,255,78,0.3) 51%,
+          transparent 51%
+        );
+      }
+      75% {
+        box-shadow: 
+          0 -25vh 0 rgba(46,255,78,0.14),
+          0 60vh 0 rgba(50,50,255,0.1);
+        background: linear-gradient(
+          180deg,
+          transparent 16%,
+          rgba(46,255,78,0.25) 16%,
+          rgba(46,255,78,0.25) 17%,
+          transparent 17%,
+          transparent 68%,
+          rgba(255,50,50,0.18) 68%,
+          rgba(255,50,50,0.18) 69%,
+          transparent 69%
+        );
+      }
+    }
+
+    /* ---- PARALLAX ---- */
+    [data-parallax] {
+      will-change: transform;
+    }
+
+    /* ---- TEXT GLITCH ---- */
+    @keyframes text-glitch {
+      0%, 94%, 100% { 
+        text-shadow: 0 2px 8px rgba(0,0,0,0.6); 
+        transform: none;
+      }
+      94.5% { 
+        text-shadow: 0.04em 0 0 rgba(255,50,50,0.35), -0.04em 0 0 rgba(50,255,255,0.35), 0 2px 8px rgba(0,0,0,0.6);
+        transform: skewX(0.5deg);
+      }
+      95% { 
+        text-shadow: -0.03em 0.01em 0 rgba(255,50,50,0.4), 0.03em 0 0 rgba(50,255,255,0.4), 0 2px 8px rgba(0,0,0,0.6);
+        transform: skewX(-0.3deg);
+      }
+      95.5% {
+        text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+        transform: none;
+      }
+    }
+
+    .glitch-text {
+      animation: text-glitch 5s infinite;
+    }
+
     /* ---- HUD / STATUS BARS ---- */
     .hud {
       position: sticky;
@@ -124,6 +239,77 @@
       border-bottom: none;
       border-top: 1px solid var(--iron-light);
       margin-top: auto;
+    }
+
+    .pgp-terminal {
+      width: min(100%, 560px);
+      margin-top: 0.45rem;
+      padding: 0.55rem 0;
+      background: rgba(3,3,5,0.66);
+      border-top: 1px solid rgba(46,255,78,0.18);
+      border-bottom: 1px solid rgba(46,255,78,0.18);
+      color: var(--phosphor);
+      font-size: clamp(0.58rem, 1.1vw, 0.72rem);
+      line-height: 1.45;
+      letter-spacing: 0;
+      text-shadow: 0 0 7px rgba(46,255,78,0.34);
+      overflow: hidden;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .pgp-terminal__row {
+      display: grid;
+      grid-template-columns: 2.2em minmax(0, 1fr);
+      gap: 0.55rem;
+      min-width: 0;
+      white-space: nowrap;
+    }
+
+    .pgp-terminal__ln {
+      color: #f2ff36;
+      text-align: right;
+      user-select: none;
+    }
+
+    .pgp-terminal__code {
+      overflow: hidden;
+      text-overflow: clip;
+    }
+
+    .pgp-terminal__dummy {
+      color: var(--warn);
+    }
+
+    .pgp-terminal__vim {
+      color: #355c3a;
+    }
+
+    /* ---- PAGE NAVIGATION ---- */
+    .page-nav {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.5rem var(--gutter);
+      background: var(--void-soft);
+      border-bottom: var(--border);
+      justify-content: center;
+    }
+
+    .page-nav a {
+      font: inherit;
+      font-size: 0.78rem;
+      color: var(--phosphor);
+      text-decoration: none;
+      padding: 0.35rem 1rem;
+      border: 1px solid var(--iron);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+
+    .page-nav a:hover,
+    .page-nav a.js-active {
+      border-color: var(--phosphor-dim);
+      background: rgba(46,255,78,0.05);
     }
 
     /* ---- MAIN ---- */
@@ -224,6 +410,20 @@
       letter-spacing: 0.18em;
       border-left: 2px solid var(--phosphor-dim);
       padding-left: 1rem;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 0.85em;
+      background: var(--phosphor);
+      margin-left: 3px;
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
     }
 
     .hero__tags {
@@ -382,6 +582,15 @@
     .inventory-item:hover {
       border-color: var(--phosphor-dim);
       background-color: var(--void-warm);
+      animation: item-glitch 0.35s steps(4);
+    }
+
+    @keyframes item-glitch {
+      0%   { transform: none; }
+      25%  { transform: translate(1px, -1px); }
+      50%  { transform: translate(-1px, 0); }
+      75%  { transform: translate(2px, 1px); }
+      100% { transform: none; }
     }
 
     .inv-ref {
@@ -489,6 +698,219 @@
       50% { opacity: 0; }
     }
 
+    /* ---- GHOSTZER0 ACCESS NODE ---- */
+    .access-node {
+      display: block;
+      padding: 2rem 0 0.6rem;
+      position: relative;
+      overflow: visible;
+    }
+
+    .access-node::before {
+      content: none;
+    }
+
+    .access-node__sigil,
+    .access-node__console {
+      position: relative;
+      z-index: 1;
+    }
+
+    .access-node__sigil {
+      position: relative;
+      right: auto;
+      top: auto;
+      width: clamp(110px, 20vw, 190px);
+      margin: 0 auto 1.1rem;
+      transform: none;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .access-node__sigil::before,
+    .access-node__sigil::after {
+      content: '';
+      position: absolute;
+      top: 45%;
+      width: 200%;
+      height: 200%;
+      margin-top: -100%;
+      margin-left: -100%;
+      border-radius: 50%;
+      background: rgba(102,255,0,0.46);
+      box-shadow:
+        0 0 70px 8px rgba(102,255,0,0.52),
+        0 0 14px 3px rgba(210,255,176,0.76);
+      transform: scale(0.045);
+      z-index: 1;
+      animation: eye-glow 0.12s infinite alternate;
+    }
+
+    .access-node__sigil::before { left: 25%; }
+    .access-node__sigil::after { left: 72%; }
+
+    .access-node__sigil img {
+      width: 100%;
+      height: auto;
+      position: relative;
+      z-index: 2;
+      opacity: 0.9;
+      filter:
+        drop-shadow(0 0 9px rgba(46,255,78,0.65))
+        drop-shadow(0 0 24px rgba(46,255,78,0.22));
+      animation: sigil-pulse 3.6s ease-in-out infinite;
+    }
+
+    @keyframes eye-glow {
+      0% { transform: scale(0.045); opacity: 0.72; }
+      100% { transform: scale(0.062); opacity: 1; }
+    }
+
+    @keyframes sigil-pulse {
+      0%, 100% { opacity: 0.72; }
+      50% { opacity: 1; }
+    }
+
+    .access-node__console {
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .access-node__marquee {
+      overflow: hidden;
+      color: var(--phosphor);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      opacity: 0.78;
+    }
+
+    .access-node__marquee span {
+      display: inline-block;
+      min-width: 100%;
+      padding: 0.1rem 0;
+      animation: node-marquee 17s linear infinite;
+    }
+
+    @keyframes node-marquee {
+      from { transform: translateX(100%); }
+      to { transform: translateX(-100%); }
+    }
+
+    .access-node__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      align-items: center;
+      color: var(--bone-dim);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .access-node__clock {
+      color: var(--phosphor);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .audio-control {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-left: auto;
+    }
+
+    .node-button,
+    .node-input {
+      font: inherit;
+      color: var(--bone);
+      background: transparent;
+      border: 1px solid rgba(62,62,74,0.72);
+      min-height: 2rem;
+    }
+
+    .node-button {
+      color: var(--phosphor);
+      padding: 0.35rem 0.7rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .node-button:hover,
+    .node-button:focus-visible {
+      border-color: var(--phosphor-dim);
+      background: rgba(46,255,78,0.035);
+      outline: none;
+    }
+
+    .node-button--lock {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      width: fit-content;
+    }
+
+    .node-button--lock img {
+      width: 18px;
+      height: 18px;
+      image-rendering: pixelated;
+    }
+
+    .node-input {
+      width: 100%;
+      padding: 0.35rem 0.55rem;
+    }
+
+    .node-input:focus {
+      border-color: var(--phosphor);
+      box-shadow: 0 0 0 1px rgba(46,255,78,0.16);
+      outline: none;
+    }
+
+    .node-range {
+      width: 82px;
+      accent-color: var(--phosphor);
+    }
+
+    .access-node__forms {
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .node-form {
+      display: grid;
+      grid-template-columns: 126px minmax(0, 1fr) auto;
+      gap: 0.45rem;
+      align-items: center;
+    }
+
+    .node-form__label {
+      color: var(--phosphor);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .node-output {
+      min-height: 1.7rem;
+      padding: 0.25rem 0 0.25rem 0.7rem;
+      border-left: 2px solid var(--phosphor-dim);
+      background: transparent;
+      color: var(--bone);
+      font-size: 0.78rem;
+      line-height: 1.6;
+    }
+
+    .node-output .prompt {
+      color: var(--phosphor);
+    }
+
     /* ---- ASCII DECOR ---- */
     .ascii-sep {
       text-align: center;
@@ -516,7 +938,12 @@
       .dossier-grid { grid-template-columns: 1fr; }
       .hud { flex-direction: column; gap: 0.3rem; }
       .hud__group { flex-wrap: wrap; justify-content: center; }
+      .pgp-terminal { width: 100%; text-align: left; }
       .inventory-grid { grid-template-columns: 1fr; }
+      .access-node__sigil { width: 135px; }
+      .access-node__sigil img { opacity: 0.9; }
+      .node-form { grid-template-columns: 1fr; }
+      .audio-control { margin-left: 0; }
     }
 
     /* ---- SKILL BAR ROW ---- */
@@ -643,9 +1070,14 @@
       .dossier-grid { grid-template-columns: 1fr; }
       .hud { flex-direction: column; gap: 0.3rem; }
       .hud__group { flex-wrap: wrap; justify-content: center; }
+      .pgp-terminal { width: 100%; text-align: left; }
       .inventory-grid { grid-template-columns: 1fr; }
       .workshop-grid { grid-template-columns: 1fr 1fr; }
       .psych-grid { grid-template-columns: 1fr; }
+      .access-node__sigil { width: 135px; }
+      .access-node__sigil img { opacity: 0.9; }
+      .node-form { grid-template-columns: 1fr; }
+      .audio-control { margin-left: 0; }
     }
 
     /* ---- PRINT ---- */
@@ -657,10 +1089,13 @@
 </head>
 <body>
 
-  <!-- ═══════════════ LAVA EMBER PARTICLES ═══════════════ -->
-  <canvas class="ember-canvas" id="emberCanvas" aria-hidden="true"></canvas>
+  <!-- ══════════════╔LAVA EMBER PARTICLES ══════════════╔-->
+  <canvas class="ember-canvas" id="emberCanvas" data-parallax="0.01" aria-hidden="true"></canvas>
 
-  <!-- ═══════════════ TOP HUD ═══════════════ -->
+  <!-- ══════════════╔GLITCH OVERLAY ══════════════╔-->
+  <div class="glitch-overlay" aria-hidden="true"></div>
+
+  <!-- ══════════════╔TOP HUD ══════════════╔-->
   <header class="hud">
     <div class="hud__group">
       <div class="hud__stat"><span class="hud__label">SYS</span><span class="hud__value">ONLINE</span></div>
@@ -674,9 +1109,16 @@
     </div>
   </header>
 
+  <!-- ══════════════╔══PAGE NAVIGATION ══════════════╗-->
+  <nav class="page-nav">
+    <a href="/index.html">Dossier</a>
+    <a href="/blogs/blogs.html">Blog</a>
+    <a href="/tools/tools.html">Tools</a>
+  </nav>
+
   <main>
 
-    <!-- ═══════════════ HERO / SIGIL ═══════════════ -->
+    <!-- ══════════════╔HERO / SIGIL ══════════════╔-->
     <section class="hero">
       <div class="hero__frame">
         <img src="assets/chain_frame.png" alt="">
@@ -686,8 +1128,8 @@
       </div>
 
       <div class="hero__dossier">
-        <h1 class="hero__name">ZROV</h1>
-        <p class="hero__title">Game Developer &bull; Modder &bull; Code Heretic</p>
+        <h1 class="hero__name glitch-text">ZROV</h1>
+        <p class="hero__title">Game Developer &bull; Modder &bull; Code Heretic<span class="cursor"></span></p>
         <div class="hero__tags">
           <span class="tag">gamedev</span>
           <span class="tag">unity</span>
@@ -695,10 +1137,64 @@
           <span class="tag">trilingual</span>
           <span class="tag">heretek</span>
         </div>
+        <div class="pgp-terminal" id="pgpTerminal" aria-label="PGP public key">
+          <div class="pgp-terminal__row"><span class="pgp-terminal__ln">1</span><span class="pgp-terminal__code">-----BEGIN PGP PUBLIC KEY BLOCK----- <span class="pgp-terminal__dummy">[KEY NOT LOADED]</span></span></div>
+          <div class="pgp-terminal__row pgp-terminal__vim"><span class="pgp-terminal__ln">~</span><span class="pgp-terminal__code"></span></div>
+          <div class="pgp-terminal__row pgp-terminal__vim"><span class="pgp-terminal__ln">~</span><span class="pgp-terminal__code"></span></div>
+        </div>
       </div>
     </section>
 
-    <!-- ═══════════════ DOSSIER ═══════════════ -->
+    <section class="access-node" aria-label="ghostZER0 quick access terminal">
+      <div class="access-node__sigil">
+        <img src="assets/ghostZeroMedTrans.png" alt="ghostZER0 sigil">
+      </div>
+
+      <div class="access-node__console">
+        <audio id="bgm" loop preload="none">
+          <source src="https://files.catbox.moe/izgp7m.mp3" type="audio/mpeg">
+        </audio>
+
+        <div class="access-node__marquee" aria-hidden="true">
+          <span>WELCOME GHOSTZER0 // QUICK TERMINAL ONLINE // SEARCH RELAY READY // SESSION WATCH ACTIVE</span>
+        </div>
+
+        <div class="access-node__meta">
+          <span>Local Time <span class="access-node__clock" id="nodeClock">--:--:--</span></span>
+          <span>Channel <span class="hud__value">ghostZER0</span></span>
+          <div class="audio-control">
+            <button class="node-button" type="button" id="audioToggle" aria-label="Toggle background audio">Play</button>
+            <input class="node-range" id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.35" aria-label="Audio volume">
+          </div>
+        </div>
+
+        <div class="access-node__forms">
+          <form class="node-form" id="quickTerminalForm">
+            <label class="node-form__label" for="commandInput">Quick Terminal</label>
+            <input class="node-input" id="commandInput" type="text" name="query" placeholder="Command..." autocomplete="off">
+            <button class="node-button" type="submit">Execute</button>
+          </form>
+
+          <form class="node-form" id="googleSearchForm">
+            <label class="node-form__label" for="searchInput">Search Google</label>
+            <input class="node-input" id="searchInput" type="search" name="q" placeholder="Search..." autocomplete="off">
+            <button class="node-button" type="submit">Search</button>
+          </form>
+        </div>
+
+        <div class="node-output" id="quickTerminalOutput">
+          <span class="prompt">Terminal:</span>
+          <span>Awaiting command. Try github, steam, modrinth, nexus, music, time, lock, or any search query.</span>
+        </div>
+
+        <button class="node-button node-button--lock" type="button" id="lockSession">
+          <span>Lock Session</span>
+          <img src="assets/lockpad.ico" alt="">
+        </button>
+      </div>
+    </section>
+
+    <!-- ══════════════╔DOSSIER ══════════════╔-->
     <div class="section-hd">
       <h2>Classified Dossier</h2>
       <span class="ref">REF: ZRV-Ω-7</span>
@@ -709,7 +1205,7 @@
         <div class="dossier-label">// Operative Summary</div>
         <p class="dossier-text">
           Solo game developer with 3 years of game dev study in Japan.
-          Trilingual — EN, JP, ID.
+          Trilingual EN, JP, ID.
           Building a time-travel tactical RPG in Unity since Aug 2025.
           Builds mods for Minecraft, Fallout, and Skyrim.
           Writes custom Unity editor tools and AI integrations.
@@ -733,7 +1229,7 @@
       ───── ✠ ╬ ✠ ╬ ✠ ─────
     </div>
 
-    <!-- ═══════════════ ASSET INVENTORY ═══════════════ -->
+    <!-- ══════════════╔ASSET INVENTORY ══════════════╔-->
     <div class="section-hd">
       <h2>Asset Inventory</h2>
       <span class="ref">REF: ZRV-INV-3</span>
@@ -781,7 +1277,7 @@
       ✠ ════ ☠ ════ ✠
     </div>
 
-    <!-- ═══════════════ WORKSHOP MANIFEST ═══════════════ -->
+    <!-- ══════════════╔WORKSHOP MANIFEST ══════════════╔-->
     <div class="section-hd">
       <h2>Workshop Manifest</h2>
       <span class="ref">REF: ZRV-MOD-11</span>
@@ -841,7 +1337,7 @@
       ─ ✠ ════ ☠ ════ ✠ ─
     </div>
 
-    <!-- ═══════════════ INTERESTS ═══════════════ -->
+    <!-- ══════════════╔INTERESTS ══════════════╔-->
     <div class="section-hd">
       <h2>Interests</h2>
       <span class="ref">REF: ZRV-PSY-6</span>
@@ -912,7 +1408,7 @@
       ─ ✠ ════ ☠ ════ ✠ ─
     </div>
 
-    <!-- ═══════════════ TERMINAL ═══════════════ -->
+    <!-- ══════════════╔TERMINAL ══════════════╔-->
     <div class="section-hd">
       <h2>Uplink Terminal</h2>
       <span class="ref">REF: ZRV-CON-1</span>
@@ -954,7 +1450,7 @@
           <span class="output">x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <a href="https://x.com/zrovihr" style="color:var(--phosphor);text-decoration:none;">x.com/zrovihr</a></span>
         </div>
         <div class="terminal-line">
-          <span class="output">signal&nbsp;&nbsp;&nbsp;: [encrypted — request key]</span>
+          <span class="output">secure&nbsp;&nbsp;: [encrypted channel — request key]</span>
         </div>
         <div class="terminal-line">
           <span class="output">email&nbsp;&nbsp;&nbsp;&nbsp;: <span style="color:var(--bone-dim);">zrovihr</span><span style="color:var(--iron-light);">@</span><span style="color:var(--bone-dim);">gmail.com</span></span>
@@ -964,13 +1460,13 @@
 
     <div class="ascii-sep" style="padding-top:2rem;">
       ╔══════════════════════════════════════════╗<br>
-      ║&nbsp;&nbsp;THE&nbsp;MACHINE&nbsp;SPIRIT&nbsp;WATCHES.&nbsp;SERVE&nbsp;IT&nbsp;WELL.&nbsp;&nbsp;&nbsp;║<br>
+      &nbsp;&nbsp;THE MACHINE SPIRIT WATCHES. SERVE IT WELL.&nbsp;&nbsp;&nbsp;<br>
       ╚══════════════════════════════════════════╝
     </div>
 
   </main>
 
-  <!-- ═══════════════ BOTTOM HUD ═══════════════ -->
+  <!-- ══════════════╔BOTTOM HUD ══════════════╔-->
   <footer class="hud hud--bottom">
     <div class="hud__group">
       <div class="hud__stat"><span class="hud__label">THREAT</span><span class="hud__value--warn">NOMINAL</span></div>
@@ -983,7 +1479,243 @@
     </div>
   </footer>
 
-  <!-- ═══════════════ FAKE UPTIME ═══════════════ -->
+  <!-- PGP KEY LOADER -->
+  <script>
+  (function () {
+    var terminal = document.getElementById('pgpTerminal');
+    if (!terminal) return;
+
+    fetch('/pgp-key.txt')
+      .then(function (r) {
+        if (!r.ok) return Promise.reject();
+        return r.text();
+      })
+      .then(function (text) {
+        var lines = text.trim().split('\n');
+        terminal.innerHTML = '';
+        lines.forEach(function (line, i) {
+          var row = document.createElement('div');
+          row.className = 'pgp-terminal__row';
+          var ln = document.createElement('span');
+          ln.className = 'pgp-terminal__ln';
+          ln.textContent = String(i + 1);
+          var code = document.createElement('span');
+          code.className = 'pgp-terminal__code';
+          code.textContent = line;
+          row.appendChild(ln);
+          row.appendChild(code);
+          terminal.appendChild(row);
+        });
+        for (var j = 0; j < 2; j++) {
+          var vim = document.createElement('div');
+          vim.className = 'pgp-terminal__row pgp-terminal__vim';
+          var vl = document.createElement('span');
+          vl.className = 'pgp-terminal__ln';
+          vl.textContent = '~';
+          var vc = document.createElement('span');
+          vc.className = 'pgp-terminal__code';
+          vim.appendChild(vl);
+          vim.appendChild(vc);
+          terminal.appendChild(vim);
+        }
+      })
+      .catch(function () {});
+  })();
+  </script>
+
+  <!-- GHOSTZER0 ACCESS NODE CONTROLS -->
+  <script>
+    (function() {
+      const clock = document.getElementById('nodeClock');
+      const audio = document.getElementById('bgm');
+      const audioToggle = document.getElementById('audioToggle');
+      const volumeSlider = document.getElementById('volumeSlider');
+      const terminalForm = document.getElementById('quickTerminalForm');
+      const searchForm = document.getElementById('googleSearchForm');
+      const commandInput = document.getElementById('commandInput');
+      const output = document.getElementById('quickTerminalOutput');
+      const lockSession = document.getElementById('lockSession');
+      let repeatedCommand = '';
+
+      function escapeHTML(value) {
+        return String(value).replace(/[&<>"']/g, function(ch) {
+          return {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+          }[ch];
+        });
+      }
+
+      function writeOutput(message) {
+        if (!output) return;
+        output.innerHTML = '<span class="prompt">Terminal:</span> <span>' + escapeHTML(message) + '</span>';
+      }
+
+      function updateClock() {
+        if (!clock) return;
+        const now = new Date();
+        clock.textContent =
+          String(now.getHours()).padStart(2, '0') + ':' +
+          String(now.getMinutes()).padStart(2, '0') + ':' +
+          String(now.getSeconds()).padStart(2, '0');
+      }
+
+      function navigate(message, url) {
+        writeOutput(message);
+        window.location.href = url;
+      }
+
+      function searchGoogleQuery(rawText) {
+        const q = rawText.trim();
+        if (!q) return;
+        navigate('Routing Google query: ' + q, 'https://www.google.com/search?q=' + encodeURIComponent(q));
+      }
+
+      function handleCommand(rawCommand) {
+        const original = rawCommand.trim();
+        const command = original.toLowerCase();
+        if (!command) {
+          writeOutput('No command received.');
+          return;
+        }
+
+        if (command.endsWith('.com') || command.endsWith('.dev') || command.endsWith('.org')) {
+          navigate('Opening external node: ' + command, 'https://' + command);
+          return;
+        }
+
+        switch (command) {
+          case 'y':
+          case 'yt':
+          case 'youtube':
+            navigate('Navigating to youtube.com', 'https://www.youtube.com');
+            break;
+          case 'google':
+            navigate('Navigating to google.com', 'https://www.google.com');
+            break;
+          case 'git':
+          case 'github':
+            navigate('Opening ZROV GitHub profile', 'https://github.com/zrov');
+            break;
+          case 'steam':
+            navigate('Opening Steam profile', 'https://steamcommunity.com/id/amirullahizzan');
+            break;
+          case 'modrinth':
+            navigate('Opening Modrinth profile', 'https://modrinth.com/user/zrov');
+            break;
+          case 'nexus':
+            navigate('Opening Nexus Mods profile', 'https://www.nexusmods.com/profile/zrovihr/mods');
+            break;
+          case 'x':
+          case 'twitter':
+            navigate('Opening X profile', 'https://x.com/zrovihr');
+            break;
+          case 'gmail':
+          case 'mail':
+            navigate('Navigating to gmail.com', 'https://www.gmail.com');
+            break;
+          case 'jisho':
+            navigate('Opening Jisho', 'https://jisho.org/');
+            break;
+          case 'htb':
+          case 'hackthebox':
+            navigate('Opening Hack The Box', 'https://hackthebox.com/');
+            break;
+          case 'time':
+            writeOutput('Local node time: ' + (clock ? clock.textContent : new Date().toLocaleTimeString()));
+            break;
+          case 'hello':
+          case 'hi':
+            writeOutput('WELL HELL0 THERE..');
+            break;
+          case 'play':
+          case 'audio':
+          case 'music':
+          case 'player':
+          case 'playmusic':
+            if (audio) {
+              audio.play().then(function() {
+                if (audioToggle) audioToggle.textContent = 'Pause';
+                writeOutput('Playing background audio.');
+              }).catch(function() {
+                writeOutput('Audio blocked until the browser accepts interaction.');
+              });
+            }
+            break;
+          case 'pause':
+          case 'stop':
+            if (audio) audio.pause();
+            if (audioToggle) audioToggle.textContent = 'Play';
+            writeOutput('Background audio paused.');
+            break;
+          case 'lock':
+            writeOutput('Session sealed. Local controls remain in watch mode.');
+            break;
+          default:
+            if (original === repeatedCommand) {
+              searchGoogleQuery(original);
+              return;
+            }
+            repeatedCommand = original;
+            writeOutput('Does not recognize: ' + original + '. Press enter again to submit as Google search.');
+            break;
+        }
+      }
+
+      updateClock();
+      setInterval(updateClock, 1000);
+
+      if (audio && volumeSlider) {
+        audio.volume = parseFloat(volumeSlider.value);
+        volumeSlider.addEventListener('input', function() {
+          audio.volume = parseFloat(volumeSlider.value);
+        });
+      }
+
+      if (audio && audioToggle) {
+        audioToggle.addEventListener('click', function() {
+          if (audio.paused) {
+            audio.play().then(function() {
+              audioToggle.textContent = 'Pause';
+              writeOutput('Background audio online.');
+            }).catch(function() {
+              writeOutput('Audio playback was blocked by the browser.');
+            });
+          } else {
+            audio.pause();
+            audioToggle.textContent = 'Play';
+            writeOutput('Background audio paused.');
+          }
+        });
+      }
+
+      if (terminalForm) {
+        terminalForm.addEventListener('submit', function(event) {
+          event.preventDefault();
+          handleCommand(commandInput ? commandInput.value : '');
+        });
+      }
+
+      if (searchForm) {
+        searchForm.addEventListener('submit', function(event) {
+          event.preventDefault();
+          const input = searchForm.elements.q;
+          searchGoogleQuery(input ? input.value : '');
+        });
+      }
+
+      if (lockSession) {
+        lockSession.addEventListener('click', function() {
+          handleCommand('lock');
+        });
+      }
+    })();
+  </script>
+
+  <!-- ══════════════╔FAKE UPTIME ══════════════╔-->
   <script>
     (function() {
       const el = document.getElementById('uptime');
@@ -1001,7 +1733,7 @@
     })();
   </script>
 
-  <!-- ═══════════════ LAVA EMBER PARTICLE SYSTEM ═══════════════ -->
+  <!-- ══════════════╔LAVA EMBER PARTICLE SYSTEM ══════════════╔-->
   <script>
   (function () {
     'use strict';
@@ -1237,6 +1969,33 @@ void main() {
     }
 
     requestAnimationFrame(frame);
+  })();
+  </script>
+
+  <!-- ══════════════╔PARALLAX SCROLL ══════════════╔-->
+  <script>
+  (function () {
+    var els = document.querySelectorAll('[data-parallax]');
+    if (!els.length) return;
+
+    function update() {
+      var sy = window.scrollY;
+      for (var i = 0; i < els.length; i++) {
+        var el = els[i];
+        var sp = parseFloat(el.dataset.parallax) || 0;
+        el.style.transform = 'translate3d(0,' + (sy * sp) + 'px,0)';
+      }
+    }
+
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        requestAnimationFrame(function () { update(); ticking = false; });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    update();
   })();
   </script>
 </body>

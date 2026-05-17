@@ -1,3 +1,6 @@
 # Exclude !Excluded directories (third-party assets kept out of public repo)
 \!Excluded/
 **/\!Excluded/
+
+# PGP key (keep your real key local)
+pgp-key.txt

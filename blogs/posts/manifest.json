@@ -1,0 +1,58 @@
+[
+  {
+    "slug": "meet-lainey",
+    "title": "Meet Lainey",
+    "dateLabel": "Sunday, May 17 2026",
+    "music": "Heidi Montag - I'll Do It",
+    "youtubeId": "lQ9oaxLQIwI",
+    "file": "./posts/meet-lainey.html"
+  },
+  {
+    "slug": "unity-event",
+    "title": "Unity Events",
+    "dateLabel": "Monday, June 2 2025",
+    "music": "Today's music / 今日の音楽",
+    "youtubeId": "NXXyIYXmu_M",
+    "file": "./posts/unity-events.html"
+  },
+  {
+    "slug": "shared-pointers",
+    "title": "How do Smart Pointers be used in game?",
+    "dateLabel": "Monday, June 2 2025",
+    "music": "Today's music / 今日の音楽",
+    "youtubeId": "1ZHM3k9rwfU",
+    "file": "./posts/smart-pointers-in-game-dev.html"
+  },
+  {
+    "slug": "3-japanese-interview",
+    "title": "Japanese Job Interview",
+    "dateLabel": "Monday, June 2 2025",
+    "music": "Today's music / 今日の音楽",
+    "youtubeId": "sJ_oBENCzy8",
+    "file": "./posts/japanese-job-interview.html"
+  },
+  {
+    "slug": "behaviour-tree",
+    "title": "Behaviour Tree",
+    "dateLabel": "Monday, June 2 2025",
+    "music": "Today's music / 今日の音楽",
+    "youtubeId": "NXXyIYXmu_M",
+    "file": "./posts/behaviour-tree.html"
+  },
+  {
+    "slug": "unity-progress-1",
+    "title": "Unity Progress 1",
+    "dateLabel": "Monday, June 2 2025",
+    "music": "Today's music / 今日の音楽",
+    "youtubeId": "5sUtizeP0NE",
+    "file": "./posts/unity-progress-1.html"
+  },
+  {
+    "slug": "first-post",
+    "title": "First Post",
+    "dateLabel": "Friday, May 30 2025",
+    "music": "Today's song / 今日の音楽",
+    "youtubeId": "2bFSr3pZFjc",
+    "file": "./posts/first-post.html"
+  }
+]

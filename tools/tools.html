@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SYS::ZROV TOOLS INVENTORY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --void: #050508;
+      --void-soft: #0c0c12;
+      --void-warm: #111116;
+      --phosphor: #2eff4e;
+      --phosphor-dim: #1a8c2e;
+      --bone: #c4c4a8;
+      --bone-dim: #7a7a6a;
+      --iron: #2a2a32;
+      --iron-light: #3e3e4a;
+      --warn: #ff6a2e;
+      --gutter: clamp(1rem, 4vw, 3rem);
+      --border: 1px solid var(--iron-light);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      background: var(--void);
+      color: var(--bone);
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.7;
+      letter-spacing: 0.02em;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--void);
+      background-image: radial-gradient(ellipse at 50% 0%, rgba(46, 255, 78, 0.03) 0%, transparent 60%);
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.12) 2px, rgba(0, 0, 0, 0.12) 4px);
+    }
+
+    .hud {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: #060609;
+      border-bottom: 1px solid var(--iron-light);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--bone-dim);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem var(--gutter);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .hud__group { display: flex; gap: 1.5rem; align-items: center; }
+    .hud__stat { display: flex; gap: 0.35rem; align-items: center; }
+    .hud__label { color: var(--bone-dim); }
+    .hud__value { color: var(--phosphor); }
+    .hud__value--warn { color: var(--warn); }
+
+    .hud--bottom {
+      position: sticky;
+      top: auto;
+      bottom: 0;
+      border-bottom: none;
+      border-top: 1px solid var(--iron-light);
+      margin-top: auto;
+    }
+
+    .page-nav {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.5rem var(--gutter);
+      background: var(--void-soft);
+      border-bottom: var(--border);
+      justify-content: center;
+    }
+
+    .page-nav a {
+      font: inherit;
+      font-size: 0.78rem;
+      color: var(--phosphor);
+      text-decoration: none;
+      padding: 0.35rem 1rem;
+      border: 1px solid var(--iron);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+
+    .page-nav a:hover,
+    .page-nav a.js-active {
+      border-color: var(--phosphor-dim);
+      background: rgba(46, 255, 78, 0.05);
+    }
+
+    main {
+      flex: 1;
+      max-width: 960px;
+      width: 100%;
+      margin: 0 auto;
+      padding: var(--gutter);
+    }
+
+    .section-hd {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 2.5rem 0 1.2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      color: var(--bone-dim);
+      text-transform: uppercase;
+    }
+
+    .section-hd::before,
+    .section-hd::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--iron);
+    }
+
+    .section-hd h2 {
+      font-family: 'MedievalSharp', cursive;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--bone);
+      letter-spacing: 0.08em;
+      text-transform: none;
+      white-space: nowrap;
+    }
+
+    .section-hd .ref {
+      font-size: 0.7rem;
+      color: var(--phosphor-dim);
+    }
+
+    .ascii-sep {
+      text-align: center;
+      color: var(--iron);
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      padding: 0.8rem 0;
+      user-select: none;
+      overflow: hidden;
+    }
+
+    /* ---- TOOL CARD ---- */
+    .tool-card {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      background: var(--void-soft);
+      border: var(--border);
+      margin-bottom: 1.2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+
+    .tool-card:hover {
+      border-color: var(--phosphor-dim);
+      background-color: var(--void-warm);
+    }
+
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--phosphor-dim), transparent);
+    }
+
+    .tool-card__thumb {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--void-warm);
+      border-right: var(--border);
+      overflow: hidden;
+    }
+
+    .tool-card__thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.5;
+      filter: sepia(0.4) hue-rotate(70deg) saturate(0.6);
+    }
+
+    .tool-card__thumb .thumb-emoji {
+      position: absolute;
+      font-size: 3rem;
+      filter: drop-shadow(0 0 12px rgba(46, 255, 78, 0.25));
+      z-index: 1;
+    }
+
+    .tool-card__body {
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .tool-card__ref {
+      font-size: 0.62rem;
+      color: var(--phosphor-dim);
+      letter-spacing: 0.12em;
+    }
+
+    .tool-card__name {
+      font-family: 'MedievalSharp', cursive;
+      font-size: 1.15rem;
+      color: var(--bone);
+      letter-spacing: 0.04em;
+    }
+
+    .tool-card__name a {
+      color: var(--phosphor);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .tool-card__name a:hover {
+      color: var(--bone);
+    }
+
+    .tool-card__desc {
+      font-size: 0.78rem;
+      color: var(--bone-dim);
+      line-height: 1.6;
+    }
+
+    .tool-card__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.3rem;
+    }
+
+    .tool-card__meta span {
+      font-size: 0.62rem;
+      color: var(--phosphor);
+      border: 1px solid var(--iron);
+      padding: 0.15em 0.55em;
+      letter-spacing: 0.06em;
+    }
+
+    /* ---- EMPTY TOOL CARD ---- */
+    .tool-card--empty {
+      opacity: 0.55;
+      cursor: default;
+      filter: grayscale(0.3);
+    }
+
+    .tool-card--empty:hover {
+      border-color: var(--iron-light);
+      background-color: var(--void-soft);
+    }
+
+    .tool-card--empty .tool-card__thumb {
+      background: var(--void);
+      border-right: 1px solid var(--iron);
+    }
+
+    .tool-card--empty .thumb-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: var(--iron);
+    }
+
+    .tool-card--empty .thumb-placeholder-icon {
+      font-size: 2rem;
+      opacity: 0.4;
+    }
+
+    .tool-card--empty .thumb-placeholder-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .tool-card--empty .tool-card__name {
+      color: var(--iron-light);
+    }
+
+    .tool-card--empty .tool-card__desc {
+      color: var(--iron);
+    }
+
+    .tool-card--empty .tool-card__meta span {
+      color: var(--iron-light);
+      border-color: var(--iron);
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 680px) {
+      .hud { flex-direction: column; gap: 0.3rem; }
+      .hud__group { flex-wrap: wrap; justify-content: center; }
+      .tool-card { grid-template-columns: 1fr; }
+      .tool-card__thumb { border-right: none; border-bottom: var(--border); min-height: 120px; }
+    }
+
+    @media print {
+      body::before { display: none; }
+      .hud { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hud">
+    <div class="hud__group">
+      <div class="hud__stat"><span class="hud__label">SYS</span><span class="hud__value">ONLINE</span></div>
+      <div class="hud__stat"><span class="hud__label">NODE</span><span class="hud__value">TOOLS-INVENTORY</span></div>
+      <div class="hud__stat"><span class="hud__label">CLEARANCE</span><span class="hud__value--warn">RESTRICTED</span></div>
+    </div>
+    <div class="hud__group">
+      <div class="hud__stat"><span class="hud__label">TOOLS</span><span class="hud__value" id="tool-count">--</span></div>
+      <div class="hud__stat"><span class="hud__label">STATUS</span><span class="hud__value">ACTIVE</span></div>
+    </div>
+  </header>
+
+  <nav class="page-nav">
+    <a href="/index.html">Dossier</a>
+    <a href="/blogs/blogs.html">Blog</a>
+    <a href="/tools/tools.html" class="js-active">Tools</a>
+  </nav>
+
+  <main>
+    <div class="section-hd">
+      <h2>Tools Inventory</h2>
+      <span class="ref">REF: ZRV-TOOLS-1</span>
+    </div>
+
+    <article class="tool-card">
+      <div class="tool-card__thumb">
+        <span class="thumb-emoji">&#x1F50D;</span>
+        <img src="https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?w=400&q=60" alt="" loading="lazy">
+      </div>
+      <div class="tool-card__body">
+        <div class="tool-card__ref">TOOL-001</div>
+        <h3 class="tool-card__name">
+          <a href="/tools/it-paths/">IT Paths Explorer</a>
+        </h3>
+        <p class="tool-card__desc">
+          Interactive career explorer for IT. Browse 31 career paths with day-in-the-life breakdowns, earning styles, roadmaps, and a personality quiz that matches you to the right direction. Built with React.
+        </p>
+        <div class="tool-card__meta">
+          <span>React</span><span>JavaScript</span><span>Career</span><span>Quiz</span><span>Education</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="tool-card tool-card--empty" aria-hidden="true">
+      <div class="tool-card__thumb">
+        <div class="thumb-placeholder">
+          <span class="thumb-placeholder-icon">&#x2699;</span>
+          <span class="thumb-placeholder-label">SLOT EMPTY</span>
+        </div>
+      </div>
+      <div class="tool-card__body">
+        <div class="tool-card__ref">TOOL-002</div>
+        <h3 class="tool-card__name">-- UNASSIGNED --</h3>
+        <p class="tool-card__desc">
+          Awaiting tool deployment. This slot is reserved for a future project.
+        </p>
+        <div class="tool-card__meta">
+          <span>...</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="tool-card tool-card--empty" aria-hidden="true">
+      <div class="tool-card__thumb">
+        <div class="thumb-placeholder">
+          <span class="thumb-placeholder-icon">&#x2699;</span>
+          <span class="thumb-placeholder-label">SLOT EMPTY</span>
+        </div>
+      </div>
+      <div class="tool-card__body">
+        <div class="tool-card__ref">TOOL-003</div>
+        <h3 class="tool-card__name">-- UNASSIGNED --</h3>
+        <p class="tool-card__desc">
+          Awaiting tool deployment. This slot is reserved for a future project.
+        </p>
+        <div class="tool-card__meta">
+          <span>...</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="tool-card tool-card--empty" aria-hidden="true">
+      <div class="tool-card__thumb">
+        <div class="thumb-placeholder">
+          <span class="thumb-placeholder-icon">&#x2699;</span>
+          <span class="thumb-placeholder-label">SLOT EMPTY</span>
+        </div>
+      </div>
+      <div class="tool-card__body">
+        <div class="tool-card__ref">TOOL-004</div>
+        <h3 class="tool-card__name">-- UNASSIGNED --</h3>
+        <p class="tool-card__desc">
+          Awaiting tool deployment. This slot is reserved for a future project.
+        </p>
+        <div class="tool-card__meta">
+          <span>...</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="tool-card tool-card--empty" aria-hidden="true">
+      <div class="tool-card__thumb">
+        <div class="thumb-placeholder">
+          <span class="thumb-placeholder-icon">&#x2699;</span>
+          <span class="thumb-placeholder-label">SLOT EMPTY</span>
+        </div>
+      </div>
+      <div class="tool-card__body">
+        <div class="tool-card__ref">TOOL-005</div>
+        <h3 class="tool-card__name">-- UNASSIGNED --</h3>
+        <p class="tool-card__desc">
+          Awaiting tool deployment. This slot is reserved for a future project.
+        </p>
+        <div class="tool-card__meta">
+          <span>...</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="tool-card tool-card--empty" aria-hidden="true">
+      <div class="tool-card__thumb">
+        <div class="thumb-placeholder">
+          <span class="thumb-placeholder-icon">&#x2699;</span>
+          <span class="thumb-placeholder-label">SLOT EMPTY</span>
+        </div>
+      </div>
+      <div class="tool-card__body">
+        <div class="tool-card__ref">TOOL-006</div>
+        <h3 class="tool-card__name">-- UNASSIGNED --</h3>
+        <p class="tool-card__desc">
+          Awaiting tool deployment. This slot is reserved for a future project.
+        </p>
+        <div class="tool-card__meta">
+          <span>...</span>
+        </div>
+      </div>
+    </article>
+
+    <div class="ascii-sep">THE MACHINE SPIRIT WATCHES. SERVE IT WELL.</div>
+  </main>
+
+  <footer class="hud hud--bottom">
+    <div class="hud__group">
+      <div class="hud__stat"><span class="hud__label">THREAT</span><span class="hud__value--warn">NOMINAL</span></div>
+      <div class="hud__stat"><span class="hud__label">ACTIVE</span><span class="hud__value">1</span></div>
+    </div>
+    <div class="hud__group">
+      <div class="hud__stat"><span class="hud__label">OMNISSIAH</span><span class="hud__value">PRAISE</span></div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('tool-count').textContent = document.querySelectorAll('.tool-card:not(.tool-card--empty)').length;
+  </script>
+</body>
+</html>

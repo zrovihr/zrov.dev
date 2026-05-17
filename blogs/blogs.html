@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SYS::ZROV BLOG ARCHIVE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --void: #050508;
+      --void-soft: #0c0c12;
+      --phosphor: #2eff4e;
+      --phosphor-dim: #1a8c2e;
+      --bone: #c4c4a8;
+      --bone-dim: #7a7a6a;
+      --iron: #2a2a32;
+      --iron-light: #3e3e4a;
+      --warn: #ff6a2e;
+      --code-bg: #0d0d14;
+      --gutter: clamp(1rem, 4vw, 3rem);
+      --border: 1px solid var(--iron-light);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      background: var(--void);
+      color: var(--bone);
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.7;
+      letter-spacing: 0.02em;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--void);
+      background-image: radial-gradient(ellipse at 50% 0%, rgba(46, 255, 78, 0.03) 0%, transparent 60%);
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.12) 2px, rgba(0, 0, 0, 0.12) 4px);
+    }
+
+    .hud {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: #060609;
+      border-bottom: 1px solid var(--iron-light);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--bone-dim);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem var(--gutter);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .hud__group { display: flex; gap: 1.5rem; align-items: center; }
+    .hud__stat { display: flex; gap: 0.35rem; align-items: center; }
+    .hud__label { color: var(--bone-dim); }
+    .hud__value { color: var(--phosphor); }
+    .hud__value--warn { color: var(--warn); }
+
+    .hud--bottom {
+      position: sticky;
+      top: auto;
+      bottom: 0;
+      border-bottom: none;
+      border-top: 1px solid var(--iron-light);
+      margin-top: auto;
+    }
+
+    .page-nav {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.5rem var(--gutter);
+      background: var(--void-soft);
+      border-bottom: var(--border);
+      justify-content: center;
+    }
+
+    .page-nav a {
+      font: inherit;
+      font-size: 0.78rem;
+      color: var(--phosphor);
+      text-decoration: none;
+      padding: 0.35rem 1rem;
+      border: 1px solid var(--iron);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+
+    .page-nav a:hover,
+    .page-nav a.js-active {
+      border-color: var(--phosphor-dim);
+      background: rgba(46, 255, 78, 0.05);
+    }
+
+    main {
+      flex: 1;
+      max-width: 1180px;
+      width: 100%;
+      margin: 0 auto;
+      padding: var(--gutter);
+    }
+
+    .section-hd {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 2.5rem 0 1.2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      color: var(--bone-dim);
+      text-transform: uppercase;
+    }
+
+    .section-hd::before,
+    .section-hd::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--iron);
+    }
+
+    .section-hd h2 {
+      font-family: 'MedievalSharp', cursive;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--bone);
+      letter-spacing: 0.08em;
+      text-transform: none;
+      white-space: nowrap;
+    }
+
+    .section-hd .ref {
+      font-size: 0.7rem;
+      color: var(--phosphor-dim);
+    }
+
+    .blog-post {
+      background: var(--void-soft);
+      border: var(--border);
+      margin-bottom: 1.5rem;
+      padding: 1.4rem;
+      position: relative;
+    }
+
+    .blog-post::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--phosphor-dim), transparent);
+    }
+
+    .blog-date {
+      font-size: 0.68rem;
+      color: var(--bone-dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .blog-title {
+      font-family: 'MedievalSharp', cursive;
+      font-size: 1.15rem;
+      color: var(--phosphor);
+      letter-spacing: 0.04em;
+      margin-bottom: 0.6rem;
+    }
+
+    .blog-music {
+      font-size: 0.7rem;
+      color: #c9a83d;
+      letter-spacing: 0.06em;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .blog-music::before { content: '~'; color: var(--phosphor-dim); }
+
+    .blog-body {
+      color: var(--bone);
+      font-size: 0.84rem;
+      line-height: 1.9;
+    }
+
+    .blog-body + .blog-body {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--iron);
+    }
+
+    .blog-body p { margin-bottom: 0.8rem; }
+
+    .blog-body pre {
+      background: var(--code-bg);
+      border: 1px solid var(--iron);
+      padding: 1rem;
+      overflow-x: auto;
+      margin: 0.8rem 0;
+      font-size: 0.76rem;
+      line-height: 1.6;
+      color: var(--bone);
+      white-space: pre-wrap;
+    }
+
+    .blog-body code {
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      color: var(--phosphor);
+    }
+
+    .blog-body pre code {
+      display: block;
+      white-space: pre;
+    }
+
+    .blog-body img {
+      max-width: 100%;
+      border: 1px solid var(--iron);
+    }
+
+    .blog-note {
+      font-size: 0.78rem;
+      color: var(--bone-dim);
+    }
+
+    .blog-iframe-wrap {
+      margin: 0.8rem 0;
+      max-width: 560px;
+      border: var(--border);
+    }
+
+    .blog-iframe-wrap iframe {
+      display: block;
+      width: 100%;
+      height: 315px;
+      border: none;
+    }
+
+    .blog-layout {
+      display: grid;
+      grid-template-columns: minmax(13rem, 18rem) minmax(0, 1fr);
+      gap: clamp(1rem, 3vw, 2rem);
+      align-items: start;
+    }
+
+    .blog-catalogue {
+      position: sticky;
+      top: 5.25rem;
+      border-top: var(--border);
+      padding-top: 1rem;
+    }
+
+    .blog-catalogue__title {
+      color: var(--bone-dim);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+
+    .blog-catalogue__list {
+      list-style: none;
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .blog-catalogue__item {
+      border-bottom: 1px solid var(--iron);
+      padding: 0.45rem 0;
+    }
+
+    .blog-catalogue__date {
+      font: inherit;
+      color: var(--phosphor);
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+      text-align: left;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.7rem;
+      padding: 0;
+      display: block;
+      width: 100%;
+    }
+
+    .blog-catalogue__date:hover,
+    .blog-catalogue__date[aria-current="true"] {
+      color: var(--warn);
+    }
+
+    .blog-catalogue__post-title {
+      display: block;
+      color: var(--bone-dim);
+      font-size: 0.78rem;
+      line-height: 1.5;
+      margin-top: 0.1rem;
+    }
+
+    .ascii-sep {
+      text-align: center;
+      color: var(--iron);
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      padding: 0.8rem 0;
+      user-select: none;
+      overflow: hidden;
+    }
+
+    .archive-error {
+      border: 1px solid var(--warn);
+      color: var(--warn);
+      padding: 1rem;
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 680px) {
+      .hud { flex-direction: column; gap: 0.3rem; }
+      .hud__group { flex-wrap: wrap; justify-content: center; }
+      .blog-layout { grid-template-columns: 1fr; }
+      .blog-catalogue { position: static; order: 2; }
+      #blog-posts { order: 1; }
+      .blog-iframe-wrap iframe { height: 210px; }
+    }
+
+    @media print {
+      body::before { display: none; }
+      .hud { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hud">
+    <div class="hud__group">
+      <div class="hud__stat"><span class="hud__label">SYS</span><span class="hud__value">ONLINE</span></div>
+      <div class="hud__stat"><span class="hud__label">NODE</span><span class="hud__value">BLOG-ARCHIVE</span></div>
+      <div class="hud__stat"><span class="hud__label">CLEARANCE</span><span class="hud__value--warn">UNCLASSIFIED</span></div>
+    </div>
+    <div class="hud__group">
+      <div class="hud__stat"><span class="hud__label">ENTRIES</span><span class="hud__value" id="entry-count">--</span></div>
+      <div class="hud__stat"><span class="hud__label">STATUS</span><span class="hud__value">ACTIVE</span></div>
+    </div>
+  </header>
+
+  <nav class="page-nav">
+    <a href="/index.html">Dossier</a>
+    <a href="/blogs/blogs.html" class="js-active">Blog</a>
+    <a href="/tools/tools.html">Tools</a>
+  </nav>
+
+  <main>
+    <div class="section-hd">
+      <h2>Blog Archive</h2>
+      <span class="ref">REF: ZRV-BLOG-1</span>
+    </div>
+
+    <div class="blog-layout">
+      <section class="blog-catalogue" aria-labelledby="blog-catalogue-title">
+        <div class="blog-catalogue__title" id="blog-catalogue-title">Catalogue</div>
+        <ul class="blog-catalogue__list" id="blog-catalogue"></ul>
+      </section>
+
+      <div id="blog-posts" aria-live="polite"></div>
+    </div>
+
+    <div class="ascii-sep">THE MACHINE SPIRIT WATCHES. SERVE IT WELL.</div>
+  </main>
+
+  <footer class="hud hud--bottom">
+    <div class="hud__group">
+      <div class="hud__stat"><span class="hud__label">THREAT</span><span class="hud__value--warn">NOMINAL</span></div>
+      <div class="hud__stat"><span class="hud__label">ACCESS</span><span class="hud__value">PUBLIC</span></div>
+    </div>
+    <div class="hud__group">
+      <div class="hud__stat"><span class="hud__label">OMNISSIAH</span><span class="hud__value">PRAISE</span></div>
+    </div>
+  </footer>
+
+  <script>
+    const postsRoot = document.querySelector('#blog-posts');
+    const catalogueRoot = document.querySelector('#blog-catalogue');
+    const entryCount = document.querySelector('#entry-count');
+    let postsCache = [];
+    let activeSlug = '';
+
+    const text = (value) => document.createTextNode(value ?? '');
+
+    const makeMedia = (post) => {
+      if (!post.youtubeId) return null;
+
+      const wrap = document.createElement('div');
+      wrap.className = 'blog-iframe-wrap';
+
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube.com/embed/${post.youtubeId}`;
+      iframe.title = post.youtubeTitle || 'YouTube video player';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+
+      wrap.append(iframe);
+      return wrap;
+    };
+
+    const renderPost = async (post) => {
+      const article = document.createElement('article');
+      article.className = 'blog-post';
+      article.id = post.slug;
+
+      const date = document.createElement('div');
+      date.className = 'blog-date';
+      date.append(text(post.dateLabel));
+
+      const title = document.createElement('h3');
+      title.className = 'blog-title';
+      title.append(text(post.title));
+
+      article.append(date, title);
+
+      if (post.music) {
+        const music = document.createElement('div');
+        music.className = 'blog-music';
+        music.append(text(post.music));
+        article.append(music);
+      }
+
+      const media = makeMedia(post);
+      if (media) article.append(media);
+
+      const response = await fetch(post.file);
+      if (!response.ok) throw new Error(`Could not load ${post.file}`);
+
+      article.insertAdjacentHTML('beforeend', await response.text());
+      return article;
+    };
+
+    const setActiveCatalogueItem = () => {
+      catalogueRoot.querySelectorAll('button[data-slug]').forEach((button) => {
+        button.setAttribute('aria-current', String(button.dataset.slug === activeSlug));
+      });
+    };
+
+    const showPost = async (post) => {
+      activeSlug = post.slug;
+      postsRoot.replaceChildren(await renderPost(post));
+      setActiveCatalogueItem();
+
+      if (location.hash.slice(1) !== post.slug) {
+        history.replaceState(null, '', `#${post.slug}`);
+      }
+    };
+
+    const renderCatalogue = (posts) => {
+      catalogueRoot.replaceChildren();
+
+      for (const post of posts) {
+        const item = document.createElement('li');
+        item.className = 'blog-catalogue__item';
+
+        const date = document.createElement('button');
+        date.className = 'blog-catalogue__date';
+        date.type = 'button';
+        date.dataset.slug = post.slug;
+        date.append(text(post.dateLabel));
+        date.addEventListener('click', () => showPost(post));
+
+        const title = document.createElement('span');
+        title.className = 'blog-catalogue__post-title';
+        title.append(text(post.title));
+
+        item.append(date, title);
+        catalogueRoot.append(item);
+      }
+    };
+
+    const renderArchive = async () => {
+      try {
+        const response = await fetch('./posts/manifest.json');
+        if (!response.ok) throw new Error('Could not load posts manifest');
+
+        postsCache = await response.json();
+        entryCount.textContent = postsCache.length;
+        renderCatalogue(postsCache);
+
+        const requestedSlug = location.hash.slice(1);
+        const requestedPost = postsCache.find((post) => post.slug === requestedSlug);
+        await showPost(requestedPost || postsCache[0]);
+      } catch (error) {
+        entryCount.textContent = 'ERR';
+        postsRoot.innerHTML = `<div class="archive-error">${error.message}</div>`;
+      }
+    };
+
+    window.addEventListener('hashchange', () => {
+      const requestedPost = postsCache.find((post) => post.slug === location.hash.slice(1));
+      if (requestedPost && requestedPost.slug !== activeSlug) {
+        showPost(requestedPost);
+      }
+    });
+
+    renderArchive();
+  </script>
+</body>
+</html>
