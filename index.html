@@ -1485,7 +1485,7 @@
     var terminal = document.getElementById('pgpTerminal');
     if (!terminal) return;
 
-    fetch('/pgp-key.txt')
+    fetch('pgp-key.txt')
       .then(function (r) {
         if (!r.ok) return Promise.reject();
         return r.text();

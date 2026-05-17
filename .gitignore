@@ -2,5 +2,8 @@
 \!Excluded/
 **/\!Excluded/
 
-# PGP key (keep your real key local)
-pgp-key.txt
+# PGP private/secret key exports must stay local.
+*private*.asc
+*secret*.asc
+*private*.gpg
+*secret*.gpg
