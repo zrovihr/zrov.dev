@@ -1184,7 +1184,7 @@
 
         <div class="node-output" id="quickTerminalOutput">
           <span class="prompt">Terminal:</span>
-          <span>Awaiting command. Try github, steam, modrinth, nexus, music, time, lock, or any search query.</span>
+          <span>Awaiting command. Try github, modrinth, nexus, music, time, lock, or any search query.</span>
         </div>
 
         <button class="node-button node-button--lock" type="button" id="lockSession">
@@ -1435,7 +1435,7 @@
           <span class="prompt">zrov@prime:~$ </span><span class="cmd">contact --method=</span><span class="cursor"></span>
         </div>
         <div class="terminal-line" style="margin-top:0.6rem;">
-          <span class="output">steam&nbsp;&nbsp;&nbsp;&nbsp;: <a href="https://steamcommunity.com/id/amirullahizzan" style="color:var(--phosphor);text-decoration:none;">Zrov</a></span>
+                    <span class="output">steam&nbsp;&nbsp;: [encrypted channel — request key]</span>
         </div>
         <div class="terminal-line">
           <span class="output">github&nbsp;&nbsp;: <a href="https://github.com/zrovihr" style="color:var(--phosphor);text-decoration:none;">github.com/zrovihr</a></span>
@@ -1599,9 +1599,6 @@
           case 'git':
           case 'github':
             navigate('Opening ZROV GitHub profile', 'https://github.com/zrov');
-            break;
-          case 'steam':
-            navigate('Opening Steam profile', 'https://steamcommunity.com/id/amirullahizzan');
             break;
           case 'modrinth':
             navigate('Opening Modrinth profile', 'https://modrinth.com/user/zrov');
