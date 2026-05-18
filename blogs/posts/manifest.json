@@ -1,9 +1,17 @@
 [
   {
+    "slug": "ai-learning",
+    "title": "Planting Seeds",
+    "dateLabel": "Monday, May 18 2026",
+    "music": "Today's Music: Mac Quayle — 1.4_2-impenetrable sd2 (Mr. Robot)",
+    "youtubeId": "i61Sq7LEZ60",
+    "file": "./posts/ai-learning.html"
+  },
+  {
     "slug": "meet-lainey",
     "title": "Meet Lainey",
     "dateLabel": "Sunday, May 17 2026",
-    "music": "Heidi Montag - I'll Do It",
+    "music": "Today's Music: Heidi Montag - I'll Do It",
     "youtubeId": "lQ9oaxLQIwI",
     "file": "./posts/meet-lainey.html"
   },

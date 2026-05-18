@@ -248,14 +248,14 @@
 
     .blog-iframe-wrap {
       margin: 0.8rem 0;
-      max-width: 560px;
+      max-width: 280px;
       border: var(--border);
     }
 
     .blog-iframe-wrap iframe {
       display: block;
       width: 100%;
-      height: 315px;
+      aspect-ratio: 16 / 9;
       border: none;
     }
 
@@ -343,7 +343,7 @@
       .blog-layout { grid-template-columns: 1fr; }
       .blog-catalogue { position: static; order: 2; }
       #blog-posts { order: 1; }
-      .blog-iframe-wrap iframe { height: 210px; }
+      .blog-iframe-wrap { max-width: 100%; }
     }
 
     @media print {
