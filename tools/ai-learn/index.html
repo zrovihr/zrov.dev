@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Belajar AI — dari nol sampai multi-agent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <script>
+(function(){
+  function makeMem(){
+    var m = {};
+    return {
+      getItem:function(k){return Object.prototype.hasOwnProperty.call(m,k)?m[k]:null;},
+      setItem:function(k,v){m[k]=String(v);},
+      removeItem:function(k){delete m[k];},
+      clear:function(){m={};},
+      key:function(i){return Object.keys(m)[i]||null;},
+      get length(){return Object.keys(m).length;}
+    };
+  }
+  try { window.localStorage.getItem('__t'); }
+  catch(e){ try { Object.defineProperty(window,'localStorage',{value:makeMem(),configurable:true}); } catch(_){} }
+  try { window.sessionStorage.getItem('__t'); }
+  catch(e){ try { Object.defineProperty(window,'sessionStorage',{value:makeMem(),configurable:true}); } catch(_){} }
+})();
+  </script>
+</head>
+<body>
+
+<header class="ai-header">
+  <div class="header-left">
+    <a href="../it-paths/" class="back-link">← IT Paths</a>
+    <a href="/" class="ai-logo">zrov<span class="dot">.</span>dev</a>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-label mono-label"><span id="progress-label">0 / 7 selesai</span></div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <h1 class="hero-title">Belajar AI dari nol.<br>Gratis. Tanpa guru.</h1>
+  <p class="hero-sub">Tujuh level, satu halaman. Nggak perlu daftar, nggak perlu bayar.</p>
+  <img class="hero-img" src="img/hero-ai-learning-path.jpg" alt="Diagram perjalanan belajar AI: 7 langkah dari chat sampai multi-agent" width="720" height="378" loading="eager">
+  <button class="hero-cta" id="hero-cta">Mulai Level 1</button>
+</section>
+
+<main class="roadmap">
+
+  <!-- LEVEL 1 — Ngobrol sama AI -->
+  <section class="level-card locked" id="level-1" data-level="1">
+    <div class="level-meta">
+      <span class="level-num mono-label">LEVEL 01</span>
+      <span class="difficulty-pill easy mono-label">Easy</span>
+      <span class="time-pill mono-label">~10 menit</span>
+    </div>
+    <h2 class="level-title">Ngobrol sama AI</h2>
+    <div class="level-divider"></div>
+
+    <img class="level-img" src="img/level-1-chat-interface.png" alt="Tangkapan layar Claude.ai — chatting tentang teknologi dan pendidikan" width="640" height="400" loading="lazy">
+
+    <div class="level-body">
+      <div class="outcome">
+        <h3 class="section-label mono-label">Setelah ini kamu bisa:</h3>
+        <ul>
+          <li>Paham apa itu LLM dan kenapa dia beda sama Google</li>
+          <li>Kenal tiga chatbot AI gratis yang bisa langsung dipakai</li>
+          <li>Ngerti cara bikin prompt yang jelas dan spesifik</li>
+        </ul>
+      </div>
+
+      <div class="steps">
+        <h3 class="section-label mono-label">Langkah:</h3>
+        <ol>
+          <li>Buka <a href="https://chat.openai.com" target="_blank" rel="noopener">chat.openai.com</a> — daftar akun gratis, tanyakan &ldquo;apa itu kecerdasan buatan?&rdquo;</li>
+          <li>Buka <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> — tanyakan hal yang persis sama, bandingkan jawabannya</li>
+          <li>Buka <a href="https://gemini.google.com" target="_blank" rel="noopener">gemini.google.com</a> — tanya lagi, lihat pola: mana yang paling jelas? paling panjang? paling ngasal?</li>
+          <li>Coba tanya ulang dengan prompt yang lebih spesifik: bedakan &ldquo;apa itu AI&rdquo; vs &ldquo;jelaskan AI dalam 3 kalimat pakai analogi dapur&rdquo;</li>
+        </ol>
+      </div>
+
+      <div class="warnings">
+        <h3 class="section-label mono-label">Hati-hati:</h3>
+        <ul>
+          <li>AI bisa <strong>mengarang</strong> (halusinasi) — jawaban yang terdengar meyakinkan belum tentu benar</li>
+          <li>Jangan masukkan data pribadi, password, atau rahasia perusahaan</li>
+        </ul>
+      </div>
+
+      <div class="tldr">
+        <p class="tldr-icon mono-label">TL;DR</p>
+        <p class="tldr-text">AI adalah mesin prediksi teks yang sangat pintar. Dia bukan mesin pencari — dia <em>menyusun</em> jawaban, bukan <em>mencari</em> jawaban. Makanya kadang ngawur. Coba tiga chatbot berbeda supaya kamu lihat sendiri variasinya. Prompt spesifik = jawaban lebih berguna.</p>
+      </div>
+    </div>
+
+    <button class="complete-btn" data-level="1">Tandai selesai</button>
+    <div class="lock-overlay">
+      <span class="lock-icon">&#9650;</span>
+    </div>
+  </section>
+
+  <!-- LEVEL 2 — Kasih AI Konteks -->
+  <section class="level-card locked" id="level-2" data-level="2">
+    <div class="level-meta">
+      <span class="level-num mono-label">LEVEL 02</span>
+      <span class="difficulty-pill easy mono-label">Easy</span>
+      <span class="time-pill mono-label">~15 menit</span>
+    </div>
+    <h2 class="level-title">Kasih AI Konteks</h2>
+    <div class="level-divider"></div>
+
+    <img class="level-img" src="img/level-2-file-upload.jpg" alt="Tangkapan layar drag-and-drop file PDF ke chat AI" width="640" height="400" loading="lazy">
+
+    <div class="level-body">
+      <div class="outcome">
+        <h3 class="section-label mono-label">Setelah ini kamu bisa:</h3>
+        <ul>
+          <li>Upload file (PDF, gambar, spreadsheet) biar AI ngerti konteks kamu</li>
+          <li>Pakai fitur Projects / Custom GPT biar AI ingat instruksi</li>
+          <li>Nulis prompt dengan struktur: [konteks] → [tugas] → [format output]</li>
+        </ul>
+      </div>
+
+      <div class="steps">
+        <h3 class="section-label mono-label">Langkah:</h3>
+        <ol>
+          <li>Upload file PDF ke <strong>ChatGPT</strong> atau <strong>Claude</strong> — minta dia rangkum isinya dalam 5 poin</li>
+          <li>Coba paste teks panjang (artikel, email, catatan rapat) langsung ke chat — minta saran atau analisis</li>
+          <li>Di ChatGPT: bikin &ldquo;Project&rdquo; dengan instruksi khusus (contoh: &ldquo;kamu adalah editor artikel teknologi&rdquo;). Di Claude: pakai fitur Projects</li>
+          <li>Eksperimen dengan struktur prompt <span class="inline-mono">[konteks] → [tugas] → [format output]</span>. Contoh: &ldquo;Aku baru belajar Python. Jelaskan loop for dalam 3 kalimat bahasa Indonesia pakai bullet point.&rdquo;</li>
+        </ol>
+      </div>
+
+      <div class="warnings">
+        <h3 class="section-label mono-label">Hati-hati:</h3>
+        <ul>
+          <li>Jangan upload dokumen rahasia perusahaan atau data pelanggan ke AI publik</li>
+          <li>AI bukan pengganti belajar — dia akselerator, bukan jalan pintas</li>
+        </ul>
+      </div>
+
+      <div class="tldr">
+        <p class="tldr-icon mono-label">TL;DR</p>
+        <p class="tldr-text">AI yang cuma dikasih pertanyaan kosong = jawaban generik. AI yang dikasih file, dokumen, dan konteks = jawaban yang <em>relevan sama kebutuhan kamu</em>. Prompt yang bagus = konteks jelas + tugas spesifik + format yang kamu mau. Projects/Custom GPT bikin AI &ldquo;ingat&rdquo; instruksimu tiap sesi.</p>
+      </div>
+    </div>
+
+    <button class="complete-btn" data-level="2">Tandai selesai</button>
+    <div class="lock-overlay">
+      <span class="lock-icon">&#9650;</span>
+    </div>
+  </section>
+
+  <!-- LEVEL 3 — AI di Laptop Kamu -->
+  <section class="level-card locked" id="level-3" data-level="3">
+    <div class="level-meta">
+      <span class="level-num mono-label">LEVEL 03</span>
+      <span class="difficulty-pill medium mono-label">Medium</span>
+      <span class="time-pill mono-label">~20 menit</span>
+    </div>
+    <h2 class="level-title">AI di Laptop Kamu</h2>
+    <div class="level-divider"></div>
+
+    <img class="level-img" src="img/level-3-claude-in-vscode.png" alt="Tangkapan layar Claude di dalam VS Code — sidebar chat di samping file kode" width="640" height="400" loading="lazy">
+
+    <div class="level-body">
+      <div class="outcome">
+        <h3 class="section-label mono-label">Setelah ini kamu bisa:</h3>
+        <ul>
+          <li>Pakai AI sebagai aplikasi desktop — bukan cuma tab browser yang gampang ketutup</li>
+          <li>Install Claude Desktop &amp; ChatGPT Desktop biar AI selalu satu klik dari taskbar</li>
+          <li>Kasih Claude Desktop akses ke folder kamu lewat <strong>Filesystem extension</strong> — AI bisa baca &amp; edit file di komputer kamu langsung dari chat biasa</li>
+          <li>(Buat yang ngoding) Pakai Claude atau Codex langsung di dalam editor kode</li>
+        </ul>
+      </div>
+
+      <div class="steps">
+        <h3 class="section-label mono-label">Langkah — buat semua orang:</h3>
+        <ol>
+          <li>Download <strong>Claude Desktop</strong> dari <a href="https://claude.ai/download" target="_blank" rel="noopener">claude.ai/download</a> — sama kayak chat di browser, tapi jalan sebagai aplikasi sendiri. Ada di taskbar, bisa Alt+Tab, nggak ilang waktu kamu nutup browser. Drag-drop file langsung ke window-nya juga lebih enak</li>
+          <li>Download <strong>ChatGPT Desktop</strong> dari <a href="https://openai.com/chatgpt/download" target="_blank" rel="noopener">openai.com/chatgpt/download</a> — fitur khas-nya: <em>voice mode</em> (ngobrol pakai suara) dan <em>screenshot sharing</em> (Alt+Space buat nanya soal apa yang ada di layar)</li>
+          <li>Pakai dua-duanya satu hari penuh — rasain bedanya sama tab browser: nggak ada lagi &ldquo;tab AI ku ke mana ya?&rdquo;</li>
+        </ol>
+
+        <h3 class="section-label mono-label">Langkah penting — kasih Claude akses ke file kamu:</h3>
+        <p>Di sini lompatan beneran. Claude Desktop bisa dikasih akses ke folder di laptop kamu lewat fitur <strong>Extensions</strong> (atau dikenal sebagai MCP — Model Context Protocol). Setelah aktif, kamu bisa minta Claude hal kayak &ldquo;baca file laporan.docx di folder Documents&rdquo; atau &ldquo;rapiin nama-nama file di folder Downloads&rdquo; — dan dia beneran ngerjain, bukan cuma ngasih saran. Ini bukan fitur coding doang; siapapun yang sering bolak-balik file di laptop bisa kepake.</p>
+        <ol start="4">
+          <li>Buka Claude Desktop &rarr; <strong>Settings</strong> &rarr; <strong>Extensions</strong> (atau <strong>Developer</strong> di versi lama). Cari <strong>Filesystem</strong> di daftar extensions bawaan, lalu aktifkan</li>
+          <li>Pas diaktifkan, dia bakal nanya <em>folder mana</em> yang boleh diakses. Pilih satu folder dulu — misal <code>Documents</code> atau folder project tertentu. <strong>Jangan kasih akses ke seluruh C:\ atau home folder</strong> — terlalu luas, riskan</li>
+          <li>Restart Claude Desktop. Buka chat baru, coba: &ldquo;list file di folder yang udah aku kasih akses&rdquo; — dia harusnya nampilin daftar isi folder itu</li>
+          <li>Coba use case nyata: &ldquo;baca <code>catatan.txt</code> terus ringkas isinya&rdquo;, atau &ldquo;bikinin file <code>todo.md</code> isinya 5 task buat besok&rdquo;. Setiap kali dia mau nulis/edit, Claude minta konfirmasi dulu — <strong>baca dulu sebelum klik Allow</strong></li>
+        </ol>
+        <p>Sampai titik ini kamu udah punya AI yang bisa <em>baca dan ubah file kamu</em> dari chat biasa — nggak perlu terminal, nggak perlu ngoding. Level 6 nanti cuma ngangkat hal yang sama ke level lebih lanjut (terminal, command, project gede).</p>
+
+        <h3 class="section-label mono-label">Langkah tambahan — kalau kamu ngoding:</h3>
+        <ol start="8">
+          <li>Install <a href="https://code.visualstudio.com" target="_blank" rel="noopener">VS Code</a> — editor kode gratis dari Microsoft, standar industri</li>
+          <li>Tambahin <strong>Claude for VS Code</strong> (extension resmi Anthropic) — Claude bisa baca file yang lagi kamu buka, kasih saran, edit langsung. Lihat screenshot di atas: Claude di sidebar kanan, file di tengah, terminal di bawah</li>
+          <li>Coba juga <strong>Codex</strong> — desktop app dari OpenAI khusus buat coding. Install dari <a href="https://openai.com/codex" target="_blank" rel="noopener">openai.com/codex</a>. Beda sama ChatGPT biasa: Codex tahu konteks project kamu, bisa baca/edit beberapa file sekaligus</li>
+          <li>Alternatif gratis: <strong>GitHub Copilot</strong> (gratis buat student/open source) atau <strong>Cline</strong> (extension VS Code open source). Pilih satu, jangan install semua</li>
+        </ol>
+      </div>
+
+      <img class="level-img-secondary" src="img/level-3-codex-app.png" alt="Tangkapan layar Codex desktop app — chat dengan AI tentang kode project" width="640" height="400" loading="lazy">
+      <p class="img-caption mono-label">Codex desktop app — interface khusus buat coding, bisa baca seluruh project</p>
+
+      <div class="warnings">
+        <h3 class="section-label mono-label">Hati-hati:</h3>
+        <ul>
+          <li>Desktop apps biasanya minta akses file dan/atau screenshot — <strong>baca permission dialog</strong> sebelum klik Allow</li>
+          <li>Filesystem extension = AI bisa baca/edit file di folder yang kamu kasih akses. <strong>Mulai dari satu folder kecil</strong>, jangan kasih akses ke seluruh disk. Hindari folder yang isinya credential, .env, atau private key</li>
+          <li>AI di editor (Claude/Codex/Copilot) bisa baca kode kamu — jangan pakai di project dengan kode rahasia atau credential</li>
+          <li>Codex &amp; Claude for VS Code butuh akun berbayar buat fitur penuh — versi gratis biasanya dibatasin jumlah pesan per hari</li>
+        </ul>
+      </div>
+
+      <div class="tldr">
+        <p class="tldr-icon mono-label">TL;DR</p>
+        <p class="tldr-text">AI nggak cuma di browser. <strong>Buat semua orang:</strong> install Claude Desktop + ChatGPT Desktop, lalu aktifin <strong>Filesystem extension</strong> di Claude — kamu bisa minta dia baca/edit file di folder kamu langsung dari chat biasa, tanpa terminal. <strong>Buat yang ngoding:</strong> pasang Claude atau Codex di dalam VS Code — AI ngerti <em>seluruh project kamu</em> dan bisa edit file sambil kamu ngetik. Ini lompatan terbesar dari &ldquo;chat biasa&rdquo; ke &ldquo;AI yang kerja bareng kamu&rdquo; — Level 6 nanti tinggal naikin ke terminal.</p>
+      </div>
+    </div>
+
+    <button class="complete-btn" data-level="3">Tandai selesai</button>
+    <div class="lock-overlay">
+      <span class="lock-icon">&#9650;</span>
+    </div>
+  </section>
+
+  <!-- LEVEL 4 — Kenal Model & Provider -->
+  <section class="level-card locked" id="level-4" data-level="4">
+    <div class="level-meta">
+      <span class="level-num mono-label">LEVEL 04</span>
+      <span class="difficulty-pill medium mono-label">Medium</span>
+      <span class="time-pill mono-label">~20 menit</span>
+    </div>
+    <h2 class="level-title">Kenal Model &amp; Provider</h2>
+    <div class="level-divider"></div>
+
+    <img class="level-img" src="img/level-4-model-comparison-table.jpg" alt="Tabel perbandingan model AI: nama model, provider, kelebihan, use case" width="640" height="400" loading="lazy">
+
+    <div class="level-body">
+      <div class="outcome">
+        <h3 class="section-label mono-label">Setelah ini kamu bisa:</h3>
+        <ul>
+          <li>Bedain model AI mainstream: ChatGPT (OpenAI), Claude (Anthropic), Gemini (Google)</li>
+          <li>Kenal alternatif open source: Mistral, DeepSeek, Llama — kapan worth dicoba</li>
+          <li>Paham <strong>OpenRouter</strong>: satu API key buat akses puluhan model sekaligus</li>
+        </ul>
+      </div>
+
+      <div class="steps">
+        <h3 class="section-label mono-label">Langkah:</h3>
+        <ol>
+          <li>Bikin catatan kecil: ChatGPT buat serba bisa + plugin, Claude buat analisis teks panjang + coding, Gemini buat riset + integrasi Google</li>
+          <li>Kunjungi <a href="https://openrouter.ai" target="_blank" rel="noopener">openrouter.ai</a> — lihat daftar model yang tersedia (gratis dan berbayar). Daftar akun, tapi nggak perlu isi saldo dulu</li>
+          <li>Di OpenRouter, cari model gratis: <strong>Mistral 7B</strong>, <strong>Gemma</strong>, <strong>Llama 3</strong> — coba satu lewat OpenRouter Chat</li>
+          <li>Rule of thumb: coding &amp; analisis → Claude/GPT, cepat &amp; murah → Haiku/Flash, privacy &amp; offline → Llama/Mistral (local)</li>
+        </ol>
+      </div>
+
+      <div class="warnings">
+        <h3 class="section-label mono-label">Hati-hati:</h3>
+        <ul>
+          <li>Jangan asal pakai model &ldquo;viral&rdquo; — tiap model punya kelebihan dan kelemahan beda</li>
+          <li>OpenRouter: gratis ada, tapi model bagus biasanya berbayar. Cek harga per 1M token sebelum pakai</li>
+          <li>Model lokal (Llama, Mistral) butuh hardware kuat — minimal RAM 16GB buat yang 7B parameter</li>
+        </ul>
+      </div>
+
+      <div class="tldr">
+        <p class="tldr-icon mono-label">TL;DR</p>
+        <p class="tldr-text">Jangan cuma setia sama satu AI. Tiap model punya &ldquo;personality&rdquo; beda: Claude jago nulis dan coding, ChatGPT serba bisa, Gemini terhubung ekosistem Google. OpenRouter adalah <em>pintu masuk</em> ke dunia multi-model — satu akun, puluhan model, bayar per pemakaian. Mulai kenali sekarang, biar nanti nggak bingung waktu masuk level multi-agent.</p>
+      </div>
+    </div>
+
+    <button class="complete-btn" data-level="4">Tandai selesai</button>
+    <div class="lock-overlay">
+      <span class="lock-icon">&#9650;</span>
+    </div>
+  </section>
+
+  <!-- LEVEL 5 — Ambil Tools dari GitHub -->
+  <section class="level-card locked" id="level-5" data-level="5">
+    <div class="level-meta">
+      <span class="level-num mono-label">LEVEL 05</span>
+      <span class="difficulty-pill medium mono-label">Medium</span>
+      <span class="time-pill mono-label">~30 menit</span>
+    </div>
+    <h2 class="level-title">Ambil Tools dari GitHub</h2>
+    <div class="level-divider"></div>
+
+    <img class="level-img" src="img/level-5-github-releases-page.jpg" alt="Tangkapan layar halaman Releases di GitHub — tombol download .exe dan .zip" width="640" height="400" loading="lazy">
+
+    <div class="level-body">
+      <div class="outcome">
+        <h3 class="section-label mono-label">Setelah ini kamu bisa:</h3>
+        <ul>
+          <li>Download software dari GitHub kayak download app biasa — pilih <code>.exe</code> atau <code>.zip</code>, klik, jalan</li>
+          <li>Ngambil tools yang nggak punya installer lewat <code>git clone</code> — satu perintah, semua file langsung ke laptop</li>
+          <li>Baca halaman project dengan percaya diri: kenali README, Releases, dan mana yang bisa langsung dipakai</li>
+        </ul>
+      </div>
+
+      <div class="steps">
+        <h3 class="section-label mono-label">Persiapan (sekali aja):</h3>
+        <ol>
+          <li>Bikin akun GitHub di <a href="https://github.com/signup" target="_blank" rel="noopener">github.com/signup</a> — gratis, 2 menit. Akun ini dipakai buat star repo, follow project, dan nanti login ke tools tertentu</li>
+        </ol>
+
+        <h3 class="section-label mono-label">Cara A — Download Release (paling gampang):</h3>
+        <p class="step-intro">Dipakai kalau project nyediain installer jadi (<code>.exe</code>, <code>.dmg</code>, <code>.zip</code>). Nggak butuh Git, nggak butuh build. Cocok buat app desktop kayak ShareX, OBS, dll.</p>
+        <ol>
+          <li>Buka halaman repo di GitHub, klik tab <strong>&ldquo;Releases&rdquo;</strong> di sisi kanan (atau langsung ke <code>/releases</code>)</li>
+          <li>Scroll ke section <strong>&ldquo;Assets&rdquo;</strong> di release paling baru — pilih file yang cocok sama OS kamu (<code>.exe</code> buat Windows, <code>.dmg</code> buat Mac)</li>
+          <li>Contoh nyata: <a href="https://github.com/ShareX/ShareX/releases" target="_blank" rel="noopener">ShareX Releases</a> — tool screenshot Windows. Download <code>.exe</code>, install, langsung bisa dipakai</li>
+        </ol>
+
+        <h3 class="section-label mono-label">Cara B — Clone &amp; Build (buat project tanpa installer):</h3>
+        <p class="step-intro">Dipakai kalau project nggak nyediain release jadi — biasanya tools developer, agent CLI, atau project kecil. Butuh Git + ikutin instruksi build di README. Workflow ini sama persis dipakai nanti di Level 6 buat install agent tools.</p>
+        <ol>
+          <li>Install <strong>Git for Windows</strong> dari <a href="https://git-scm.com/download/win" target="_blank" rel="noopener">git-scm.com</a> — Next Next Finish, opsi default udah aman</li>
+          <li>Buka PowerShell, jalanin: <code>git clone https://github.com/&lt;user&gt;/&lt;repo&gt;</code> — seluruh folder project langsung ada di laptop kamu</li>
+          <li><code>cd</code> ke folder hasil clone, buka <strong><code>README.md</code></strong> — ini wajib. README adalah &ldquo;buku petunjuk&rdquo; tiap project: cara build, dependency, cara jalanin</li>
+          <li>Ikutin instruksi build di README. Tiap project beda — ada yang <code>npm install</code>, ada yang <code>cargo build</code>, ada yang cukup buka file HTML</li>
+        </ol>
+        <p class="step-intro">Mau latihan? Coba clone project kecil punya gua: <code>git clone https://github.com/zrovihr/council</code> — ikutin README-nya. Ini cuma latihan workflow, kamu nggak harus pakai project ini.</p>
+      </div>
+
+      <div class="warnings">
+        <h3 class="section-label mono-label">Hati-hati:</h3>
+        <ul>
+          <li>Jangan asal download <code>.exe</code> dari repo GitHub nggak jelas — cek jumlah stars, baca README, lihat kapan terakhir update</li>
+          <li>Hindari perintah <code>curl http://... | bash</code> dari internet — ini langsung ngejalanin kode asing di laptop kamu</li>
+          <li>Kamu <em>nggak</em> perlu jago Git buat lanjut — cukup bisa download release + clone repo, itu udah 90% kebutuhan</li>
+        </ul>
+      </div>
+
+      <div class="tldr">
+        <p class="tldr-icon mono-label">TL;DR</p>
+        <p class="tldr-text">Di level ini kamu belajar <em>ngambil software dari internet</em> — bukan cuma download dari website biasa. GitHub adalah tempat nongkrongnya hampir semua tools modern, termasuk AI agents yang bakal kamu pakai di Level 6. Nggak ada App Store, nggak ada halaman Download yang rapi — cuma halaman project dan tombol Releases. Dua skill inti: (1) download release <code>.exe</code>/<code>.zip</code> kayak biasa, (2) <code>git clone</code> buat project yang nggak nyediain installer. Tanpa dua ini, kamu <em>mentok</em> di Level 3 — nggak bisa install Claude Code, Aider, atau tools CLI apa pun.</p>
+      </div>
+    </div>
+
+    <button class="complete-btn" data-level="5">Tandai selesai</button>
+    <div class="lock-overlay">
+      <span class="lock-icon">&#9650;</span>
+    </div>
+  </section>
+
+  <!-- LEVEL 6 — AI Agent di Terminal -->
+  <section class="level-card locked" id="level-6" data-level="6">
+    <div class="level-meta">
+      <span class="level-num mono-label">LEVEL 06</span>
+      <span class="difficulty-pill hard mono-label">Hard</span>
+      <span class="time-pill mono-label">~30 menit</span>
+    </div>
+    <h2 class="level-title">AI Agent di Terminal</h2>
+    <div class="level-divider"></div>
+
+    <img class="level-img" src="img/level-6-claude-cli-empty.png" alt="Tangkapan layar Claude Code CLI baru dibuka — prompt kosong menunggu instruksi" width="640" height="400" loading="lazy">
+    <img class="level-img" src="img/level-6-claude-cli.png" alt="Tangkapan layar Claude Code CLI — AI agent sedang menjalankan tugas di terminal" width="640" height="400" loading="lazy">
+
+    <div class="level-body">
+      <div class="outcome">
+        <h3 class="section-label mono-label">Setelah ini kamu bisa:</h3>
+        <ul>
+          <li>Install dan jalankan AI agent di terminal — AI bisa baca/tulis file dan eksekusi command</li>
+          <li>Bedakan pola &ldquo;chat&rdquo; vs &ldquo;agent&rdquo; — kapan pakai yang mana</li>
+          <li>Pakai approval flow dengan aman: baca dulu, baru approve</li>
+        </ul>
+      </div>
+
+      <div class="steps">
+        <h3 class="section-label mono-label">Langkah:</h3>
+        <ol>
+          <li>Pastikan <strong>Node.js</strong> terinstall — download dari <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a> (versi LTS). Cek di terminal: <code>node -v</code></li>
+          <li>Install <strong>Claude Code</strong>: buka terminal, jalankan<br><code>npm install -g @anthropic-ai/claude-code</code></li>
+          <li>Buka folder project apa pun di terminal, ketik <code>claude</code> — AI langsung bisa baca seluruh isi folder dan bantu coding/analisis</li>
+          <li>Coba <strong>Codex CLI</strong> (dari OpenAI) atau <strong>Aider</strong> (<code>pip install aider-chat</code>) — bandingin cara kerja masing-masing</li>
+          <li>Pelajari approval flow: setiap kali agent mau jalanin command, dia minta izin dulu. <strong>Baca dulu, baru approve.</strong></li>
+        </ol>
+      </div>
+
+      <div class="warnings">
+        <h3 class="section-label mono-label">Hati-hati:</h3>
+        <ul>
+          <li>Agent CLI bisa <strong>baca, tulis, dan hapus file</strong> — selalu approve command satu per satu, jangan auto-yes</li>
+          <li>Inisialisasi Git dulu (<code>git init</code> + <code>git commit</code>) sebelum eksperimen, biar bisa rollback kalau agent bikin kacau</li>
+          <li>Token API berbayar — pantau usage di dashboard provider biar nggak kebablasan</li>
+        </ul>
+      </div>
+
+      <div class="tldr">
+        <p class="tldr-icon mono-label">TL;DR</p>
+        <p class="tldr-text">Lompatan besar: dari <em>chat</em> ke <em>agent</em>. AI agent di terminal bisa baca seluruh folder project, edit file, dan jalanin command — kayak punya rekan kerja, bukan cuma asisten chat. Tetap satu agent satu sesi. Dengan kekuatan besar datang tanggung jawab besar: selalu baca command sebelum approve.</p>
+      </div>
+    </div>
+
+    <button class="complete-btn" data-level="6">Tandai selesai</button>
+    <div class="lock-overlay">
+      <span class="lock-icon">&#9650;</span>
+    </div>
+  </section>
+
+  <!-- LEVEL 7 — Multi-Agent Orchestrator -->
+  <section class="level-card locked" id="level-7" data-level="7">
+    <div class="level-meta">
+      <span class="level-num mono-label">LEVEL 07</span>
+      <span class="difficulty-pill hard mono-label">Hard</span>
+      <span class="time-pill mono-label">~45 menit</span>
+    </div>
+    <h2 class="level-title">Multi-Agent Orchestrator <span class="bonus-badge mono-label">Bonus</span></h2>
+    <div class="level-divider"></div>
+
+    <p class="bonus-note">Level ini <strong>opsional</strong> — bonus buat kamu yang penasaran gimana beberapa AI agent bisa kerja bareng dalam satu sesi. Buat kebutuhan sehari-hari, Level 1–6 udah lebih dari cukup.</p>
+
+    <img class="level-img" src="img/level-7-multiagent-council.png" alt="Tangkapan layar Council — beberapa AI agent (Claude, Codex, DeepSeek) ngobrol bareng di satu sesi" width="640" height="400" loading="lazy">
+
+    <div class="level-body">
+      <div class="outcome">
+        <h3 class="section-label mono-label">Setelah ini kamu bisa:</h3>
+        <ul>
+          <li>Paham bedanya &ldquo;satu agent&rdquo; vs &ldquo;banyak agent yang diatur orchestrator&rdquo;</li>
+          <li>Jalanin sesi multi-agent: beberapa AI dari provider berbeda ngobrol bareng dalam satu chat</li>
+          <li>Tahu kapan multi-agent worth ribet, kapan satu agent udah cukup</li>
+        </ul>
+      </div>
+
+      <div class="steps">
+        <h3 class="section-label mono-label">Langkah:</h3>
+        <ol>
+          <li>Pastikan kamu udah nyaman di Level 6 — satu agent CLI dulu, baru naik ke multi-agent</li>
+          <li>Clone contoh nyata: <code>git clone https://github.com/zrovihr/council</code> — orchestrator open-source yang mengatur Claude, Codex, dan DeepSeek ngobrol bareng dalam satu sesi. (Ini latihan persis dari Level 5.)</li>
+          <li>Masuk ke folder hasil clone, baca <code>README.md</code>, ikutin langkah build. Siapkan API key untuk tiap provider yang mau kamu pakai</li>
+          <li>Jalankan satu sesi: kasih satu task, lihat gimana tiap agent kasih perspektif berbeda — Claude mungkin review arsitektur, Codex eksekusi cepat, DeepSeek alternatif murah</li>
+          <li>Refleksi: di task apa multi-agent <em>bener-bener</em> kasih hasil lebih bagus dari satu agent? Di task apa cuma bikin lambat dan boros token?</li>
+        </ol>
+      </div>
+
+      <div class="warnings">
+        <h3 class="section-label mono-label">Hati-hati:</h3>
+        <ul>
+          <li>Multi-agent = <strong>biaya token berlipat</strong>. Tiap agent ngeluarin biaya sendiri-sendiri</li>
+          <li>Kompleksitas naik drastis: konflik antar-agent, race condition, sesi yang nggak konvergen. Kalau satu agent udah cukup, jangan dipaksain</li>
+          <li>Setiap agent tetap bisa baca/tulis file — risiko Level 6 dikalikan jumlah agent</li>
+        </ul>
+      </div>
+
+      <div class="tldr">
+        <p class="tldr-icon mono-label">TL;DR</p>
+        <p class="tldr-text">Puncak perjalanan. Multi-agent orchestrator = satu &ldquo;manager&rdquo; yang ngatur beberapa AI agent ngobrol bareng dalam satu sesi. Contoh nyatanya <a href="https://github.com/zrovihr/council" target="_blank" rel="noopener">Council</a> — Claude, Codex, dan DeepSeek bisa saling mention satu sama lain, kayak grup chat tim engineering. Powerful, tapi mahal dan ribet. Layak dipakai cuma kalau satu agent udah <em>bener-bener</em> nggak cukup.</p>
+      </div>
+    </div>
+
+    <button class="complete-btn" data-level="7">Tandai selesai</button>
+    <div class="lock-overlay">
+      <span class="lock-icon">&#9650;</span>
+    </div>
+  </section>
+
+</main>
+
+<section class="outro" id="outro" hidden>
+  <h2 class="outro-title">Kamu siap.</h2>
+  <p class="outro-text">Tujuh level udah kamu lewatin — dari sekadar chat sampai multi-agent orchestrator. Sekarang tinggal praktik. Makin sering dipakai makin jago. Kalau udah pede, lanjut eksplorasi jalur IT yang lebih spesifik.</p>
+  <a href="../it-paths/" class="outro-cta">Lanjut ke IT Paths →</a>
+</section>
+
+<footer class="ai-footer">
+  <button class="reset-btn" id="reset-btn">Ulangi progress dari awal</button>
+  <p class="made-by">Made by <a href="../../" class="made-by-link">Zrov</a></p>
+</footer>
+
+<script src="ai-learn.js"></script>
+</body>
+</html>

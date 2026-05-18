@@ -926,6 +926,29 @@ onClick={() => setMissionIdx((missionIdx + 1) % MISSIONS.length)}>
 Object.assign(window, { PromptEngineerSim });
 
 // --- App component + render ---
+function AiLearnBanner({ lang }) {
+  const [dismissed, setDismissed] = useState(() => {
+    try { return localStorage.getItem('itpaths_ai_learn_dismissed') === '1'; } catch (_) { return false; }
+  });
+  const dismiss = () => {
+    try { localStorage.setItem('itpaths_ai_learn_dismissed', '1'); } catch (_) {}
+    setDismissed(true);
+  };
+  const t = window.T(lang);
+  if (dismissed) return null;
+  return React.createElement('a', {
+    href: '../ai-learn/',
+    className: 'ai-learn-banner',
+    'aria-label': t.ai_learn_banner_cta
+  },
+    React.createElement('span', { className: 'ai-learn-banner-close', onClick: (e) => { e.preventDefault(); e.stopPropagation(); dismiss(); }, title: t.ai_learn_dismiss, 'aria-label': t.ai_learn_dismiss }, '\u00d7'),
+    React.createElement('span', { className: 'ai-learn-banner-eyebrow', style: { fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', opacity: 0.7 } }, '#UntukPemula'),
+    React.createElement('span', { className: 'ai-learn-banner-headline', style: { fontFamily: 'var(--serif)', fontSize: 20, fontStyle: 'italic' } }, t.ai_learn_banner),
+    React.createElement('span', { className: 'ai-learn-banner-sub', style: { fontSize: 13, opacity: 0.8, maxWidth: 520 } }, t.ai_learn_banner_sub),
+    React.createElement('span', { className: 'ai-learn-banner-cta', style: { fontFamily: 'var(--sans)', fontWeight: 600, whiteSpace: 'nowrap' } }, t.ai_learn_banner_cta)
+  );
+}
+
 function App() {
 const [tweaks, setTweaks] = useState(window.TWEAK_DEFAULTS);
 const [tweaksVisible, setTweaksVisible] = useState(false);
@@ -1009,11 +1032,14 @@ const t = window.T(lang);
 const N = window.PATHS.length;
 return (
 <>
-<header className="site-header">
-<div className="site-logo">IT Paths<span className="dot">.</span>
-</div>
+      <header className="site-header">
+        <div style={{display: 'flex', alignItems: 'center', gap: 14}}>
+          <a href="../" className="back-link">← Tools</a>
+          <div className="site-logo">IT Paths<span className="dot">.</span></div>
+        </div>
       <nav className="header-nav">
         <span className="mono-label" style={{minWidth: '10ch', textAlign: 'right'}}>{N} paths</span>
+        <span className="lang-label mono-label">Language</span>
         <div className="lang-switch">
           <button className={`lang-btn ${lang === 'en' ? 'active' : ''}`} onClick={() => setLang('en')}>EN</button>
           <button className={`lang-btn ${lang === 'id' ? 'active' : ''}`} onClick={() => setLang('id')}>ID</button>
@@ -1021,8 +1047,14 @@ return (
         <button className="btn-secondary" onClick={() => setQuizOpen(true)}>{t.take_quiz}</button>
       </nav>
 </header>
+<AiLearnBanner lang={lang} />
 <section className="hero">
 <div>
+<a href="../ai-learn/" className="ai-learn-pill hero-ai-cta" aria-label={t.ai_learn_banner_cta}>
+<span className="ai-learn-pill-dot" aria-hidden="true"></span>
+<span className="ai-learn-pill-label">{t.ai_learn_banner}</span>
+<span className="ai-learn-pill-cta">{t.ai_learn_banner_cta}</span>
+</a>
 <div className="hero-eyebrow mono-label">{t.hero_eyebrow}</div>
 <h1 className="hero-title">
 {t.hero_title_a} <em>{t.hero_title_b}</em><br/>
@@ -1067,6 +1099,7 @@ return (
 <div className="mono-label">{t.footer_salary}</div>
 <div className="mono-label" style={{marginTop: 6}}>{t.footer_roadmaps}</div>
 </div>
+<div className="footer-made-by">Made by <a href="../../" className="footer-made-by-link">Zrov</a></div>
 </footer>
 {openPath && <PathDetail path={openPath} onClose={() => setOpenPath(null)} onSimulate={(p) => { setOpenPath(null); setSimPath(p); }} lang={lang}/>}
 {simPath && simPath.id === 'promptai' && <PromptEngineerSim onClose={() => setSimPath(null)} lang={lang}/>}

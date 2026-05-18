@@ -88,7 +88,11 @@ lang_en: "EN",
 lang_id: "ID",
 theme_dark: "Hacker Dark",
 theme_editorial: "Editorial",
-theme_warm: "Warm Magazine"
+theme_warm: "Warm Magazine",
+  ai_learn_banner: "New to AI?",
+  ai_learn_banner_cta: "Start learning AI →",
+  ai_learn_banner_sub: "A free, no-teacher guide. Recommended before picking an IT path.",
+  ai_learn_dismiss: "Dismiss"
 },
 id: {
 take_quiz: "Ikut kuis",
@@ -175,7 +179,11 @@ lang_en: "EN",
 lang_id: "ID",
 theme_dark: "Gelap Hacker",
 theme_editorial: "Editorial",
-theme_warm: "Majalah Hangat"
+theme_warm: "Majalah Hangat",
+ai_learn_banner: "Belum pernah pakai AI?",
+ai_learn_banner_cta: "Mulai belajar AI →",
+ai_learn_banner_sub: "Panduan gratis dari nol sampai bisa pakai multi-agent. Tanpa guru.",
+ai_learn_dismiss: "Lewati"
 }
 };
 // Quiz — multi-select where it makes sense (multiple interests!)

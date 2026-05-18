@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0a0d0a"/>
+  <rect x="2" y="2" width="1196" height="626" fill="none" stroke="#1a3a1a" stroke-width="2" rx="8"/>
+  <text x="600" y="280" text-anchor="middle" font-family="Georgia,serif" font-size="42" font-style="italic" fill="#a8e6a8">hero-ai-learning-path.svg</text>
+  <text x="600" y="350" text-anchor="middle" font-family="monospace" font-size="18" fill="#7a8a7a">Abstract diagram — 6-step climb: chat → context → desktop → models → github → multi-agent</text>
+  <text x="600" y="400" text-anchor="middle" font-family="monospace" font-size="14" fill="#5a6a5a">PLACEHOLDER — replace with real image</text>
+</svg>

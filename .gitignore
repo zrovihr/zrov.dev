@@ -1,4 +1,5 @@
 # Exclude !Excluded directories (third-party assets kept out of public repo)
+\.council/
 \!Excluded/
 **/\!Excluded/
 
