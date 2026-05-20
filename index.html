@@ -3093,9 +3093,15 @@ void main() {
         if (timer) window.clearTimeout(timer);
       });
 
+      function isEditableTarget(target) {
+        if (!target || target === document.body) return false;
+        if (target.isContentEditable) return true;
+        return /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName);
+      }
+
       window.addEventListener('keydown', function (event) {
+        if (isEditableTarget(event.target)) return;
         if (event.key && event.key.toLowerCase() === 'g') {
-          event.preventDefault();
           if (timer) window.clearTimeout(timer);
           triggerPostprocessGlitch();
         }
