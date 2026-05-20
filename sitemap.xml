@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://zrov.dev/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+
+  <url><loc>https://zrov.dev/blogs/blogs.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://zrov.dev/blogs/posts/meet-lainey.html</loc><priority>0.6</priority></url>
+  <url><loc>https://zrov.dev/blogs/posts/unity-events.html</loc><priority>0.6</priority></url>
+  <url><loc>https://zrov.dev/blogs/posts/japanese-job-interview.html</loc><priority>0.6</priority></url>
+  <url><loc>https://zrov.dev/blogs/posts/smart-pointers-in-game-dev.html</loc><priority>0.6</priority></url>
+  <url><loc>https://zrov.dev/blogs/posts/behaviour-tree.html</loc><priority>0.6</priority></url>
+  <url><loc>https://zrov.dev/blogs/posts/unity-progress-1.html</loc><priority>0.6</priority></url>
+  <url><loc>https://zrov.dev/blogs/posts/first-post.html</loc><priority>0.6</priority></url>
+  <url><loc>https://zrov.dev/blogs/posts/ai-learning.html</loc><priority>0.6</priority></url>
+
+  <url><loc>https://zrov.dev/tools/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://zrov.dev/tools/it-paths/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://zrov.dev/tools/ai-learn/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+</urlset>
