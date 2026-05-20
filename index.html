@@ -585,13 +585,26 @@
     }
 
     .dossier-entry {
-      display: flex;
-      gap: 0.6rem;
       padding: 0.32rem 0;
       border-bottom: 1px solid rgba(126, 126, 106, 0.06);
       font-size: 0.85rem;
       line-height: 1.7;
       color: var(--bone);
+    }
+
+    .dossier-entry-main {
+      display: flex;
+      gap: 0.6rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .dossier-entry-main:hover {
+      color: var(--phosphor);
+    }
+
+    .dossier-entry-main:hover .dossier-prefix {
+      color: var(--warn);
     }
 
     .dossier-entry:last-child {
@@ -604,6 +617,33 @@
       font-size: 0.7rem;
       line-height: 2;
       user-select: none;
+    }
+
+    .dossier-prefix::after {
+      content: '+';
+      color: var(--warn);
+      font-size: 0.65rem;
+      margin-left: 0.3rem;
+      opacity: 0.65;
+    }
+
+    .dossier-entry--expanded .dossier-prefix::after {
+      content: '-';
+    }
+
+    .dossier-entry-detail {
+      display: none;
+      margin: 0.15rem 0 0.45rem 1.75rem;
+      padding: 0.45rem 0.65rem;
+      border-left: 1px solid rgba(139, 0, 0, 0.45);
+      background: rgba(8, 8, 8, 0.45);
+      color: var(--bone-dim);
+      font-size: 0.78rem;
+      line-height: 1.65;
+    }
+
+    .dossier-entry--expanded .dossier-entry-detail {
+      display: block;
     }
 
     .dossier-hl {
@@ -1427,44 +1467,111 @@
         <div class="dossier-label">// Operative Summary</div>
         <div class="dossier-entries">
           <div class="dossier-entry">
-            <span class="dossier-prefix">&gt;</span>
-            <span><span class="dossier-hl">3 years</span> game dev study in <span class="dossier-hl">Japan</span></span>
+            <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
+              <span class="dossier-prefix">&gt;</span>
+              <span><span class="dossier-hl">3 years</span> game dev study in <span class="dossier-hl">Japan</span></span>
+            </div>
+            <div class="dossier-entry-detail">
+              Zrov focused on practical game development by relocating to Japan to specialize in production as a team leader. 
+              He prioritized understanding team workflows and transforming concepts into playable builds. 
+              Throughout his academic career, he consistently led his teams to foster collaborative learning and professional growth. 
+              Additionally, he dedicated time to cross-functional collaboration by engaging with other classes on outsourcing projects.
+            </div>
           </div>
           <div class="dossier-entry">
-            <span class="dossier-prefix">&gt;</span>
-            <span><span class="dossier-hl">5+ years</span> programming &bull; <span class="dossier-hl">7+ years</span> game design &amp; development</span>
-          </div>
-            <div class="dossier-entry">
-            <span class="dossier-prefix">&gt;</span>
-            <span><span class="dossier-hl">3+ years</span> Filmmaking &bull; <span class="dossier-hl"> 1+ year </span> Film director &amp; working with real film crews </span>
-          </div>
-          <div class="dossier-entry">
-            <span class="dossier-prefix">&gt;</span>
-            <span>Trilingual: <span class="dossier-accent">EN</span> <span class="dossier-accent">JP</span> <span class="dossier-accent">ID</span></span>
-          </div>
-          <div class="dossier-entry">
-            <span class="dossier-prefix">&gt;</span>
-            <span>Building a tactical RPG in <span class="dossier-hl">Unity</span> since Aug 2025</span>
+            <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
+              <span class="dossier-prefix">&gt;</span>
+              <span><span class="dossier-hl">5+ years</span> programming &bull; <span class="dossier-hl">7+ years</span> game design &amp; development</span>
+            </div>
+            <div class="dossier-entry-detail">
+              Zrov develops gameplay systems, prototypes, tools, UI flows, and technical experiments 
+              using Unity, C#, Python, and modding environments as side projects. 
+              He also works on web servers, managing and understanding various web server providers, 
+              and he possesses a strong understanding of AI APIs and their implementation into applications.
+            </div>
           </div>
           <div class="dossier-entry">
-            <span class="dossier-prefix">&gt;</span>
-            <span>Mods for <span class="dossier-hl">Minecraft, Fallout, and more</span></span>
+            <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
+              <span class="dossier-prefix">&gt;</span>
+              <span><span class="dossier-hl">3+ years</span> filmmaking &bull; <span class="dossier-hl">1+ year</span> film direction &amp; real crew work</span>
+            </div>
+            <div class="dossier-entry-detail">
+              He has practical experience with shot planning, 
+              scene direction, and production coordination. 
+              He also worked on story breakdowns and screenplays with writers, 
+              camera operators, and sound designers, 
+              while collaborating with various crew members. 
+              Additionally, he won many film competitions, earning first place in several of them.
+            </div>
           </div>
           <div class="dossier-entry">
-            <span class="dossier-prefix">&gt;</span>
-            <span>Custom Unity editor tools &amp; AI integrations</span>
+            <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
+              <span class="dossier-prefix">&gt;</span>
+              <span>Trilingual: <span class="dossier-accent">EN</span> <span class="dossier-accent">JP</span> <span class="dossier-accent">ID</span></span>
+            </div>
+            <div class="dossier-entry-detail">
+              Proficient in reading, writing, and communicating in 
+              English, Japanese, and Indonesian for development, documentation, and collaboration. 
+              He has a passion for global culture and linguistics in general.
+            </div>
           </div>
           <div class="dossier-entry">
-            <span class="dossier-prefix">&gt;</span>
-            <span>Authored non-fictional books &mdash; hundreds sold</span>
+            <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
+              <span class="dossier-prefix">&gt;</span>
+              <span>Building a tactical RPG in <span class="dossier-hl">Unity</span> since Aug 2025</span>
+            </div>
+            <div class="dossier-entry-detail">
+              Current long-term project: 
+              tactical combat, narrative systems, editor tooling, and data-heavy 
+              Unity workflows for a production-scale RPG. Zrov wants to apply all of his life skills to his ultimate game projects.
+            </div>
           </div>
           <div class="dossier-entry">
-            <span class="dossier-prefix">&gt;</span>
-            <span>Fan of dark-themed: Warcraft, Darktide, Fallout</span>
+            <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
+              <span class="dossier-prefix">&gt;</span>
+              <span>Mods for <span class="dossier-hl">Minecraft, Fallout, and more</span></span>
+            </div>
+            <div class="dossier-entry-detail">
+              Develops quality-of-life systems, gameplay adjustments, 
+              UI enhancements, and personal patches for moddable games and modding tools, 
+              available for free online with more than 1,000 downloads.
+            </div>
           </div>
           <div class="dossier-entry">
-            <span class="dossier-prefix">&gt;</span>
-            <span>Speaking of dark &mdash; Zrov is experienced in <span class="redacted">REDACTED BY INQUISITION</span></span>
+            <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
+              <span class="dossier-prefix">&gt;</span>
+              <span>Custom Unity editor tools &amp; AI integrations</span>
+            </div>
+            <div class="dossier-entry-detail">
+              Writes tools to speed up repetitive editor work, inspect project state, automate asset wiring, and connect AI-assisted workflows to production tasks.
+            </div>
+          </div>
+          <div class="dossier-entry">
+            <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
+              <span class="dossier-prefix">&gt;</span>
+              <span>Authored non-fictional books &mdash; hundreds sold</span>
+            </div>
+            <div class="dossier-entry-detail">
+              Published practical non-fiction work with real readers, giving experience in structure, editing, audience fit, and finishing long-form projects.
+            </div>
+          </div>
+          <div class="dossier-entry">
+            <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
+              <span class="dossier-prefix">&gt;</span>
+              <span>Fan of dark-themed: Warcraft, Darktide, Fallout</span>
+            </div>
+            <div class="dossier-entry-detail">
+              Draws inspiration from grim tactical worlds, heavy atmosphere, faction conflict, survival pressure, and player-driven consequence.
+            </div>
+          </div>
+          <div class="dossier-entry">
+            <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
+              <span class="dossier-prefix">&gt;</span>
+              <span>Speaking of dark &mdash; Zrov is experienced in <span class="redacted">REDACTED BY INQUISITION</span></span>
+            </div>
+            <div class="dossier-entry-detail">
+              Clearance denied. Classified material remains sealed pending review by the appropriate imaginary authority.
+            </div>
           </div>
         </div>
       </div>
@@ -2288,6 +2395,25 @@ void main() {
       for (var i = 0; i < labels.length; i++) {
         labels[i].addEventListener('click', function () {
           this.parentElement.classList.toggle('dossier-block--collapsed');
+        });
+      }
+
+      var entries = document.querySelectorAll('.dossier-entry-main');
+      function toggleEntry(entryMain) {
+        var entry = entryMain.parentElement;
+        var isExpanded = entry.classList.toggle('dossier-entry--expanded');
+        entryMain.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+      }
+
+      for (var j = 0; j < entries.length; j++) {
+        entries[j].addEventListener('click', function () {
+          toggleEntry(this);
+        });
+        entries[j].addEventListener('keydown', function (event) {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            toggleEntry(this);
+          }
         });
       }
     })();
