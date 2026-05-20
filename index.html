@@ -1,34 +1,40 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SYS::ZROV OPERATIVE DOSSIER</title>
+  <link rel="icon" type="image/png" href="static/img/ghostZeroico.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet">
   <style>
     /* =============================================
        SYSTEM :: DARKTIDE TERMINAL — zrov.dev
        ============================================= */
     :root {
-      --void:        #050508;
-      --void-soft:   #0c0c12;
-      --void-warm:   #111116;
-      --phosphor:    #2eff4e;
-      --phosphor-dim:#1a8c2e;
+      --void: #050508;
+      --void-soft: #0c0c12;
+      --void-warm: #111116;
+      --phosphor: #2eff4e;
+      --phosphor-dim: #1a8c2e;
       --phosphor-ghost: rgba(46, 255, 78, 0.06);
-      --crt-green:   #33ff33;
-      --bone:        #c4c4a8;
-      --bone-dim:    #7a7a6a;
-      --iron:        #2a2a32;
-      --iron-light:  #3e3e4a;
-      --warn:        #ff6a2e;
-      --gutter:      clamp(1rem, 4vw, 3rem);
-      --border:      1px solid var(--iron-light);
+      --crt-green: #33ff33;
+      --bone: #c4c4a8;
+      --bone-dim: #7a7a6a;
+      --iron: #2a2a32;
+      --iron-light: #3e3e4a;
+      --warn: #ff6a2e;
+      --gutter: clamp(1rem, 4vw, 3rem);
+      --border: 1px solid var(--iron-light);
     }
 
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
@@ -52,7 +58,7 @@
       flex-direction: column;
       background-color: var(--void);
       background-image:
-        radial-gradient(ellipse at 50% 0%, rgba(46,255,78,0.03) 0%, transparent 60%);
+        radial-gradient(ellipse at 50% 0%, rgba(46, 255, 78, 0.03) 0%, transparent 60%);
     }
 
     body::before {
@@ -62,13 +68,11 @@
       z-index: 9999;
       pointer-events: none;
       background:
-        repeating-linear-gradient(
-          0deg,
+        repeating-linear-gradient(0deg,
           transparent,
           transparent 2px,
-          rgba(0,0,0,0.12) 2px,
-          rgba(0,0,0,0.12) 4px
-        );
+          rgba(0, 0, 0, 0.12) 2px,
+          rgba(0, 0, 0, 0.12) 4px);
     }
 
     /* ---- LAVA EMBER CANVAS ---- */
@@ -95,21 +99,34 @@
       position: absolute;
       inset: 0;
       opacity: 0.09;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(46,255,78,0.18) 2px,
-        rgba(46,255,78,0.18) 3px
-      );
+      background: repeating-linear-gradient(0deg,
+          transparent,
+          transparent 2px,
+          rgba(46, 255, 78, 0.18) 2px,
+          rgba(46, 255, 78, 0.18) 3px);
       animation: glitch-scan 0.1s steps(3) infinite;
     }
 
     @keyframes glitch-scan {
-      0%   { transform: translateX(0); opacity: 0.06; }
-      33%  { transform: translateX(2px); opacity: 0.14; }
-      66%  { transform: translateX(-1px); opacity: 0.04; }
-      100% { transform: translateX(0); opacity: 0.06; }
+      0% {
+        transform: translateX(0);
+        opacity: 0.06;
+      }
+
+      33% {
+        transform: translateX(2px);
+        opacity: 0.14;
+      }
+
+      66% {
+        transform: translateX(-1px);
+        opacity: 0.04;
+      }
+
+      100% {
+        transform: translateX(0);
+        opacity: 0.06;
+      }
     }
 
     .glitch-overlay::after {
@@ -121,49 +138,49 @@
     }
 
     @keyframes glitch-block {
-      0%, 72%, 100% { 
+
+      0%,
+      72%,
+      100% {
         box-shadow: none;
         background: transparent;
       }
+
       73% {
-        box-shadow: 
-          0 20vh 0 rgba(46,255,78,0.18),
-          0 -35vh 0 rgba(46,255,78,0.12);
-        background: linear-gradient(
-          180deg,
-          transparent 22%,
-          rgba(46,255,78,0.35) 22%,
-          rgba(46,255,78,0.35) 24%,
-          transparent 24%
-        );
+        box-shadow:
+          0 20vh 0 rgba(46, 255, 78, 0.18),
+          0 -35vh 0 rgba(46, 255, 78, 0.12);
+        background: linear-gradient(180deg,
+            transparent 22%,
+            rgba(46, 255, 78, 0.35) 22%,
+            rgba(46, 255, 78, 0.35) 24%,
+            transparent 24%);
       }
+
       74% {
-        box-shadow: 
-          0 15vh 0 rgba(46,255,78,0.1),
-          0 55vh 0 rgba(255,50,50,0.12);
-        background: linear-gradient(
-          180deg,
-          transparent 50%,
-          rgba(46,255,78,0.3) 50%,
-          rgba(46,255,78,0.3) 51%,
-          transparent 51%
-        );
+        box-shadow:
+          0 15vh 0 rgba(46, 255, 78, 0.1),
+          0 55vh 0 rgba(255, 50, 50, 0.12);
+        background: linear-gradient(180deg,
+            transparent 50%,
+            rgba(46, 255, 78, 0.3) 50%,
+            rgba(46, 255, 78, 0.3) 51%,
+            transparent 51%);
       }
+
       75% {
-        box-shadow: 
-          0 -25vh 0 rgba(46,255,78,0.14),
-          0 60vh 0 rgba(50,50,255,0.1);
-        background: linear-gradient(
-          180deg,
-          transparent 16%,
-          rgba(46,255,78,0.25) 16%,
-          rgba(46,255,78,0.25) 17%,
-          transparent 17%,
-          transparent 68%,
-          rgba(255,50,50,0.18) 68%,
-          rgba(255,50,50,0.18) 69%,
-          transparent 69%
-        );
+        box-shadow:
+          0 -25vh 0 rgba(46, 255, 78, 0.14),
+          0 60vh 0 rgba(50, 50, 255, 0.1);
+        background: linear-gradient(180deg,
+            transparent 16%,
+            rgba(46, 255, 78, 0.25) 16%,
+            rgba(46, 255, 78, 0.25) 17%,
+            transparent 17%,
+            transparent 68%,
+            rgba(255, 50, 50, 0.18) 68%,
+            rgba(255, 50, 50, 0.18) 69%,
+            transparent 69%);
       }
     }
 
@@ -174,20 +191,26 @@
 
     /* ---- TEXT GLITCH ---- */
     @keyframes text-glitch {
-      0%, 94%, 100% { 
-        text-shadow: 0 2px 8px rgba(0,0,0,0.6); 
+
+      0%,
+      94%,
+      100% {
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
         transform: none;
       }
-      94.5% { 
-        text-shadow: 0.04em 0 0 rgba(255,50,50,0.35), -0.04em 0 0 rgba(50,255,255,0.35), 0 2px 8px rgba(0,0,0,0.6);
+
+      94.5% {
+        text-shadow: 0.04em 0 0 rgba(255, 50, 50, 0.35), -0.04em 0 0 rgba(50, 255, 255, 0.35), 0 2px 8px rgba(0, 0, 0, 0.6);
         transform: skewX(0.5deg);
       }
-      95% { 
-        text-shadow: -0.03em 0.01em 0 rgba(255,50,50,0.4), 0.03em 0 0 rgba(50,255,255,0.4), 0 2px 8px rgba(0,0,0,0.6);
+
+      95% {
+        text-shadow: -0.03em 0.01em 0 rgba(255, 50, 50, 0.4), 0.03em 0 0 rgba(50, 255, 255, 0.4), 0 2px 8px rgba(0, 0, 0, 0.6);
         transform: skewX(-0.3deg);
       }
+
       95.5% {
-        text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
         transform: none;
       }
     }
@@ -228,9 +251,17 @@
       align-items: center;
     }
 
-    .hud__label { color: var(--bone-dim); }
-    .hud__value { color: var(--phosphor); }
-    .hud__value--warn { color: var(--warn); }
+    .hud__label {
+      color: var(--bone-dim);
+    }
+
+    .hud__value {
+      color: var(--phosphor);
+    }
+
+    .hud__value--warn {
+      color: var(--warn);
+    }
 
     .hud--bottom {
       position: sticky;
@@ -245,14 +276,14 @@
       width: min(100%, 560px);
       margin-top: 0.45rem;
       padding: 0.55rem 0;
-      background: rgba(3,3,5,0.66);
-      border-top: 1px solid rgba(46,255,78,0.18);
-      border-bottom: 1px solid rgba(46,255,78,0.18);
+      background: rgba(3, 3, 5, 0.66);
+      border-top: 1px solid rgba(46, 255, 78, 0.18);
+      border-bottom: 1px solid rgba(46, 255, 78, 0.18);
       color: var(--phosphor);
       font-size: clamp(0.58rem, 1.1vw, 0.72rem);
       line-height: 1.45;
       letter-spacing: 0;
-      text-shadow: 0 0 7px rgba(46,255,78,0.34);
+      text-shadow: 0 0 7px rgba(46, 255, 78, 0.34);
       overflow: hidden;
       font-variant-numeric: tabular-nums;
     }
@@ -309,7 +340,7 @@
     .page-nav a:hover,
     .page-nav a.js-active {
       border-color: var(--phosphor-dim);
-      background: rgba(46,255,78,0.05);
+      background: rgba(46, 255, 78, 0.05);
     }
 
     /* ---- MAIN ---- */
@@ -345,7 +376,7 @@
       position: relative;
       width: clamp(180px, 25vw, 260px);
       flex-shrink: 0;
-      filter: drop-shadow(0 0 18px rgba(46,255,78,0.15));
+      filter: drop-shadow(0 0 18px rgba(46, 255, 78, 0.15));
     }
 
     .hero__frame img {
@@ -375,7 +406,7 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      filter: drop-shadow(0 0 12px rgba(46,255,78,0.25));
+      filter: drop-shadow(0 0 12px rgba(46, 255, 78, 0.25));
     }
 
     .hero__dossier {
@@ -400,7 +431,7 @@
       color: var(--bone);
       letter-spacing: 0.06em;
       line-height: 1.1;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
     }
 
     .hero__title {
@@ -423,7 +454,9 @@
     }
 
     @keyframes blink {
-      50% { opacity: 0; }
+      50% {
+        opacity: 0;
+      }
     }
 
     .hero__tags {
@@ -441,7 +474,10 @@
       letter-spacing: 0.1em;
     }
 
-    .tag::before { content: '#'; color: var(--phosphor-dim); }
+    .tag::before {
+      content: '#';
+      color: var(--phosphor-dim);
+    }
 
     /* ---- SECTION HEADERS ---- */
     .section-hd {
@@ -509,6 +545,24 @@
       text-transform: uppercase;
       letter-spacing: 0.14em;
       margin-bottom: 0.6rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    .dossier-label:hover {
+      color: var(--phosphor);
+    }
+    .dossier-label::before {
+      content: '[-] ';
+      opacity: 0.5;
+    }
+    .dossier-block--collapsed .dossier-label {
+      margin-bottom: 0;
+    }
+    .dossier-block--collapsed .dossier-label::before {
+      content: '[+] ';
+    }
+    .dossier-block--collapsed > :not(.dossier-label) {
+      display: none;
     }
 
     .dossier-text {
@@ -517,11 +571,48 @@
       line-height: 1.8;
     }
 
-    .dossier-text .redacted {
-      background: var(--void-warm);
-      color: var(--void-warm);
+    .dossier-text .redacted,
+    .dossier-entry .redacted {
+      background: black;
+      color: red;
       padding: 0 0.5em;
       user-select: none;
+    }
+
+    .dossier-entries {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dossier-entry {
+      display: flex;
+      gap: 0.6rem;
+      padding: 0.32rem 0;
+      border-bottom: 1px solid rgba(126, 126, 106, 0.06);
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--bone);
+    }
+
+    .dossier-entry:last-child {
+      border-bottom: none;
+    }
+
+    .dossier-prefix {
+      color: var(--phosphor-dim);
+      flex-shrink: 0;
+      font-size: 0.7rem;
+      line-height: 2;
+      user-select: none;
+    }
+
+    .dossier-hl {
+      color: var(--phosphor);
+    }
+
+    .dossier-accent {
+      color: var(--warn);
+      font-weight: 700;
     }
 
     /* ---- STAT TABLE ---- */
@@ -535,7 +626,7 @@
 
     .stat-slate td {
       padding: 0.4rem 0.6rem;
-      border-bottom: 1px solid rgba(126,126,106,0.1);
+      border-bottom: 1px solid rgba(126, 126, 106, 0.1);
     }
 
     .stat-slate .stat-label {
@@ -559,7 +650,7 @@
 
     .stat-bar__fill {
       background: var(--phosphor-dim);
-      box-shadow: 0 0 6px rgba(46,255,78,0.3);
+      box-shadow: 0 0 6px rgba(46, 255, 78, 0.3);
     }
 
     /* ---- INVENTORY / PROJECTS ---- */
@@ -586,11 +677,25 @@
     }
 
     @keyframes item-glitch {
-      0%   { transform: none; }
-      25%  { transform: translate(1px, -1px); }
-      50%  { transform: translate(-1px, 0); }
-      75%  { transform: translate(2px, 1px); }
-      100% { transform: none; }
+      0% {
+        transform: none;
+      }
+
+      25% {
+        transform: translate(1px, -1px);
+      }
+
+      50% {
+        transform: translate(-1px, 0);
+      }
+
+      75% {
+        transform: translate(2px, 1px);
+      }
+
+      100% {
+        transform: none;
+      }
     }
 
     .inv-ref {
@@ -652,7 +757,10 @@
       background: var(--void-soft);
     }
 
-    .terminal-dot--active { background: var(--phosphor-dim); border-color: var(--phosphor); }
+    .terminal-dot--active {
+      background: var(--phosphor-dim);
+      border-color: var(--phosphor);
+    }
 
     .terminal-title {
       flex: 1;
@@ -695,7 +803,9 @@
     }
 
     @keyframes blink {
-      50% { opacity: 0; }
+      50% {
+        opacity: 0;
+      }
     }
 
     /* ---- GHOSTZER0 ACCESS NODE ---- */
@@ -737,17 +847,22 @@
       margin-top: -100%;
       margin-left: -100%;
       border-radius: 50%;
-      background: rgba(102,255,0,0.46);
+      background: rgba(102, 255, 0, 0.46);
       box-shadow:
-        0 0 70px 8px rgba(102,255,0,0.52),
-        0 0 14px 3px rgba(210,255,176,0.76);
+        0 0 70px 8px rgba(102, 255, 0, 0.52),
+        0 0 14px 3px rgba(210, 255, 176, 0.76);
       transform: scale(0.045);
       z-index: 1;
       animation: eye-glow 0.12s infinite alternate;
     }
 
-    .access-node__sigil::before { left: 25%; }
-    .access-node__sigil::after { left: 72%; }
+    .access-node__sigil::before {
+      left: 25%;
+    }
+
+    .access-node__sigil::after {
+      left: 72%;
+    }
 
     .access-node__sigil img {
       width: 100%;
@@ -756,19 +871,32 @@
       z-index: 2;
       opacity: 0.9;
       filter:
-        drop-shadow(0 0 9px rgba(46,255,78,0.65))
-        drop-shadow(0 0 24px rgba(46,255,78,0.22));
+        drop-shadow(0 0 9px rgba(46, 255, 78, 0.65)) drop-shadow(0 0 24px rgba(46, 255, 78, 0.22));
       animation: sigil-pulse 3.6s ease-in-out infinite;
     }
 
     @keyframes eye-glow {
-      0% { transform: scale(0.045); opacity: 0.72; }
-      100% { transform: scale(0.062); opacity: 1; }
+      0% {
+        transform: scale(0.045);
+        opacity: 0.72;
+      }
+
+      100% {
+        transform: scale(0.062);
+        opacity: 1;
+      }
     }
 
     @keyframes sigil-pulse {
-      0%, 100% { opacity: 0.72; }
-      50% { opacity: 1; }
+
+      0%,
+      100% {
+        opacity: 0.72;
+      }
+
+      50% {
+        opacity: 1;
+      }
     }
 
     .access-node__console {
@@ -798,8 +926,13 @@
     }
 
     @keyframes node-marquee {
-      from { transform: translateX(100%); }
-      to { transform: translateX(-100%); }
+      from {
+        transform: translateX(100%);
+      }
+
+      to {
+        transform: translateX(-100%);
+      }
     }
 
     .access-node__meta {
@@ -830,7 +963,7 @@
       font: inherit;
       color: var(--bone);
       background: transparent;
-      border: 1px solid rgba(62,62,74,0.72);
+      border: 1px solid rgba(62, 62, 74, 0.72);
       min-height: 2rem;
     }
 
@@ -845,7 +978,7 @@
     .node-button:hover,
     .node-button:focus-visible {
       border-color: var(--phosphor-dim);
-      background: rgba(46,255,78,0.035);
+      background: rgba(46, 255, 78, 0.035);
       outline: none;
     }
 
@@ -869,7 +1002,7 @@
 
     .node-input:focus {
       border-color: var(--phosphor);
-      box-shadow: 0 0 0 1px rgba(46,255,78,0.16);
+      box-shadow: 0 0 0 1px rgba(46, 255, 78, 0.16);
       outline: none;
     }
 
@@ -930,20 +1063,54 @@
         text-align: center;
         gap: 1.5rem;
       }
+
       .hero__title {
         border-left: none;
         padding-left: 0;
       }
-      .hero__tags { justify-content: center; }
-      .dossier-grid { grid-template-columns: 1fr; }
-      .hud { flex-direction: column; gap: 0.3rem; }
-      .hud__group { flex-wrap: wrap; justify-content: center; }
-      .pgp-terminal { width: 100%; text-align: left; }
-      .inventory-grid { grid-template-columns: 1fr; }
-      .access-node__sigil { width: 135px; }
-      .access-node__sigil img { opacity: 0.9; }
-      .node-form { grid-template-columns: 1fr; }
-      .audio-control { margin-left: 0; }
+
+      .hero__tags {
+        justify-content: center;
+      }
+
+      .dossier-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hud {
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+
+      .hud__group {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .pgp-terminal {
+        width: 100%;
+        text-align: left;
+      }
+
+      .inventory-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .access-node__sigil {
+        width: 135px;
+      }
+
+      .access-node__sigil img {
+        opacity: 0.9;
+      }
+
+      .node-form {
+        grid-template-columns: 1fr;
+      }
+
+      .audio-control {
+        margin-left: 0;
+      }
     }
 
     /* ---- SKILL BAR ROW ---- */
@@ -1029,7 +1196,7 @@
       align-items: center;
       gap: 1rem;
       padding: 0.5rem 0;
-      border-bottom: 1px solid rgba(126,126,106,0.08);
+      border-bottom: 1px solid rgba(126, 126, 106, 0.08);
       font-size: 0.8rem;
     }
 
@@ -1062,31 +1229,77 @@
         text-align: center;
         gap: 1.5rem;
       }
+
       .hero__title {
         border-left: none;
         padding-left: 0;
       }
-      .hero__tags { justify-content: center; }
-      .dossier-grid { grid-template-columns: 1fr; }
-      .hud { flex-direction: column; gap: 0.3rem; }
-      .hud__group { flex-wrap: wrap; justify-content: center; }
-      .pgp-terminal { width: 100%; text-align: left; }
-      .inventory-grid { grid-template-columns: 1fr; }
-      .workshop-grid { grid-template-columns: 1fr 1fr; }
-      .psych-grid { grid-template-columns: 1fr; }
-      .access-node__sigil { width: 135px; }
-      .access-node__sigil img { opacity: 0.9; }
-      .node-form { grid-template-columns: 1fr; }
-      .audio-control { margin-left: 0; }
+
+      .hero__tags {
+        justify-content: center;
+      }
+
+      .dossier-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hud {
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+
+      .hud__group {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .pgp-terminal {
+        width: 100%;
+        text-align: left;
+      }
+
+      .inventory-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .workshop-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .psych-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .access-node__sigil {
+        width: 135px;
+      }
+
+      .access-node__sigil img {
+        opacity: 0.9;
+      }
+
+      .node-form {
+        grid-template-columns: 1fr;
+      }
+
+      .audio-control {
+        margin-left: 0;
+      }
     }
 
     /* ---- PRINT ---- */
     @media print {
-      body::before { display: none; }
-      .hud { position: static; }
+      body::before {
+        display: none;
+      }
+
+      .hud {
+        position: static;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <!-- ══════════════╔LAVA EMBER PARTICLES ══════════════╔-->
@@ -1100,7 +1313,8 @@
     <div class="hud__group">
       <div class="hud__stat"><span class="hud__label">SYS</span><span class="hud__value">ONLINE</span></div>
       <div class="hud__stat"><span class="hud__label">NODE</span><span class="hud__value">ZROV-PRIME</span></div>
-      <div class="hud__stat"><span class="hud__label">CLEARANCE</span><span class="hud__value--warn">RESTRICTED</span></div>
+      <div class="hud__stat"><span class="hud__label">CLEARANCE</span><span class="hud__value--warn">RESTRICTED</span>
+      </div>
     </div>
     <div class="hud__group">
       <div class="hud__stat"><span class="hud__label">VOX</span><span class="hud__value">TRILINGUAL</span></div>
@@ -1138,9 +1352,13 @@
           <span class="tag">heretek</span>
         </div>
         <div class="pgp-terminal" id="pgpTerminal" aria-label="PGP public key">
-          <div class="pgp-terminal__row"><span class="pgp-terminal__ln">1</span><span class="pgp-terminal__code">-----BEGIN PGP PUBLIC KEY BLOCK----- <span class="pgp-terminal__dummy">[KEY NOT LOADED]</span></span></div>
-          <div class="pgp-terminal__row pgp-terminal__vim"><span class="pgp-terminal__ln">~</span><span class="pgp-terminal__code"></span></div>
-          <div class="pgp-terminal__row pgp-terminal__vim"><span class="pgp-terminal__ln">~</span><span class="pgp-terminal__code"></span></div>
+          <div class="pgp-terminal__row"><span class="pgp-terminal__ln">1</span><span
+              class="pgp-terminal__code">-----BEGIN PGP PUBLIC KEY BLOCK----- <span class="pgp-terminal__dummy">[KEY NOT
+                LOADED]</span></span></div>
+          <div class="pgp-terminal__row pgp-terminal__vim"><span class="pgp-terminal__ln">~</span><span
+              class="pgp-terminal__code"></span></div>
+          <div class="pgp-terminal__row pgp-terminal__vim"><span class="pgp-terminal__ln">~</span><span
+              class="pgp-terminal__code"></span></div>
         </div>
       </div>
     </section>
@@ -1163,21 +1381,25 @@
           <span>Local Time <span class="access-node__clock" id="nodeClock">--:--:--</span></span>
           <span>Channel <span class="hud__value">ghostZER0</span></span>
           <div class="audio-control">
-            <button class="node-button" type="button" id="audioToggle" aria-label="Toggle background audio">Play</button>
-            <input class="node-range" id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.35" aria-label="Audio volume">
+            <button class="node-button" type="button" id="audioToggle"
+              aria-label="Toggle background audio">Play</button>
+            <input class="node-range" id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.35"
+              aria-label="Audio volume">
           </div>
         </div>
 
         <div class="access-node__forms">
           <form class="node-form" id="quickTerminalForm">
             <label class="node-form__label" for="commandInput">Quick Terminal</label>
-            <input class="node-input" id="commandInput" type="text" name="query" placeholder="Command..." autocomplete="off">
+            <input class="node-input" id="commandInput" type="text" name="query" placeholder="Command..."
+              autocomplete="off">
             <button class="node-button" type="submit">Execute</button>
           </form>
 
           <form class="node-form" id="googleSearchForm">
             <label class="node-form__label" for="searchInput">Search Google</label>
-            <input class="node-input" id="searchInput" type="search" name="q" placeholder="Search..." autocomplete="off">
+            <input class="node-input" id="searchInput" type="search" name="q" placeholder="Search..."
+              autocomplete="off">
             <button class="node-button" type="submit">Search</button>
           </form>
         </div>
@@ -1203,24 +1425,69 @@
     <div class="dossier-grid">
       <div class="dossier-block">
         <div class="dossier-label">// Operative Summary</div>
-        <p class="dossier-text">
-          Solo game developer with 3 years of game dev study in Japan.
-          Trilingual EN, JP, ID.
-          Building a time-travel tactical RPG in Unity since Aug 2025.
-          Builds mods for Minecraft, Fallout, and Skyrim.
-          Writes custom Unity editor tools and AI integrations.
-          Big fan of Warhammer 40K: Darktide.
-          <span class="redacted">REDACTED BY INQUISITION</span>
-        </p>
+        <div class="dossier-entries">
+          <div class="dossier-entry">
+            <span class="dossier-prefix">&gt;</span>
+            <span><span class="dossier-hl">3 years</span> game dev study in <span class="dossier-hl">Japan</span></span>
+          </div>
+          <div class="dossier-entry">
+            <span class="dossier-prefix">&gt;</span>
+            <span><span class="dossier-hl">5+ years</span> programming &bull; <span class="dossier-hl">7+ years</span> game design &amp; development</span>
+          </div>
+            <div class="dossier-entry">
+            <span class="dossier-prefix">&gt;</span>
+            <span><span class="dossier-hl">3+ years</span> Filmmaking &bull; <span class="dossier-hl"> 1+ year </span> Film director &amp; working with real film crews </span>
+          </div>
+          <div class="dossier-entry">
+            <span class="dossier-prefix">&gt;</span>
+            <span>Trilingual: <span class="dossier-accent">EN</span> <span class="dossier-accent">JP</span> <span class="dossier-accent">ID</span></span>
+          </div>
+          <div class="dossier-entry">
+            <span class="dossier-prefix">&gt;</span>
+            <span>Building a tactical RPG in <span class="dossier-hl">Unity</span> since Aug 2025</span>
+          </div>
+          <div class="dossier-entry">
+            <span class="dossier-prefix">&gt;</span>
+            <span>Mods for <span class="dossier-hl">Minecraft, Fallout, and more</span></span>
+          </div>
+          <div class="dossier-entry">
+            <span class="dossier-prefix">&gt;</span>
+            <span>Custom Unity editor tools &amp; AI integrations</span>
+          </div>
+          <div class="dossier-entry">
+            <span class="dossier-prefix">&gt;</span>
+            <span>Authored non-fictional books &mdash; hundreds sold</span>
+          </div>
+          <div class="dossier-entry">
+            <span class="dossier-prefix">&gt;</span>
+            <span>Fan of dark-themed: Warcraft, Darktide, Fallout</span>
+          </div>
+          <div class="dossier-entry">
+            <span class="dossier-prefix">&gt;</span>
+            <span>Speaking of dark &mdash; Zrov is experienced in <span class="redacted">REDACTED BY INQUISITION</span></span>
+          </div>
+        </div>
       </div>
 
       <div class="dossier-block">
         <div class="dossier-label">// Core Stats</div>
         <table class="stat-slate">
-          <tr><td class="stat-label">Experience</td><td class="stat-value">3 years</td></tr>
-          <tr><td class="stat-label">DIVE Project</td><td class="stat-value">600+hrs</td></tr>
-          <tr><td class="stat-label">Modding</td><td class="stat-value">Minecraft / Fallout / Skyrim</td></tr>
-          <tr><td class="stat-label">Languages</td><td class="stat-value">EN · JP · ID</td></tr>
+          <tr>
+            <td class="stat-label">Experience</td>
+            <td class="stat-value">3 years</td>
+          </tr>
+          <tr>
+            <td class="stat-label">DIVE Project</td>
+            <td class="stat-value">600+hrs</td>
+          </tr>
+          <tr>
+            <td class="stat-label">Modding</td>
+            <td class="stat-value">Minecraft / Fallout / Skyrim</td>
+          </tr>
+          <tr>
+            <td class="stat-label">Languages</td>
+            <td class="stat-value">EN · JP · ID</td>
+          </tr>
         </table>
       </div>
     </div>
@@ -1239,7 +1506,8 @@
       <article class="inventory-item">
         <div class="inv-ref">PROJ-001</div>
         <h3 class="inv-name">DIVE</h3>
-        <p class="inv-desc">Time-travel tactical RPG. 375+ scripts. FFTA meets Fallout. Cyberpunk meets dark western. Choices echo across timelines.</p>
+        <p class="inv-desc">Time-travel tactical RPG. 375+ scripts. FFTA meets Fallout. Cyberpunk meets dark western.
+          Choices echo across timelines.</p>
         <div class="inv-tech">
           <span>Unity</span><span>C#</span><span>Ink</span><span>ML</span>
         </div>
@@ -1248,7 +1516,8 @@
       <article class="inventory-item">
         <div class="inv-ref">PROJ-002</div>
         <h3 class="inv-name">ZombieDOTS</h3>
-        <p class="inv-desc">Unity ECS zombie survival. Data-Oriented Tech Stack. Custom actor, selection, and player controller systems.</p>
+        <p class="inv-desc">Unity ECS zombie survival. Data-Oriented Tech Stack. Custom actor, selection, and player
+          controller systems.</p>
         <div class="inv-tech">
           <span>Unity DOTS</span><span>C#</span><span>ECS</span>
         </div>
@@ -1257,7 +1526,8 @@
       <article class="inventory-item">
         <div class="inv-ref">PROJ-003</div>
         <h3 class="inv-name">desktoptts</h3>
-        <p class="inv-desc">AI desktop companion with multi-provider TTS. Indonesian + English. Python-Unity interop. Streaming audio.</p>
+        <p class="inv-desc">AI desktop companion with multi-provider TTS. Indonesian + English. Python-Unity interop.
+          Streaming audio.</p>
         <div class="inv-tech">
           <span>Unity</span><span>Python</span><span>Coqui</span><span>OpenAI</span>
         </div>
@@ -1266,7 +1536,8 @@
       <article class="inventory-item">
         <div class="inv-ref">PROJ-004</div>
         <h3 class="inv-name">AgentTools</h3>
-        <p class="inv-desc">Unity Editor utility suite. Automated asset wiring, null-field reporting, sprite slicing, batch import.</p>
+        <p class="inv-desc">Unity Editor utility suite. Automated asset wiring, null-field reporting, sprite slicing,
+          batch import.</p>
         <div class="inv-tech">
           <span>C#</span><span>Unity Editor</span><span>Python</span>
         </div>
@@ -1287,13 +1558,15 @@
       <div class="workshop-tile">
         <div class="ws-game">Minecraft 1.21 · Fabric</div>
         <div class="ws-name">BetterWaystonesMenu</div>
-        <div class="ws-desc">Enhanced waystone teleport UI with search, scroll, sorting, drag-drop reorder. Published on Modrinth.</div>
+        <div class="ws-desc">Enhanced waystone teleport UI with search, scroll, sorting, drag-drop reorder. Published on
+          Modrinth.</div>
       </div>
 
       <div class="workshop-tile">
         <div class="ws-game">Minecraft 1.21 · Fabric</div>
         <div class="ws-name">Auto Walk Forward</div>
-        <div class="ws-desc">Toggle auto-walk keybind. Works while swimming, riding mounts, even with inventory open.</div>
+        <div class="ws-desc">Toggle auto-walk keybind. Works while swimming, riding mounts, even with inventory open.
+        </div>
       </div>
 
       <div class="workshop-tile">
@@ -1305,13 +1578,15 @@
       <div class="workshop-tile">
         <div class="ws-game">Minecraft 1.21 · Fabric</div>
         <div class="ws-name">Cobblemon Mouse Menu</div>
-        <div class="ws-desc">Hold Alt to free cursor, interact with Cobblemon sidebar. Camera locks so you don't spin out.</div>
+        <div class="ws-desc">Hold Alt to free cursor, interact with Cobblemon sidebar. Camera locks so you don't spin
+          out.</div>
       </div>
 
       <div class="workshop-tile">
         <div class="ws-game">Minecraft 1.21 · Fabric</div>
         <div class="ws-name">Cobblemon Interactions</div>
-        <div class="ws-desc">Expanded interaction system for the Cobblemon mod. More ways to engage with your party.</div>
+        <div class="ws-desc">Expanded interaction system for the Cobblemon mod. More ways to engage with your party.
+        </div>
       </div>
 
       <div class="workshop-tile">
@@ -1383,23 +1658,27 @@
         <div class="psych-line">
           <span class="psych-label">EN</span>
           <span class="psych-value" style="display:flex;gap:3px;">
-            <span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot"></span>
+            <span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot"></span><span
+              class="pip-dot"></span><span class="pip-dot"></span>
           </span>
         </div>
         <div class="psych-line">
           <span class="psych-label">JP</span>
           <span class="psych-value" style="display:flex;gap:3px;">
-            <span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot--dim"></span>
+            <span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot"></span><span
+              class="pip-dot"></span><span class="pip-dot--dim"></span>
           </span>
         </div>
         <div class="psych-line">
           <span class="psych-label">ID</span>
           <span class="psych-value" style="display:flex;gap:3px;">
-            <span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot"></span>
+            <span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot"></span><span
+              class="pip-dot"></span><span class="pip-dot"></span>
           </span>
         </div>
         <div class="psych-line" style="border:none;margin-top:0.8rem;">
-          <span class="psych-label" style="width:100%;font-size:0.72rem;color:var(--phosphor-dim);">Lived & studied in Japan. Play on JP servers. Mods include EN, JP, PT-BR, FR, ES translations.</span>
+          <span class="psych-label" style="width:100%;font-size:0.72rem;color:var(--phosphor-dim);">Lived & studied in
+            Japan. Play on JP servers. Mods include EN, JP, PT-BR, FR, ES translations.</span>
         </div>
       </div>
     </div>
@@ -1432,28 +1711,34 @@
           <span class="output">─── Uplink active. Send your signal. ───</span>
         </div>
         <div class="terminal-line">
-          <span class="prompt">zrov@prime:~$ </span><span class="cmd">contact --method=</span><span class="cursor"></span>
+          <span class="prompt">zrov@prime:~$ </span><span class="cmd">contact --method=</span><span
+            class="cursor"></span>
         </div>
         <div class="terminal-line" style="margin-top:0.6rem;">
-                    <span class="output">steam&nbsp;&nbsp;: [encrypted channel — request key]</span>
+          <span class="output">steam&nbsp;&nbsp;: [encrypted channel — request key]</span>
         </div>
         <div class="terminal-line">
-          <span class="output">github&nbsp;&nbsp;: <a href="https://github.com/zrovihr" style="color:var(--phosphor);text-decoration:none;">github.com/zrovihr</a></span>
+          <span class="output">github&nbsp;&nbsp;: <a href="https://github.com/zrovihr"
+              style="color:var(--phosphor);text-decoration:none;">github.com/zrovihr</a></span>
         </div>
         <div class="terminal-line">
-          <span class="output">modrinth : <a href="https://modrinth.com/user/zrov" style="color:var(--phosphor);text-decoration:none;">modrinth.com/user/zrov</a></span>
+          <span class="output">modrinth : <a href="https://modrinth.com/user/zrov"
+              style="color:var(--phosphor);text-decoration:none;">modrinth.com/user/zrov</a></span>
         </div>
         <div class="terminal-line">
-          <span class="output">nexus&nbsp;&nbsp;: <a href="https://www.nexusmods.com/profile/zrovihr/mods" style="color:var(--phosphor);text-decoration:none;">nexusmods.com/zrovihr</a></span>
+          <span class="output">nexus&nbsp;&nbsp;: <a href="https://www.nexusmods.com/profile/zrovihr/mods"
+              style="color:var(--phosphor);text-decoration:none;">nexusmods.com/zrovihr</a></span>
         </div>
         <div class="terminal-line">
-          <span class="output">x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <a href="https://x.com/zrovihr" style="color:var(--phosphor);text-decoration:none;">x.com/zrovihr</a></span>
+          <span class="output">x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <a href="https://x.com/zrovihr"
+              style="color:var(--phosphor);text-decoration:none;">x.com/zrovihr</a></span>
         </div>
         <div class="terminal-line">
           <span class="output">secure&nbsp;&nbsp;: [encrypted channel — request key]</span>
         </div>
         <div class="terminal-line">
-          <span class="output">email&nbsp;&nbsp;&nbsp;&nbsp;: <span style="color:var(--bone-dim);">zrovihr</span><span style="color:var(--iron-light);">@</span><span style="color:var(--bone-dim);">gmail.com</span></span>
+          <span class="output">email&nbsp;&nbsp;&nbsp;&nbsp;: <span style="color:var(--bone-dim);">zrovihr</span><span
+              style="color:var(--iron-light);">@</span><span style="color:var(--bone-dim);">gmail.com</span></span>
         </div>
       </div>
     </div>
@@ -1470,7 +1755,8 @@
   <footer class="hud hud--bottom">
     <div class="hud__group">
       <div class="hud__stat"><span class="hud__label">THREAT</span><span class="hud__value--warn">NOMINAL</span></div>
-      <div class="hud__stat"><span class="hud__label">SYS::UPTIME</span><span class="hud__value" id="uptime">000d 00h 00m</span></div>
+      <div class="hud__stat"><span class="hud__label">SYS::UPTIME</span><span class="hud__value" id="uptime">000d 00h
+          00m</span></div>
     </div>
     <div class="hud__group">
       <div class="hud__stat"><span class="hud__label">AUSPEX</span><span class="hud__value">ACTIVE</span></div>
@@ -1481,51 +1767,51 @@
 
   <!-- PGP KEY LOADER -->
   <script>
-  (function () {
-    var terminal = document.getElementById('pgpTerminal');
-    if (!terminal) return;
+    (function () {
+      var terminal = document.getElementById('pgpTerminal');
+      if (!terminal) return;
 
-    fetch('pgp-key.txt')
-      .then(function (r) {
-        if (!r.ok) return Promise.reject();
-        return r.text();
-      })
-      .then(function (text) {
-        var lines = text.trim().split('\n');
-        terminal.innerHTML = '';
-        lines.forEach(function (line, i) {
-          var row = document.createElement('div');
-          row.className = 'pgp-terminal__row';
-          var ln = document.createElement('span');
-          ln.className = 'pgp-terminal__ln';
-          ln.textContent = String(i + 1);
-          var code = document.createElement('span');
-          code.className = 'pgp-terminal__code';
-          code.textContent = line;
-          row.appendChild(ln);
-          row.appendChild(code);
-          terminal.appendChild(row);
-        });
-        for (var j = 0; j < 2; j++) {
-          var vim = document.createElement('div');
-          vim.className = 'pgp-terminal__row pgp-terminal__vim';
-          var vl = document.createElement('span');
-          vl.className = 'pgp-terminal__ln';
-          vl.textContent = '~';
-          var vc = document.createElement('span');
-          vc.className = 'pgp-terminal__code';
-          vim.appendChild(vl);
-          vim.appendChild(vc);
-          terminal.appendChild(vim);
-        }
-      })
-      .catch(function () {});
-  })();
+      fetch('pgp-key.txt')
+        .then(function (r) {
+          if (!r.ok) return Promise.reject();
+          return r.text();
+        })
+        .then(function (text) {
+          var lines = text.trim().split('\n');
+          terminal.innerHTML = '';
+          lines.forEach(function (line, i) {
+            var row = document.createElement('div');
+            row.className = 'pgp-terminal__row';
+            var ln = document.createElement('span');
+            ln.className = 'pgp-terminal__ln';
+            ln.textContent = String(i + 1);
+            var code = document.createElement('span');
+            code.className = 'pgp-terminal__code';
+            code.textContent = line;
+            row.appendChild(ln);
+            row.appendChild(code);
+            terminal.appendChild(row);
+          });
+          for (var j = 0; j < 2; j++) {
+            var vim = document.createElement('div');
+            vim.className = 'pgp-terminal__row pgp-terminal__vim';
+            var vl = document.createElement('span');
+            vl.className = 'pgp-terminal__ln';
+            vl.textContent = '~';
+            var vc = document.createElement('span');
+            vc.className = 'pgp-terminal__code';
+            vim.appendChild(vl);
+            vim.appendChild(vc);
+            terminal.appendChild(vim);
+          }
+        })
+        .catch(function () { });
+    })();
   </script>
 
   <!-- GHOSTZER0 ACCESS NODE CONTROLS -->
   <script>
-    (function() {
+    (function () {
       const clock = document.getElementById('nodeClock');
       const audio = document.getElementById('bgm');
       const audioToggle = document.getElementById('audioToggle');
@@ -1538,7 +1824,7 @@
       let repeatedCommand = '';
 
       function escapeHTML(value) {
-        return String(value).replace(/[&<>"']/g, function(ch) {
+        return String(value).replace(/[&<>"']/g, function (ch) {
           return {
             '&': '&amp;',
             '<': '&lt;',
@@ -1634,10 +1920,10 @@
           case 'player':
           case 'playmusic':
             if (audio) {
-              audio.play().then(function() {
+              audio.play().then(function () {
                 if (audioToggle) audioToggle.textContent = 'Pause';
                 writeOutput('Playing background audio.');
-              }).catch(function() {
+              }).catch(function () {
                 writeOutput('Audio blocked until the browser accepts interaction.');
               });
             }
@@ -1667,18 +1953,18 @@
 
       if (audio && volumeSlider) {
         audio.volume = parseFloat(volumeSlider.value);
-        volumeSlider.addEventListener('input', function() {
+        volumeSlider.addEventListener('input', function () {
           audio.volume = parseFloat(volumeSlider.value);
         });
       }
 
       if (audio && audioToggle) {
-        audioToggle.addEventListener('click', function() {
+        audioToggle.addEventListener('click', function () {
           if (audio.paused) {
-            audio.play().then(function() {
+            audio.play().then(function () {
               audioToggle.textContent = 'Pause';
               writeOutput('Background audio online.');
-            }).catch(function() {
+            }).catch(function () {
               writeOutput('Audio playback was blocked by the browser.');
             });
           } else {
@@ -1690,14 +1976,14 @@
       }
 
       if (terminalForm) {
-        terminalForm.addEventListener('submit', function(event) {
+        terminalForm.addEventListener('submit', function (event) {
           event.preventDefault();
           handleCommand(commandInput ? commandInput.value : '');
         });
       }
 
       if (searchForm) {
-        searchForm.addEventListener('submit', function(event) {
+        searchForm.addEventListener('submit', function (event) {
           event.preventDefault();
           const input = searchForm.elements.q;
           searchGoogleQuery(input ? input.value : '');
@@ -1705,7 +1991,7 @@
       }
 
       if (lockSession) {
-        lockSession.addEventListener('click', function() {
+        lockSession.addEventListener('click', function () {
           handleCommand('lock');
         });
       }
@@ -1714,7 +2000,7 @@
 
   <!-- ══════════════╔FAKE UPTIME ══════════════╔-->
   <script>
-    (function() {
+    (function () {
       const el = document.getElementById('uptime');
       if (!el) return;
       const start = Date.now();
@@ -1723,25 +2009,25 @@
         const d = Math.floor(s / 86400);
         const h = Math.floor((s % 86400) / 3600);
         const m = Math.floor((s % 3600) / 60);
-        el.textContent = String(d).padStart(3,'0') + 'd ' +
-                         String(h).padStart(2,'0') + 'h ' +
-                         String(m).padStart(2,'0') + 'm';
+        el.textContent = String(d).padStart(3, '0') + 'd ' +
+          String(h).padStart(2, '0') + 'h ' +
+          String(m).padStart(2, '0') + 'm';
       }, 1000);
     })();
   </script>
 
   <!-- ══════════════╔LAVA EMBER PARTICLE SYSTEM ══════════════╔-->
   <script>
-  (function () {
-    'use strict';
+    (function () {
+      'use strict';
 
-    const canvas = document.getElementById('emberCanvas');
-    if (!canvas) return;
+      const canvas = document.getElementById('emberCanvas');
+      if (!canvas) return;
 
-    // ── Shaders (domain-warped FBM, phosphor palette) ──────────
-    const VERT = `attribute vec2 a_pos; void main(){ gl_Position = vec4(a_pos,0.0,1.0); }`;
+      // ── Shaders (domain-warped FBM, phosphor palette) ──────────
+      const VERT = `attribute vec2 a_pos; void main(){ gl_Position = vec4(a_pos,0.0,1.0); }`;
 
-    const FRAG = `precision mediump float;
+      const FRAG = `precision mediump float;
 uniform vec2 u_res;
 uniform float u_time;
 uniform vec3 u_particles[20];
@@ -1809,191 +2095,203 @@ void main() {
   gl_FragColor = vec4(col * edge, edge * 0.4);
 }`;
 
-    // ── WebGL init ────────────────────────────────────────────
-    const gl = canvas.getContext('webgl', { antialias: false, premultipliedAlpha: true, alpha: true });
-    if (!gl) return;
+      // ── WebGL init ────────────────────────────────────────────
+      const gl = canvas.getContext('webgl', { antialias: false, premultipliedAlpha: true, alpha: true });
+      if (!gl) return;
 
-    function compile(type, src) {
-      const s = gl.createShader(type);
-      gl.shaderSource(s, src);
-      gl.compileShader(s);
-      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
-        console.error('[ember] compile:', gl.getShaderInfoLog(s));
-        return null;
-      }
-      return s;
-    }
-
-    const vs = compile(gl.VERTEX_SHADER, VERT);
-    const fs = compile(gl.FRAGMENT_SHADER, FRAG);
-    if (!vs || !fs) return;
-
-    const prog = gl.createProgram();
-    gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
-    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
-      console.error('[ember] link:', gl.getProgramInfoLog(prog));
-      return;
-    }
-    gl.useProgram(prog);
-
-    const buf = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,-1,1,1,-1,1]), gl.STATIC_DRAW);
-    const aPos = gl.getAttribLocation(prog, 'a_pos');
-    gl.enableVertexAttribArray(aPos);
-    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
-
-    const uRes = gl.getUniformLocation(prog, 'u_res');
-    const uTime = gl.getUniformLocation(prog, 'u_time');
-    const uParticles = gl.getUniformLocation(prog, 'u_particles');
-    const uCount = gl.getUniformLocation(prog, 'u_particleCount');
-
-    gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-
-    // ── Particle state ────────────────────────────────────────
-    const MAX = 20;
-    const particles = [];
-    for (let i = 0; i < MAX; i++) {
-      particles.push({ x: 0, y: 0, r: 0, vx: 0, vy: 0, life: 0, maxLife: 0 });
-    }
-
-    function spawnParticle() {
-      // Find a dead slot
-      for (let i = 0; i < MAX; i++) {
-        if (particles[i].life <= 0) {
-          const p = particles[i];
-          p.x = Math.random();
-          p.y = 0.6 + Math.random() * 0.4; // spawn lower half
-          p.r = 0; // will grow
-          p.vx = (Math.random() - 0.5) * 0.04;
-          p.vy = -(0.008 + Math.random() * 0.025); // drift upward
-          p.life = 0;
-          p.maxLife = 4.0 + Math.random() * 7.0;
-          return;
+      function compile(type, src) {
+        const s = gl.createShader(type);
+        gl.shaderSource(s, src);
+        gl.compileShader(s);
+        if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+          console.error('[ember] compile:', gl.getShaderInfoLog(s));
+          return null;
         }
-      }
-    }
-
-    // Bootstrap initial particles
-    for (let i = 0; i < 8; i++) {
-      const p = particles[i];
-      p.x = Math.random();
-      p.y = Math.random();
-      p.r = 0.3 + Math.random() * 0.5;
-      p.vx = (Math.random() - 0.5) * 0.02;
-      p.vy = -(0.005 + Math.random() * 0.015);
-      p.life = Math.random() * p.maxLife;
-      p.maxLife = 4.0 + Math.random() * 8.0;
-    }
-
-    // ── Resize ────────────────────────────────────────────────
-    function resize() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      canvas.width = Math.max(2, Math.floor(w * dpr));
-      canvas.height = Math.max(2, Math.floor(h * dpr));
-      canvas.style.width = w + 'px';
-      canvas.style.height = h + 'px';
-      gl.viewport(0, 0, canvas.width, canvas.height);
-    }
-    window.addEventListener('resize', resize);
-    resize();
-
-    // ── Main loop ─────────────────────────────────────────────
-    let t0 = performance.now();
-    let spawnTimer = 0;
-
-    function frame(now) {
-      const dt = Math.min((now - t0) / 1000, 0.1);
-      t0 = now;
-
-      // Spawn new particles
-      spawnTimer += dt;
-      const spawnInterval = 0.35;
-      while (spawnTimer >= spawnInterval) {
-        spawnTimer -= spawnInterval;
-        spawnParticle();
+        return s;
       }
 
-      // Update particles
-      let aliveCount = 0;
-      const raw = new Float32Array(MAX * 3);
+      const vs = compile(gl.VERTEX_SHADER, VERT);
+      const fs = compile(gl.FRAGMENT_SHADER, FRAG);
+      if (!vs || !fs) return;
+
+      const prog = gl.createProgram();
+      gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+        console.error('[ember] link:', gl.getProgramInfoLog(prog));
+        return;
+      }
+      gl.useProgram(prog);
+
+      const buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, -1, 1, 1, -1, 1]), gl.STATIC_DRAW);
+      const aPos = gl.getAttribLocation(prog, 'a_pos');
+      gl.enableVertexAttribArray(aPos);
+      gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+      const uRes = gl.getUniformLocation(prog, 'u_res');
+      const uTime = gl.getUniformLocation(prog, 'u_time');
+      const uParticles = gl.getUniformLocation(prog, 'u_particles');
+      const uCount = gl.getUniformLocation(prog, 'u_particleCount');
+
+      gl.enable(gl.BLEND);
+      gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+      // ── Particle state ────────────────────────────────────────
+      const MAX = 20;
+      const particles = [];
       for (let i = 0; i < MAX; i++) {
-        const p = particles[i];
-        if (p.life > 0 || (p.life <= 0 && p.r > 0.01)) {
-          p.life += dt;
-          if (p.life > p.maxLife) {
-            p.r *= 0.92; // fade out
-            p.vy += 0.0003; // slow down
-          } else {
-            // Ramp up radius
-            const targetR = 0.35 + Math.random() * 0.02;
-            p.r += (targetR - p.r) * 2.0 * dt;
-            // Flicker
-            p.r += (Math.random() - 0.5) * 0.08 * dt;
-            p.r = Math.max(0.05, Math.min(0.7, p.r));
-          }
-          p.x += p.vx * dt;
-          p.y += p.vy * dt;
+        particles.push({ x: 0, y: 0, r: 0, vx: 0, vy: 0, life: 0, maxLife: 0 });
+      }
 
-          // Kill if out of bounds or faded
-          if (p.y < -0.15 || p.y > 1.15 || p.x < -0.15 || p.x > 1.15 || p.r < 0.02) {
-            p.r = 0;
+      function spawnParticle() {
+        // Find a dead slot
+        for (let i = 0; i < MAX; i++) {
+          if (particles[i].life <= 0) {
+            const p = particles[i];
+            p.x = Math.random();
+            p.y = 0.6 + Math.random() * 0.4; // spawn lower half
+            p.r = 0; // will grow
+            p.vx = (Math.random() - 0.5) * 0.04;
+            p.vy = -(0.008 + Math.random() * 0.025); // drift upward
             p.life = 0;
-          }
-
-          if (p.r > 0.01) {
-            raw[aliveCount * 3]     = p.x;
-            raw[aliveCount * 3 + 1] = p.y;
-            raw[aliveCount * 3 + 2] = p.r;
-            aliveCount++;
+            p.maxLife = 4.0 + Math.random() * 7.0;
+            return;
           }
         }
       }
 
-      // Render
-      gl.uniform2f(uRes, canvas.width, canvas.height);
-      gl.uniform1f(uTime, now / 1000);
-      gl.uniform3fv(uParticles, raw);
-      gl.uniform1i(uCount, aliveCount);
-      gl.clearColor(0, 0, 0, 0);
-      gl.clear(gl.COLOR_BUFFER_BIT);
-      gl.drawArrays(gl.TRIANGLES, 0, 6);
+      // Bootstrap initial particles
+      for (let i = 0; i < 8; i++) {
+        const p = particles[i];
+        p.x = Math.random();
+        p.y = Math.random();
+        p.r = 0.3 + Math.random() * 0.5;
+        p.vx = (Math.random() - 0.5) * 0.02;
+        p.vy = -(0.005 + Math.random() * 0.015);
+        p.life = Math.random() * p.maxLife;
+        p.maxLife = 4.0 + Math.random() * 8.0;
+      }
+
+      // ── Resize ────────────────────────────────────────────────
+      function resize() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        canvas.width = Math.max(2, Math.floor(w * dpr));
+        canvas.height = Math.max(2, Math.floor(h * dpr));
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+        gl.viewport(0, 0, canvas.width, canvas.height);
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      // ── Main loop ─────────────────────────────────────────────
+      let t0 = performance.now();
+      let spawnTimer = 0;
+
+      function frame(now) {
+        const dt = Math.min((now - t0) / 1000, 0.1);
+        t0 = now;
+
+        // Spawn new particles
+        spawnTimer += dt;
+        const spawnInterval = 0.35;
+        while (spawnTimer >= spawnInterval) {
+          spawnTimer -= spawnInterval;
+          spawnParticle();
+        }
+
+        // Update particles
+        let aliveCount = 0;
+        const raw = new Float32Array(MAX * 3);
+        for (let i = 0; i < MAX; i++) {
+          const p = particles[i];
+          if (p.life > 0 || (p.life <= 0 && p.r > 0.01)) {
+            p.life += dt;
+            if (p.life > p.maxLife) {
+              p.r *= 0.92; // fade out
+              p.vy += 0.0003; // slow down
+            } else {
+              // Ramp up radius
+              const targetR = 0.35 + Math.random() * 0.02;
+              p.r += (targetR - p.r) * 2.0 * dt;
+              // Flicker
+              p.r += (Math.random() - 0.5) * 0.08 * dt;
+              p.r = Math.max(0.05, Math.min(0.7, p.r));
+            }
+            p.x += p.vx * dt;
+            p.y += p.vy * dt;
+
+            // Kill if out of bounds or faded
+            if (p.y < -0.15 || p.y > 1.15 || p.x < -0.15 || p.x > 1.15 || p.r < 0.02) {
+              p.r = 0;
+              p.life = 0;
+            }
+
+            if (p.r > 0.01) {
+              raw[aliveCount * 3] = p.x;
+              raw[aliveCount * 3 + 1] = p.y;
+              raw[aliveCount * 3 + 2] = p.r;
+              aliveCount++;
+            }
+          }
+        }
+
+        // Render
+        gl.uniform2f(uRes, canvas.width, canvas.height);
+        gl.uniform1f(uTime, now / 1000);
+        gl.uniform3fv(uParticles, raw);
+        gl.uniform1i(uCount, aliveCount);
+        gl.clearColor(0, 0, 0, 0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+        requestAnimationFrame(frame);
+      }
 
       requestAnimationFrame(frame);
-    }
-
-    requestAnimationFrame(frame);
-  })();
+    })();
   </script>
 
   <!-- ══════════════╔PARALLAX SCROLL ══════════════╔-->
   <script>
-  (function () {
-    var els = document.querySelectorAll('[data-parallax]');
-    if (!els.length) return;
+    (function () {
+      var els = document.querySelectorAll('[data-parallax]');
+      if (!els.length) return;
 
-    function update() {
-      var sy = window.scrollY;
-      for (var i = 0; i < els.length; i++) {
-        var el = els[i];
-        var sp = parseFloat(el.dataset.parallax) || 0;
-        el.style.transform = 'translate3d(0,' + (sy * sp) + 'px,0)';
+      function update() {
+        var sy = window.scrollY;
+        for (var i = 0; i < els.length; i++) {
+          var el = els[i];
+          var sp = parseFloat(el.dataset.parallax) || 0;
+          el.style.transform = 'translate3d(0,' + (sy * sp) + 'px,0)';
+        }
       }
-    }
 
-    var ticking = false;
-    window.addEventListener('scroll', function () {
-      if (!ticking) {
-        requestAnimationFrame(function () { update(); ticking = false; });
-        ticking = true;
+      var ticking = false;
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          requestAnimationFrame(function () { update(); ticking = false; });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      update();
+    })();
+  </script>
+
+  <script>
+    (function () {
+      var labels = document.querySelectorAll('.dossier-label');
+      for (var i = 0; i < labels.length; i++) {
+        labels[i].addEventListener('click', function () {
+          this.parentElement.classList.toggle('dossier-block--collapsed');
+        });
       }
-    }, { passive: true });
-
-    update();
-  })();
+    })();
   </script>
 </body>
+
 </html>
