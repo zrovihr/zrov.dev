@@ -179,6 +179,44 @@
     updateNowPlaying();
   }
 
+  var ytTitleCache = {};
+  try {
+    var rawCache = localStorage.getItem('zrov:hud:yt-titles');
+    if (rawCache) ytTitleCache = JSON.parse(rawCache);
+  } catch (_) { ytTitleCache = {}; }
+
+  function persistYtTitles() {
+    try { localStorage.setItem('zrov:hud:yt-titles', JSON.stringify(ytTitleCache)); } catch (_) {}
+  }
+
+  function fetchYoutubeTitle(videoId) {
+    if (ytTitleCache[videoId]) return Promise.resolve(ytTitleCache[videoId]);
+    return fetch('https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=' + encodeURIComponent(videoId) + '&format=json')
+      .then(function (r) {
+        if (!r.ok) throw new Error('oEmbed failed');
+        return r.json();
+      })
+      .then(function (data) {
+        var title = data && data.title ? String(data.title) : null;
+        if (title) {
+          ytTitleCache[videoId] = title;
+          persistYtTitles();
+        }
+        return title;
+      })
+      .catch(function () { return null; });
+  }
+
+  function enrichTitles(tracks) {
+    return Promise.all(tracks.map(function (track) {
+      if (!track || !track.youtubeId) return Promise.resolve(track);
+      return fetchYoutubeTitle(track.youtubeId).then(function (realTitle) {
+        if (realTitle) track.title = realTitle;
+        return track;
+      });
+    }));
+  }
+
   function loadPlaylist() {
     function applyShuffle() {
       if (!shuffleEnabled || playlistTracks.length < 2) return;
@@ -194,16 +232,25 @@
         return response.json();
       })
       .then(function (tracks) {
-        const normalizedTracks = normalizePlaylistTracks(tracks);
+        var normalizedTracks = normalizePlaylistTracks(tracks);
         if (!normalizedTracks.length) throw new Error('Playlist has no playable tracks');
-        playlistTracks = normalizedTracks;
+        return enrichTitles(normalizedTracks);
+      })
+      .then(function (enrichedTracks) {
+        playlistTracks = enrichedTracks;
         applyShuffle();
         renderPlaylist();
       })
       .catch(function () {
         playlistTracks = playlistFallbackTracks.slice();
-        applyShuffle();
-        renderPlaylist();
+        enrichTitles(playlistTracks).then(function (enriched) {
+          playlistTracks = enriched;
+          applyShuffle();
+          renderPlaylist();
+        }).catch(function () {
+          applyShuffle();
+          renderPlaylist();
+        });
         writeOutput('Playlist JSON unavailable. Using built-in fallback tracks.');
       });
   }
