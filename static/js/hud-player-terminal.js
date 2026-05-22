@@ -217,6 +217,46 @@
     }));
   }
 
+  function fetchBlogTracks() {
+    return fetch('/blogs/posts/manifest.json', { cache: 'no-store' })
+      .then(function (response) {
+        if (!response.ok) throw new Error('Blog manifest unavailable');
+        return response.json();
+      })
+      .then(function (manifest) {
+        if (!Array.isArray(manifest)) return [];
+        return manifest
+          .filter(function (entry) { return entry && entry.youtubeId && entry.title; })
+          .map(function (entry) {
+            var musicLabel = entry.music ? String(entry.music).replace(/^Today'?s?\s*(Music|Song|music|song):?\s*/i, '').trim() : '';
+            return {
+              title: musicLabel || String(entry.title),
+              youtubeId: String(entry.youtubeId),
+              source: String(entry.title)
+            };
+          });
+      })
+      .catch(function () { return []; });
+  }
+
+  function mergeTracks(manualTracks, blogTracks) {
+    var seen = {};
+    var merged = [];
+    blogTracks.forEach(function (track) {
+      if (!seen[track.youtubeId]) {
+        seen[track.youtubeId] = true;
+        merged.push(track);
+      }
+    });
+    manualTracks.forEach(function (track) {
+      if (!seen[track.youtubeId]) {
+        seen[track.youtubeId] = true;
+        merged.push(track);
+      }
+    });
+    return merged;
+  }
+
   function loadPlaylist() {
     function applyShuffle() {
       if (!shuffleEnabled || playlistTracks.length < 2) return;
@@ -226,15 +266,22 @@
 
     renderPlaylist();
 
-    fetch('/static/data/playlist.json', { cache: 'no-store' })
-      .then(function (response) {
-        if (!response.ok) throw new Error('Playlist request failed');
-        return response.json();
-      })
-      .then(function (tracks) {
-        var normalizedTracks = normalizePlaylistTracks(tracks);
-        if (!normalizedTracks.length) throw new Error('Playlist has no playable tracks');
-        return enrichTitles(normalizedTracks);
+    Promise.all([
+      fetch('/static/data/playlist.json', { cache: 'no-store' })
+        .then(function (response) {
+          if (!response.ok) throw new Error('Playlist request failed');
+          return response.json();
+        })
+        .then(function (tracks) { return normalizePlaylistTracks(tracks); })
+        .catch(function () { return []; }),
+      fetchBlogTracks()
+    ])
+      .then(function (results) {
+        var manualTracks = results[0];
+        var blogTracks = results[1];
+        var merged = mergeTracks(manualTracks, blogTracks);
+        if (!merged.length) throw new Error('No playable tracks from any source');
+        return enrichTitles(merged);
       })
       .then(function (enrichedTracks) {
         playlistTracks = enrichedTracks;
@@ -251,7 +298,7 @@
           applyShuffle();
           renderPlaylist();
         });
-        writeOutput('Playlist JSON unavailable. Using built-in fallback tracks.');
+        writeOutput('All playlist sources unavailable. Using built-in fallback tracks.');
       });
   }
 
