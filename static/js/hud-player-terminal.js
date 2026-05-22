@@ -25,7 +25,7 @@
     { title: 'Unity Progress track', youtubeId: '5sUtizeP0NE', source: 'Unity Progress 1' },
     { title: 'First Post track', youtubeId: '2bFSr3pZFjc', source: 'First Post' }
   ];
-  let playlistTracks = playlistFallbackTracks.slice();
+  let playlistTracks = [];
   let repeatedCommand = '';
   let ytPlayer = null;
   let ytReady = false;
@@ -93,6 +93,13 @@
     window.location.href = url;
   }
 
+  function siteURL(path) {
+    if (window.location.protocol === 'file:') {
+      return new URL(path.replace(/^\/+/, ''), window.location.href).toString();
+    }
+    return new URL(path.replace(/^\/+/, ''), window.location.origin + '/').toString();
+  }
+
   function currentTrack() {
     return playlistTracks[currentTrackIndex] || playlistTracks[0];
   }
@@ -135,6 +142,18 @@
   function renderPlaylist() {
     if (!playlistList) return;
     playlistList.innerHTML = '';
+
+    if (!playlistTracks.length) {
+      const item = document.createElement('li');
+      const empty = document.createElement('span');
+      empty.className = 'playlist-track playlist-track--empty';
+      empty.textContent = 'Loading playlist...';
+      item.appendChild(empty);
+      playlistList.appendChild(item);
+      if (playlistOpenAll) playlistOpenAll.removeAttribute('href');
+      updateNowPlaying('Loading');
+      return;
+    }
 
     playlistTracks.forEach(function (track, index) {
       const item = document.createElement('li');
@@ -218,7 +237,7 @@
   }
 
   function fetchBlogTracks() {
-    return fetch('/blogs/posts/manifest.json', { cache: 'no-store' })
+    return fetch(siteURL('blogs/posts/manifest.json'), { cache: 'no-store' })
       .then(function (response) {
         if (!response.ok) throw new Error('Blog manifest unavailable');
         return response.json();
@@ -267,7 +286,7 @@
     renderPlaylist();
 
     Promise.all([
-      fetch('/static/data/playlist.json', { cache: 'no-store' })
+      fetch(siteURL('static/data/playlist.json'), { cache: 'no-store' })
         .then(function (response) {
           if (!response.ok) throw new Error('Playlist request failed');
           return response.json();
@@ -281,21 +300,22 @@
         var blogTracks = results[1];
         var merged = mergeTracks(manualTracks, blogTracks);
         if (!merged.length) throw new Error('No playable tracks from any source');
-        return enrichTitles(merged);
-      })
-      .then(function (enrichedTracks) {
-        playlistTracks = enrichedTracks;
+        playlistTracks = merged;
         applyShuffle();
         renderPlaylist();
+        enrichTitles(playlistTracks.slice()).then(function (enrichedTracks) {
+          playlistTracks = enrichedTracks;
+          renderPlaylist();
+        });
       })
       .catch(function () {
         playlistTracks = playlistFallbackTracks.slice();
-        enrichTitles(playlistTracks).then(function (enriched) {
+        applyShuffle();
+        renderPlaylist();
+        enrichTitles(playlistTracks.slice()).then(function (enriched) {
           playlistTracks = enriched;
-          applyShuffle();
           renderPlaylist();
         }).catch(function () {
-          applyShuffle();
           renderPlaylist();
         });
         writeOutput('All playlist sources unavailable. Using built-in fallback tracks.');
