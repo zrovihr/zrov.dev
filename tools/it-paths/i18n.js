@@ -334,7 +334,8 @@ options: [
 ]
 };
 // Path content translations. Only include Indonesian here; English uses the base.
-const PATH_I18N_ID = {
+const PATH_I18N = {
+id: {
 frontend: {
 name: "Frontend Developer",
 tagline: "Bikin bagian website & aplikasi yang kamu lihat dan klik.",
@@ -751,6 +752,7 @@ roadmap: [
 { step: "Freelance UKM + spesialisasi", weeks: "bervariasi", what: "Mulai dari UKM lokal (UMKM, restoran, dokter, pengacara) — butuh SEO tapi belum punya tim. Spesialisasi: SEO programmatic, ecommerce SEO (Shopify), SaaS SEO, SEO internasional." }
 ]
 }
+}
 };
 // Category localization
 const CAT_I18N = {
@@ -768,7 +770,8 @@ id: {
 }
 };
 // Glossary translations
-const GLOSSARY_ID = {
+const GLOSSARY_I18N = {
+id: {
 "HTML": "Bahasa buat bikin kerangka halaman web — heading, paragraf, gambar, tombol.",
 "CSS": "Bahasa buat styling halaman web — warna, font, layout, animasi.",
 "JavaScript": "Bahasa pemrograman utama di browser. Bikin halaman jadi interaktif.",
@@ -953,35 +956,37 @@ const GLOSSARY_ID = {
 "load balancer": "Pembagi trafik — kirim request ke beberapa server biar nggak ada yang kewalahan.",
 "stack trace": "Jejak kesalahan yang nunjukin kode mana yang crash.",
 "endpoint": "Alamat URL API (contoh: /api/users) yang nanggepin request."
+}
 };
 window.UI_STRINGS = UI_STRINGS;
 window.QUIZ_I18N = QUIZ_I18N;
-window.PATH_I18N_ID = PATH_I18N_ID;
+window.PATH_I18N = PATH_I18N;
 window.CAT_I18N = CAT_I18N;
-window.GLOSSARY_ID = GLOSSARY_ID;
+window.GLOSSARY_I18N = GLOSSARY_I18N;
 // Helpers
 window.T = function(lang) {
-return window.UI_STRINGS[lang] || window.UI_STRINGS.en;
-};
-// Returns a path with translated text if lang='id', else original
-window.localizePath = function(path, lang) {
-if (lang === 'id' && window.PATH_I18N_ID[path.id]) {
-const tr = window.PATH_I18N_ID[path.id];
-return { ...path, ...tr };
+const strings = { ...window.UI_STRINGS.en, ...(window.UI_STRINGS[lang] || {}) };
+return new Proxy(strings, {
+get(target, prop) {
+if (typeof prop !== 'string') return target[prop];
+return target[prop] ?? prop;
 }
-return path;
+});
+};
+// Returns a path with translated text for the active language, falling back to English base data.
+window.localizePath = function(path, lang) {
+const tr = window.PATH_I18N[lang]?.[path.id];
+return tr ? { ...path, ...tr } : path;
 };
 // Translated category label
 window.localizeCat = function(cat, lang) {
-return (window.CAT_I18N[lang] && window.CAT_I18N[lang][cat]) || cat;
+return window.CAT_I18N[lang]?.[cat] || window.CAT_I18N.en?.[cat] || cat;
 };
 // Swap glossary
 window.applyGlossary = function(lang) {
-if (lang === 'id') {
-window.GLOSSARY = window.GLOSSARY_ID;
-} else {
-window.GLOSSARY = window.GLOSSARY_EN;
-}
+const glossary = window.GLOSSARY_I18N[lang] || {};
+window.GLOSSARY = { ...window.GLOSSARY_EN, ...glossary };
 };
 // Save original English glossary
 if (!window.GLOSSARY_EN) window.GLOSSARY_EN = window.GLOSSARY;
+window.GLOSSARY_I18N.en = window.GLOSSARY_EN;

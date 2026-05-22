@@ -392,7 +392,7 @@ border-color: var(--ink);
 .paths-grid {
 padding: 24px 40px 64px;
 display: grid;
-grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
 gap: 16px;
 }
 .path-card {
@@ -970,6 +970,64 @@ background: color-mix(in oklch, var(--accent) 12%, transparent);
 .quiz-q { font-size: 28px; }
 .results-title { font-size: 32px; }
 .section-intro-title { font-size: 24px; }
+}
+@media (max-width: 640px) {
+.filter-bar {
+position: static;
+display: grid;
+grid-template-columns: repeat(2, minmax(0, 1fr));
+gap: 12px;
+padding-top: 12px;
+padding-bottom: 14px;
+}
+.filter-group {
+min-width: 0;
+gap: 6px;
+}
+.chip-row {
+flex-wrap: nowrap;
+overflow-x: auto;
+padding-bottom: 2px;
+scrollbar-width: none;
+}
+.chip-row::-webkit-scrollbar { display: none; }
+.chip {
+padding: 7px 10px;
+font-size: 12px;
+}
+.filter-search {
+order: -1;
+grid-column: 1 / -1;
+width: 100%;
+flex-basis: auto;
+}
+.filter-count {
+align-self: start;
+grid-column: 1 / -1;
+}
+.paths-grid {
+padding-top: 16px;
+grid-template-columns: 1fr;
+gap: 12px;
+}
+.path-card-img-wrap {
+aspect-ratio: 16 / 8.5;
+}
+.path-card-body {
+padding: 13px 14px 12px;
+gap: 7px;
+}
+.path-card-title {
+font-size: 19px;
+line-height: 1.15;
+}
+.path-card-tagline {
+font-size: 12.5px;
+line-height: 1.35;
+}
+.path-card-footer {
+padding-top: 10px;
+}
 }
 /* ========== SIMULATE SECTION ========== */
 .simulate-section {

@@ -43,6 +43,13 @@
       <div class="progress-fill" id="progress-fill" style="width:0%"></div>
     </div>
   </div>
+  <div class="lang-control" aria-label="Language">
+    <span class="lang-label mono-label">Language</span>
+    <div class="lang-switch">
+      <button class="lang-btn" type="button" data-lang="en">EN</button>
+      <button class="lang-btn active" type="button" data-lang="id">ID</button>
+    </div>
+  </div>
 </header>
 
 <section class="hero">
@@ -377,6 +384,28 @@
         </ul>
       </div>
 
+      <div class="concept-box">
+        <h3 class="section-label mono-label">Konsep: Chatbot vs Agent</h3>
+        <div class="concept-cols">
+          <div class="concept-col chatbot-col">
+            <h4 class="concept-label mono-label">Chatbot</h4>
+            <p>AI yang cuma bisa <strong>ngobrol</strong>. Dia nunggu kamu nanya, dia jawab. Setiap balasan dimulai dari nol — chatbot nggak bisa ngapa-ngapain di luar kotak chat. Nggak bisa baca file kamu, nggak bisa jalanin perintah, nggak bisa edit dokumen.</p>
+            <img class="concept-img nostalgia-img" src="img/eviebot-clever-bot.webp" alt="Eviebot / Cleverbot — chatbot jadul tahun 2010-an yang cuma bisa balas teks. Nostalgia banget." width="320" height="180" loading="lazy">
+            <p class="concept-caption nostalgia-caption">Inget Eviebot / Cleverbot? Itu chatbot AI tahun 2010-an — cuma bisa balas teks, sering ngawur, tapi seru. ChatGPT hari ini masih termasuk chatbot: dia jago ngobrol, tapi tetap nggak bisa ngapa-ngapain di luar kotak chat. Kelemahan yang sama, cuma lebih pintar ngomongnya.</p>
+            <p class="concept-examples"><span class="mono-label">Contoh:</span> Eviebot, Cleverbot, ChatGPT (web), Claude (web), Gemini (web).</p>
+            <p class="concept-hint">Level 1–4 masih di level Chatbot.</p>
+          </div>
+          <div class="concept-col agent-col">
+            <h4 class="concept-label mono-label">Agent</h4>
+            <p>AI yang bisa <strong>bertindak</strong>. Selain ngobrol, agent bisa baca folder, edit file, jalanin command di terminal, hapus atau bikin file baru. Agent nggak cuma ngasih saran — dia beneran <em>ngerjain</em> pekerjaannya sendiri.</p>
+            <p class="concept-caption agent-caption">Bayangin asisten yang nggak cuma jawab pertanyaan, tapi langsung buka file kamu, ngubah kodenya, dan commit ke Git — semua dari satu prompt. Itu beda fundamental: chatbot ngomong <em>tentang</em> pekerjaan, agent <em>ngerjain</em> pekerjaan.</p>
+            <p class="concept-examples"><span class="mono-label">Contoh:</span> Claude Code, Codex CLI, Aider, Cursor, Claude Desktop + Filesystem.</p>
+            <p class="concept-hint">Mulai Level 6, kamu masuk ke dunia Agent.</p>
+          </div>
+        </div>
+        <img class="concept-img concept-cmp-img" src="img/chatbot-vs-agent.png" alt="Diagram perbandingan Chatbot vs Agent: chatbot cuma bisa chat, agent bisa baca file dan eksekusi command" width="640" height="360" loading="lazy">
+      </div>
+
       <div class="steps">
         <h3 class="section-label mono-label">Langkah:</h3>
         <ol>
@@ -475,9 +504,11 @@
 
 <footer class="ai-footer">
   <button class="reset-btn" id="reset-btn">Ulangi progress dari awal</button>
+  <p class="version mono-label" id="version-tag">v1.1</p>
   <p class="made-by">Made by <a href="../../" class="made-by-link">Zrov</a></p>
 </footer>
 
+<script src="i18n.js"></script>
 <script src="ai-learn.js"></script>
 </body>
 </html>

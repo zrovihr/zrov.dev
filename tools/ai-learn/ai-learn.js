@@ -4,6 +4,7 @@
 
   var STORAGE_KEY = 'ai-learn-progress';
   var totalLevels = 7;
+  var i18n = window.AiLearnI18n || null;
 
   function getProgress() {
     return parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10) || 0;
@@ -30,7 +31,11 @@
     var fill = document.getElementById('progress-fill');
     var label = document.getElementById('progress-label');
     if (fill) fill.style.width = (progress / totalLevels * 100) + '%';
-    if (label) label.textContent = progress + ' / ' + totalLevels + ' selesai';
+    if (label) {
+      label.textContent = i18n
+        ? i18n.formatProgress(progress, totalLevels)
+        : progress + ' / ' + totalLevels + ' selesai';
+    }
 
     var outro = document.getElementById('outro');
     if (outro) outro.hidden = progress < totalLevels;
@@ -61,7 +66,10 @@
   var resetBtn = document.getElementById('reset-btn');
   if (resetBtn) {
     resetBtn.addEventListener('click', function () {
-      if (confirm('Yakin mau ulang progress dari awal? Semua level akan terkunci lagi.')) {
+      var message = i18n
+        ? i18n.t('resetConfirm')
+        : 'Yakin mau ulang progress dari awal? Semua level akan terkunci lagi.';
+      if (confirm(message)) {
         setProgress(0);
         updateUI(0);
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -78,6 +86,10 @@
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
   }
+
+  document.addEventListener('ai-learn-langchange', function () {
+    updateUI(getProgress());
+  });
 
   updateUI(getProgress());
 })();
