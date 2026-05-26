@@ -439,6 +439,33 @@
       return wrap;
     };
 
+    const runPostScripts = (root) => {
+      root.querySelectorAll('script').forEach((oldScript) => {
+        const type = oldScript.getAttribute('type');
+
+        if (type && !['text/javascript', 'application/javascript'].includes(type)) {
+          return;
+        }
+
+        if (!oldScript.src) {
+          const source = oldScript.textContent;
+          oldScript.remove();
+          Function(source)();
+          return;
+        }
+
+        const script = document.createElement('script');
+
+        Array.from(oldScript.attributes).forEach((attribute) => {
+          script.setAttribute(attribute.name, attribute.value);
+        });
+
+        script.textContent = oldScript.textContent;
+        oldScript.parentNode.insertBefore(script, oldScript);
+        oldScript.remove();
+      });
+    };
+
     const renderPost = async (post) => {
       const article = document.createElement('article');
       article.className = 'blog-post';
@@ -479,7 +506,9 @@
 
     const showPost = async (post) => {
       activeSlug = post.slug;
-      postsRoot.replaceChildren(await renderPost(post));
+      const article = await renderPost(post);
+      postsRoot.replaceChildren(article);
+      runPostScripts(article);
       setActiveCatalogueItem();
 
       if (location.hash.slice(1) !== post.slug) {
