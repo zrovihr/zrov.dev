@@ -3,7 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SYS::ZROV BLOG ARCHIVE</title>
+  <title>Blog — Zrov | Unity, C++ &amp; Game Dev</title>
+  <meta name="description"
+    content="The Zrov developer blog: posts on Unity game development, C++ smart pointers, behaviour trees, AI learning, and the journey of an indie game dev.">
+  <link rel="canonical" href="https://zrov.dev/blogs/blogs.html">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Zrov">
+  <meta property="og:title" content="Blog — Zrov">
+  <meta property="og:description" content="Posts on Unity game development, C++, behaviour trees, and AI learning.">
+  <meta property="og:url" content="https://zrov.dev/blogs/blogs.html">
   <link rel="icon" type="image/png" sizes="32x32" href="/static/img/ghostZeroico.png">
   <link rel="icon" type="image/png" sizes="192x192" href="/static/img/favicon-192.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -494,7 +503,23 @@
       const response = await fetch(post.file);
       if (!response.ok) throw new Error(`Could not load ${post.file}`);
 
-      article.insertAdjacentHTML('beforeend', await response.text());
+      const rawHtml = await response.text();
+      // Posts are now full HTML documents (for SEO). Pull the standalone
+      // <main> wrapper's contents but drop the chrome that only belongs on
+      // the standalone page (the <h1> and the "back to blog" link), keeping
+      // .blog-body AND any sibling <script> (e.g. minigames). Legacy bare
+      // fragments fall through to raw injection.
+      const parsed = new DOMParser().parseFromString(rawHtml, 'text/html');
+      const wrapper = parsed.querySelector('main.blog-standalone');
+      if (wrapper) {
+        wrapper.querySelectorAll(':scope > h1, :scope > p > a[href$="#' + post.slug + '"]').forEach((el) => {
+          // remove the back-link's wrapping <p> entirely, and the standalone <h1>
+          (el.tagName === 'A' ? el.closest('p') || el : el).remove();
+        });
+        article.insertAdjacentHTML('beforeend', wrapper.innerHTML);
+      } else {
+        article.insertAdjacentHTML('beforeend', rawHtml);
+      }
       return article;
     };
 
