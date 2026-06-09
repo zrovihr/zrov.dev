@@ -1,7 +1,20 @@
-# Exclude !Excluded directories (third-party assets kept out of public repo)
+# === main branch .gitignore (PUBLIC — GitHub Pages serves this) ===
+# Reference-only / non-public directories
 \.council/
 \!Excluded/
 **/\!Excluded/
+
+# Build "backend" — generators that produce the static output.
+# Kept OUT of the public `main` branch; preserved on the private `backend` branch.
+# (The GENERATED output in id/wiki/, en/wiki/, sitemap.xml DOES ship.)
+generate-sitemap.js
+tools/wiki-build/
+build-wiki.bat
+content/
+
+# Agent instruction files (not part of the public site)
+AGENTS.md
+CLAUDE.md
 
 # PGP private/secret key exports must stay local.
 *private*.asc
