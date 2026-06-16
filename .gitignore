@@ -3,6 +3,7 @@
 \.council/
 \!Excluded/
 **/\!Excluded/
+.claude/
 
 # Build "backend" — generators that produce the static output.
 # Kept OUT of the public `main` branch; preserved on the private `backend` branch.
@@ -21,3 +22,5 @@ CLAUDE.md
 *secret*.asc
 *private*.gpg
 *secret*.gpg
+**.log
+.playwright-mcp/*
