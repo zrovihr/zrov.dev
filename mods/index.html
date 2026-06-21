@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>zrov / mods</title>
+  <meta name="description" content="Every mod published by zrov — Minecraft on Modrinth, Crime Simulator on Nexus, source on GitHub.">
+  <link rel="canonical" href="https://zrov.dev/mods/">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="zrov / mods">
+  <meta property="og:description" content="Every mod published by zrov.">
+  <meta property="og:url" content="https://zrov.dev/mods/">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/img/ghostZeroico.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #000;
+      --panel: #0a0805;
+      --fg: #e7e2d8;
+      --dim: #9a8f7c;
+      --faint: #6e6450;
+      --amber: #df8a1e;
+      --amber-d: #a9610f;
+      --red: #c5251c;
+      --line: #2a2010;
+      --label: 'Oswald', 'Arial Narrow', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--label);
+      font-size: 16px;
+      line-height: 1.55;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 640px; margin: 0 auto; padding: 12vh 22px 16vh; }
+
+    .top { color: var(--amber); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+    h1 { font-size: 34px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; line-height: 1; }
+    h1 .acc { color: var(--amber); }
+    .lede { color: var(--dim); font-size: 14px; margin-top: 8px; }
+
+    .grp { margin-top: 36px; }
+    .grp__h {
+      color: var(--amber); font-size: 13px; font-weight: 600; letter-spacing: 2px;
+      text-transform: uppercase; padding-bottom: 8px;
+      border-bottom: 1px solid var(--line); margin-bottom: 4px;
+    }
+
+    /* account rows */
+    a.row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 4px; text-decoration: none; color: var(--fg);
+      border-bottom: 1px solid var(--line);
+    }
+    a.row:last-child { border-bottom: 0; }
+    a.row .name { font-weight: 600; letter-spacing: .3px; }
+    a.row:hover { color: #fff; }
+    a.row:hover .ico { fill: var(--amber); }
+    a.row:hover .url { color: var(--dim); }
+    .url { color: var(--faint); font-size: 13px; margin-left: auto; text-align: right; }
+    .ico { width: 18px; height: 18px; fill: #b89055; flex: none; }
+
+    /* mod cards */
+    a.mod {
+      display: block; padding: 14px 14px; text-decoration: none; color: var(--fg);
+      background: var(--panel); border: 1px solid var(--line);
+      border-left: 3px solid var(--amber);
+      margin-bottom: 10px;
+    }
+    a.mod.is-red { border-left-color: var(--red); }
+    a.mod:hover { border-color: var(--amber-d); background: #100b05; }
+    a.mod:hover .mod__name { color: var(--amber); }
+    .mod__top { display: flex; align-items: center; gap: 12px; }
+    .mod__name { font-size: 18px; font-weight: 600; }
+    .mod__for {
+      color: var(--faint); font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+      margin-left: auto; text-align: right; white-space: nowrap;
+    }
+    .mod__desc { color: var(--dim); font-size: 14px; margin-top: 6px; }
+
+    .foot { margin-top: 46px; color: var(--faint); font-size: 12px; letter-spacing: .5px; }
+    .foot a { color: var(--dim); text-decoration: none; }
+    .foot a:hover { color: var(--amber); }
+
+    /* GT2 yellow cursor (shared with /go) */
+    .cursor {
+      position: fixed; top: 0; left: 0; width: 30px; height: 30px;
+      pointer-events: none; z-index: 9999; opacity: 0;
+      transition: opacity .25s; will-change: transform;
+      filter: drop-shadow(1px 2px 1px rgba(0,0,0,.7));
+    }
+    .cursor.on { opacity: 1; }
+    @media (hover: none) { .cursor { display: none; } }
+
+    @media (max-width: 460px) {
+      .wrap { padding-top: 8vh; }
+      h1 { font-size: 28px; }
+      .url { display: none; }
+      .mod__top { flex-direction: column; align-items: flex-start; gap: 3px; }
+      .mod__for { margin-left: 0; text-align: left; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- GT2 yellow cursor -->
+  <svg class="cursor" id="cursor" viewBox="0 0 32 32" aria-hidden="true">
+    <path d="M5 3 L5 27 L11.5 21 L16 30 L20.5 28 L16 19 L25 19 Z"
+          fill="#ffd21a" stroke="#1a1205" stroke-width="2" stroke-linejoin="round"/>
+  </svg>
+
+  <!-- icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-github" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+    <symbol id="i-modrinth" viewBox="0 0 24 24"><path d="M12.252.004a11.78 11.768 0 0 0-8.92 3.73 11 10.999 0 0 0-2.17 3.11 11.37 11.359 0 0 0-1.16 5.169c0 1.42.17 2.5.6 3.77.24.759.77 1.899 1.17 2.529a12.3 12.298 0 0 0 8.85 5.639c.44.05 2.54.07 2.76.02.2-.04.22.1-.26-1.7l-.36-1.37-1.01-.06a8.5 8.489 0 0 1-5.18-1.8 5.34 5.34 0 0 1-1.3-1.26c0-.05.34-.28.74-.5a37.572 37.545 0 0 1 2.88-1.629c.03 0 .5.45 1.06.98l1 .97 2.07-.43 2.06-.43 1.47-1.47c.8-.8 1.48-1.5 1.48-1.52 0-.09-.42-1.63-.46-1.7-.04-.06-.2-.03-1.02.18-.53.13-1.2.3-1.45.4l-.48.15-.53.53-.53.53-.93.1-.93.07-.52-.5a2.7 2.7 0 0 1-.96-1.7l-.13-.6.43-.57c.68-.9.68-.9 1.46-1.1.4-.1.65-.2.83-.33.13-.099.65-.579 1.14-1.069l.9-.9-.7-.7-.7-.7-1.95.54c-1.07.3-1.96.53-1.97.53-.03 0-2.23 2.48-2.63 2.97l-.29.35.28 1.03c.16.56.3 1.16.31 1.34l.03.3-.34.23c-.37.23-2.22 1.3-2.84 1.63-.36.2-.37.2-.44.1-.08-.1-.23-.6-.32-1.03-.18-.86-.17-2.75.02-3.73a8.84 8.839 0 0 1 7.9-6.93c.43-.03.77-.08.78-.1.06-.17.5-2.999.47-3.039-.01-.02-.1-.02-.2-.03Zm3.68.67c-.2 0-.3.1-.37.38-.06.23-.46 2.42-.46 2.52 0 .04.1.11.22.16a8.51 8.499 0 0 1 2.99 2 8.38 8.379 0 0 1 2.16 3.449 6.9 6.9 0 0 1 .4 2.8c0 1.07 0 1.27-.1 1.73a9.37 9.369 0 0 1-1.76 3.769c-.32.4-.98 1.06-1.37 1.38-.38.32-1.54 1.1-1.7 1.14-.1.03-.1.06-.07.26.03.18.64 2.56.7 2.78l.06.06a12.07 12.058 0 0 0 7.27-9.4c.13-.77.13-2.58 0-3.4a11.96 11.948 0 0 0-5.73-8.578c-.7-.42-2.05-1.06-2.25-1.06Z"/></symbol>
+    <symbol id="i-nexus" viewBox="0 0 24 24"><path d="M17.376 0c-.993 0-2.18.686-2.907 1.182-1.676-.36-4.036-.545-6.787.635-1.365-.513-2.425-.562-3.32-.488a2.16 2.16 0 0 0-1.27.429c-.33.22-2.788 2.69-3.069 4.652C-.15 7.508.68 8.932 1.218 9.718c-.44 1.76-.2 4.572.517 6.188-.353 1.041-.713 2.089-.664 3.205.01.584.061 1.188.398 1.684C1.72 21.19 4.528 24 6.545 24c.957 0 1.93-.428 3.07-1.24 2.16.383 4.402.348 6.448-.532 2.573 1.001 4.224.625 4.84.162.587-.457 2.826-2.915 3.07-4.622.1-.672-.023-1.638-1.226-3.397a10.983 10.983 0 0 0-.501-6.455c.396-1.069.673-2.188.59-3.337-.015-.68-.221-1.167-.487-1.507-.209-.335-2.415-2.39-4.028-2.91A3.105 3.105 0 0 0 17.376 0m-.03 2.082c.65.015 2.155 1.093 3.01 1.906l.355.34c-.959-.163-2.125.428-3.26 1.55a10.28 10.28 0 0 0-1.358 1.595c-.28.384-.517.768-.753 1.285l1.18.635-3.895 1.477-1.122-4.18 1.033.547c1.358-3.102 2.524-3.973 3.232-4.416h.015a5.12 5.12 0 0 1 1.49-.724zM12 3.065a8.932 8.932 0 0 1 2.22.279 7.67 7.67 0 0 0-.42.488 8.403 8.403 0 0 0-1.8-.196 8.336 8.336 0 0 0-5.897 2.432 7.86 7.86 0 0 1-.37-.433A8.905 8.905 0 0 1 12 3.065m-7.076.305c.71-.002 1.309.127 2.2.466a9.526 9.526 0 0 0-1.713 1.337c-.327-.542-.624-1.156-.488-1.803m-.606.042c-.162.96.428 2.126 1.55 3.264.457.487 1.003.945 1.594 1.358.383.281.767.517 1.283.754l.62-1.182 1.49 3.914-4.176 1.122.546-1.033c-3.099-1.36-3.969-2.526-4.412-3.235v-.015a5.144 5.144 0 0 1-.723-1.491l-.015-.074c.015-.65 1.092-2.156 1.904-3.013Zm16.035 1.483a1.259 1.259 0 0 1 .26.015l.14.023a5.05 5.05 0 0 1-.13 1.137v.015c-.1.383-.228.765-.377 1.148a9.526 9.526 0 0 0-1.346-1.776c.547-.357 1.051-.546 1.453-.562M18.43 5.8a8.903 8.903 0 0 1 2.506 6.2 8.937 8.937 0 0 1-.27 2.183 7.658 7.658 0 0 0-.488-.425A8.407 8.407 0 0 0 20.364 12 8.334 8.334 0 0 0 18 6.173a7.904 7.904 0 0 1 .429-.373M3.315 9.905c.157.148.319.29.488.425A8.417 8.417 0 0 0 3.636 12c0 2.248.887 4.286 2.327 5.788a8.11 8.11 0 0 1-.426.376A8.902 8.902 0 0 1 3.065 12a8.937 8.937 0 0 1 .25-2.095m13.988 1.541-.546 1.034c3.098 1.359 3.969 2.526 4.412 3.235v.014c.34.488.575.99.723 1.492l.014.074c-.014.65-1.092 2.156-1.903 3.013l-.34.354c.163-.96-.427-2.127-1.549-3.264a10.298 10.298 0 0 0-1.594-1.359 7.008 7.008 0 0 0-1.283-.753l-.605 1.152-1.505-3.87zm-6.006 1.684 1.121 4.18-1.033-.547c-1.357 3.102-2.523 3.973-3.231 4.416h-.015c-.487.34-.989.576-1.49.724l-.074.015c-.65-.015-2.154-1.093-3.01-1.906l-.354-.34c.959.163 2.124-.428 3.26-1.55.488-.458.945-1.004 1.358-1.595.28-.384.517-.768.753-1.285l-1.166-.635ZM3.72 16.663A9.526 9.526 0 0 0 5.086 18.5c-.697.47-1.33.665-1.777.59l-.138-.024c0-.367.038-.748.128-1.137v-.015c.11-.417.254-.835.42-1.252m14.131 1.314c.129.14.253.283.372.43A8.904 8.904 0 0 1 12 20.936a8.932 8.932 0 0 1-2.282-.296 7.757 7.757 0 0 0 .417-.487 8.335 8.335 0 0 0 7.716-2.175m.696.889c.43.666.607 1.267.534 1.698l-.023.138a5.034 5.034 0 0 1-1.136-.128h-.014a10.718 10.718 0 0 1-1.114-.366 9.526 9.526 0 0 0 1.753-1.342"/></symbol>
+  </svg>
+
+  <div class="wrap">
+    <div class="top">zrov.dev</div>
+    <h1>Mods<span class="acc">/</span></h1>
+    <p class="lede">Everything I&apos;ve published.</p>
+
+    <div class="grp">
+      <div class="grp__h">Accounts</div>
+      <a class="row" href="https://modrinth.com/user/zrov" target="_blank" rel="noopener"><svg class="ico"><use href="#i-modrinth"/></svg><span class="name">Modrinth</span><span class="url">modrinth.com/user/zrov</span></a>
+      <a class="row" href="https://www.nexusmods.com/profile/zrovihr/mods" target="_blank" rel="noopener"><svg class="ico"><use href="#i-nexus"/></svg><span class="name">Nexus Mods</span><span class="url">nexusmods.com/zrovihr</span></a>
+      <a class="row" href="https://github.com/zrovihr" target="_blank" rel="noopener"><svg class="ico"><use href="#i-github"/></svg><span class="name">GitHub</span><span class="url">github.com/zrovihr</span></a>
+    </div>
+
+    <div class="grp">
+      <div class="grp__h">Mods</div>
+
+      <a class="mod" href="https://modrinth.com/mod/betterwaystonesmenu-conversion" target="_blank" rel="noopener">
+        <div class="mod__top"><span class="mod__name">BetterWaystonesMenu — Conversion</span><span class="mod__for">Minecraft · Modrinth</span></div>
+        <div class="mod__desc">Better Waystones menu — sortable, scrollable waystone list.</div>
+      </a>
+
+      <a class="mod" href="https://modrinth.com/mod/auto-move-forward" target="_blank" rel="noopener">
+        <div class="mod__top"><span class="mod__name">Auto Walk Forward</span><span class="mod__for">Minecraft · Modrinth</span></div>
+        <div class="mod__desc">Keybinds to toggle auto-move-forward. Cobblemon Rides compatible.</div>
+      </a>
+
+      <a class="mod" href="https://modrinth.com/mod/cobblemon-shortcuts" target="_blank" rel="noopener">
+        <div class="mod__top"><span class="mod__name">Cobblemon Shortcuts</span><span class="mod__for">Minecraft · Modrinth</span></div>
+        <div class="mod__desc">Trigger the Battle UI with keys 1–6, tilde ( ` ) to go back. Fabric.</div>
+      </a>
+
+      <a class="mod is-red" href="https://www.nexusmods.com/crimesimulator/mods/25" target="_blank" rel="noopener">
+        <div class="mod__top"><span class="mod__name">Infinite Zip Ties Duration</span><span class="mod__for">Crime Simulator · Nexus</span></div>
+        <div class="mod__desc">Removes Zip Tie duration decay — the status on NPCs lasts forever.</div>
+      </a>
+    </div>
+
+    <div class="foot">© <span id="yr"></span> zrov · <a href="/go/">go</a></div>
+  </div>
+
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // ── GT2 cursor: glides at constant speed toward the last-hovered link ──
+    (function () {
+      const cursor = document.getElementById('cursor');
+      if (!cursor) return;
+      const TIP_X = 5, TIP_Y = 3, SPEED = 1400;
+      const targets = document.querySelectorAll('a.row, a.mod');
+      let cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+      let tx = cx, ty = cy, active = false, last = null;
+
+      function aim(el) {
+        const r = el.getBoundingClientRect();
+        tx = r.left + Math.min(26, r.width * 0.06);
+        ty = r.top + r.height / 2;
+        if (!active) { active = true; cursor.classList.add('on'); }
+      }
+      targets.forEach(el => {
+        el.addEventListener('mouseenter', () => { last = el; aim(el); });
+        el.addEventListener('focus', () => { last = el; aim(el); });
+      });
+      const reaim = () => { if (last) aim(last); };
+      window.addEventListener('scroll', reaim, { passive: true });
+      window.addEventListener('resize', reaim);
+
+      let prev = null;
+      function tick(now) {
+        if (prev == null) prev = now;
+        const dt = Math.min(0.05, (now - prev) / 1000); prev = now;
+        const dx = tx - cx, dy = ty - cy, dist = Math.hypot(dx, dy), step = SPEED * dt;
+        if (dist <= step || dist < 0.5) { cx = tx; cy = ty; }
+        else { cx += (dx / dist) * step; cy += (dy / dist) * step; }
+        cursor.style.transform = 'translate(' + (cx - TIP_X) + 'px,' + (cy - TIP_Y) + 'px)';
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    })();
+  </script>
+</body>
+
+</html>
