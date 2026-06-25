@@ -434,6 +434,106 @@ code, .inline-mono {
   line-height: 1.5;
 }
 
+/* ── WALKTHROUGH (click-by-click, beginner-safe) ── */
+/* Built for Level 3's "install Claude Code in VS Code" — heavy on whitespace and
+   color cues so beginners don't drown in prose. Each step is its own card. */
+.walkthrough {
+  margin: 8px 0 28px;
+}
+.walkthrough-intro {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink);
+  margin: 0 0 20px;
+  padding: 14px 18px;
+  background: rgba(120, 180, 255, 0.06);     /* cool blue tint = "info", calmer than the green warnings */
+  border-left: 3px solid oklch(0.72 0.13 240);
+  border-radius: 3px;
+}
+.walkthrough-intro strong { color: var(--ink); }
+/* The MCP / jargon decoder — the one term a beginner must not be scared of */
+.jargon {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
+  margin: 0 0 24px;
+  padding: 12px 16px;
+  background: var(--cream);
+  border: 1px dashed var(--line);
+  border-radius: 3px;
+}
+.jargon b { color: var(--accent); font-weight: 600; }
+
+/* Numbered step cards — big gaps between them so each click feels separate */
+.wt-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;                                  /* the breathing room the user asked for */
+  counter-reset: wt;
+}
+.wt-step {
+  position: relative;
+  counter-increment: wt;
+  padding: 16px 18px 16px 56px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  line-height: 1.55;
+  font-size: 14.5px;
+}
+.wt-step::before {
+  content: counter(wt);
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--bg);
+  background: var(--accent);
+  border-radius: 50%;
+}
+.wt-step strong { color: var(--ink); font-weight: 600; }
+.wt-step .wt-head {
+  display: block;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.wt-step .wt-note {
+  display: block;
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+/* "type this / click this" chips — a visual cue distinct from inline code */
+.click-chip {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 2px 8px;
+  margin: 0 1px;
+  border-radius: 3px;
+  background: rgba(168, 230, 168, 0.12);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  white-space: nowrap;
+}
+/* a couple of steps are "this is the confusing part" — flag them warmly, not with alarm */
+.wt-step.key {
+  border-color: var(--accent);
+  background: rgba(168, 230, 168, 0.05);
+}
+.wt-step.key::before { background: var(--easy); }
+
 /* ── TL;DR ── */
 .tldr {
   display: none;
@@ -567,6 +667,8 @@ code, .inline-mono {
   .level-card { padding: 28px 22px; }
   .roadmap { padding: 0 16px 60px; }
   .concept-cols { grid-template-columns: 1fr; gap: 16px; }
+  .wt-step { padding: 14px 14px 14px 48px; }
+  .wt-step::before { left: 12px; top: 12px; width: 24px; height: 24px; font-size: 12px; }
 }
 
 /* ── PRINT ── */

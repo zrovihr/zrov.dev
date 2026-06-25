@@ -206,17 +206,49 @@
         </ol>
         <p>Sampai titik ini kamu udah punya AI yang bisa <em>baca dan ubah file kamu</em> dari chat biasa — nggak perlu terminal, nggak perlu ngoding. Level 6 nanti cuma ngangkat hal yang sama ke level lebih lanjut (terminal, command, project gede).</p>
 
-        <h3 class="section-label mono-label">Langkah tambahan — kalau kamu ngoding:</h3>
-        <ol start="8">
-          <li>Install <a href="https://code.visualstudio.com" target="_blank" rel="noopener">VS Code</a> — editor kode gratis dari Microsoft, standar industri</li>
-          <li>Tambahin <strong>Claude for VS Code</strong> (extension resmi Anthropic) — Claude bisa baca file yang lagi kamu buka, kasih saran, edit langsung. Lihat screenshot di atas: Claude di sidebar kanan, file di tengah, terminal di bawah</li>
-          <li>Coba juga <strong>Codex</strong> — desktop app dari OpenAI khusus buat coding. Install dari <a href="https://openai.com/codex" target="_blank" rel="noopener">openai.com/codex</a>. Beda sama ChatGPT biasa: Codex tahu konteks project kamu, bisa baca/edit beberapa file sekaligus</li>
-          <li>Alternatif gratis: <strong>GitHub Copilot</strong> (gratis buat student/open source) atau <strong>Cline</strong> (extension VS Code open source). Pilih satu, jangan install semua</li>
-        </ol>
-      </div>
+        <h3 class="section-label mono-label">Kalau kamu ngoding — pasang Claude Code di VS Code:</h3>
 
-      <img class="level-img-secondary" src="img/level-3-codex-app.png" alt="Tangkapan layar Codex desktop app — chat dengan AI tentang kode project" width="640" height="400" loading="lazy">
-      <p class="img-caption mono-label">Codex desktop app — interface khusus buat coding, bisa baca seluruh project</p>
+        <p class="walkthrough-intro" id="l3-wt-intro"><strong>Banyak orang kepengen pakai Claude Code, bukan chat web biasa.</strong> Ini cara paling gampang: nginstall extension di VS Code. Ikutin langkah di bawah pelan-pelan — tiap kotak = satu klik. Nggak usah buru-buru.</p>
+
+        <p class="jargon" id="l3-wt-jargon"><b>"MCP" itu apa?</b> Kamu bakal sering lihat singkatan ini. MCP = cara Claude nyambung ke tools dan file kamu. Buat sekarang <b>nggak usah dipikirin</b> — install extension-nya dulu, MCP itu urusan nanti. Jangan kaget pas lihat istilahnya.</p>
+
+        <img class="level-img" id="l3-vscode-ext-img" src="img/level-3-vscode-extension-install.png" alt="Panel Extensions di VS Code — cari 'Claude Code for VS Code' dari Anthropic, klik tombol Install" width="640" height="400" loading="lazy">
+        <p class="img-caption mono-label" id="l3-vscode-ext-caption">Panel Extensions VS Code — yang kamu cari: "Claude Code for VS Code" by Anthropic (logo bunga oranye)</p>
+
+        <ol class="wt-steps" id="l3-wt-steps">
+          <li class="wt-step">
+            <span class="wt-head">Install VS Code dulu</span>
+            Download dari <a href="https://code.visualstudio.com" target="_blank" rel="noopener">code.visualstudio.com</a>. Editor kode gratis dari Microsoft. Next-Next-Install, default aman.
+          </li>
+          <li class="wt-step">
+            <span class="wt-head">Buka panel Extensions</span>
+            Di VS Code, klik ikon kotak-kotak di sidebar kiri — atau tekan <span class="click-chip">Ctrl</span> <span class="click-chip">Shift</span> <span class="click-chip">X</span>.
+          </li>
+          <li class="wt-step key">
+            <span class="wt-head">Cari extension-nya</span>
+            Di kotak search atas, ketik <span class="click-chip">Claude Code</span>. Yang bener: <strong>"Claude Code for VS Code"</strong> oleh <strong>Anthropic</strong> — logonya bunga oranye (lihat foto di atas).
+            <span class="wt-note">Hati-hati: ada extension tiruan. Pastikan penerbitnya <strong>Anthropic</strong> dengan centang biru.</span>
+          </li>
+          <li class="wt-step key">
+            <span class="wt-head">Klik Install</span>
+            Tekan tombol biru <span class="click-chip">Install</span> di samping nama extension. Tunggu beberapa detik sampai selesai.
+          </li>
+          <li class="wt-step">
+            <span class="wt-head">Login pakai akun Claude kamu</span>
+            Setelah keinstall, dia minta login. Pakai akun Claude (Pro/Max) atau API key. Selesai login, Claude muncul di sidebar.
+          </li>
+          <li class="wt-step">
+            <span class="wt-head">Coba pakai</span>
+            Buka folder project apa pun, buka panel Claude, ketik permintaan biasa: "jelasin file ini ngapain". Claude baca file yang kebuka dan jawab. <strong>Selamat — kamu udah jalanin Claude Code.</strong>
+          </li>
+        </ol>
+
+        <h3 class="section-label mono-label">Pilihan lain (opsional — nggak harus):</h3>
+        <ul id="l3-coder-alts">
+          <li><strong>Codex</strong> — desktop app coding dari OpenAI: <a href="https://openai.com/codex" target="_blank" rel="noopener">openai.com/codex</a>. Tahu konteks project, bisa edit beberapa file sekaligus.</li>
+          <li><strong>GitHub Copilot</strong> (gratis buat student/open source) atau <strong>Cline</strong> (extension VS Code open source). <strong>Pilih satu aja</strong> — jangan install semua sekaligus.</li>
+        </ul>
+      </div>
 
       <div class="warnings">
         <h3 class="section-label mono-label">Hati-hati:</h3>
@@ -504,7 +536,7 @@
 
 <footer class="ai-footer">
   <button class="reset-btn" id="reset-btn">Ulangi progress dari awal</button>
-  <p class="version mono-label" id="version-tag">v1.1</p>
+  <p class="version mono-label" id="version-tag">v1.2</p>
   <p class="made-by">Made by <a href="../../" class="made-by-link">Zrov</a></p>
 </footer>
 
