@@ -62,10 +62,20 @@ body::before {
 }
 
 /* ---- LAVA EMBER CANVAS ---- */
+/* layering: cogwork (1) < main content (2) < embers (3) < glitch (250).
+   main gets z-index so panel backgrounds occlude the gears; embers sit
+   above content, same as before this stack existed */
+.cogwork-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
 .ember-canvas {
   position: fixed;
   inset: 0;
-  z-index: 2;
+  z-index: 3;
   pointer-events: none;
   opacity: 0.45;
   mix-blend-mode: screen;
@@ -843,6 +853,11 @@ body.postprocess-glitching .inventory-item {
   margin: 0 0.5rem;
 }
 
+/* with the fake stat groups gone the player is the bar's only child */
+.hud__player:only-child {
+  margin: 0 auto;
+}
+
 .hud__group {
   display: flex;
   gap: 1.5rem;
@@ -1203,6 +1218,8 @@ main {
   width: 100%;
   margin: 0 auto;
   padding: var(--gutter);
+  position: relative;
+  z-index: 2; /* above the cogwork background canvas */
 }
 
 /* ---- HERO / SIGIL ---- */
@@ -1699,6 +1716,103 @@ main {
   50% {
     opacity: 0;
   }
+}
+
+/* ---- SCROLL SCENES (cinematic pinned sections, desktop only) ---- */
+/* body.scenes-on is added by scrollscenes.js; without it the page is
+   normal document flow (mobile, reduced motion, no-JS) */
+.scene-fade {
+  position: fixed;
+  inset: 0;
+  z-index: 240; /* above everything except the glitch overlay (250) */
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.scene-rail {
+  position: fixed;
+  right: 1.1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 90;
+  display: none;
+  flex-direction: column;
+  gap: 0.55rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+body.scenes-on .scene-rail {
+  display: flex;
+}
+
+.scene-rail button {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  color: var(--bone-dim);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.scene-rail button::before {
+  content: '';
+  width: 16px;
+  height: 1px;
+  background: currentColor;
+}
+
+.scene-rail button:hover,
+.scene-rail button.is-active {
+  color: var(--phosphor);
+}
+
+/* fixed stage: the page NEVER scrolls visually (per Zan: "it should not
+   scroll the page at all it should replace elements only"). main is fixed,
+   scenes stack in one grid cell, and #sceneDriver (JS-made spacer) provides
+   the scrollbar whose position only selects the scene. */
+body.scenes-on main {
+  position: fixed;
+  inset: 0;
+  margin: 0 auto;
+  z-index: 2;
+  display: grid;
+  overflow: hidden;
+  padding-top: 3.2rem; /* clear the HUD bar */
+}
+
+body.scenes-on .scene {
+  grid-area: 1 / 1;
+  display: flex;
+  align-items: center;
+  min-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.scenes-on .scene.is-active {
+  pointer-events: auto;
+}
+
+/* scene 1 reads as the landing header: nav right under the HUD */
+body.scenes-on .scene:first-of-type {
+  align-items: flex-start;
+}
+
+body.scenes-on .scene__pin {
+  width: 100%;
+}
+
+body.scenes-on .scene__inner {
+  width: 100%;
+  will-change: transform, opacity;
 }
 
 /* ---- GHOSTZER0 ACCESS NODE ---- */

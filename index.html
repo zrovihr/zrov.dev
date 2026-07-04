@@ -32,6 +32,9 @@
 
 <body>
 
+  <!-- ══════════════╔COGWORK BACKGROUND ══════════════╔-->
+  <canvas class="cogwork-canvas" id="cogworkCanvas" aria-hidden="true"></canvas>
+
   <!-- ══════════════╔LAVA EMBER PARTICLES ══════════════╔-->
   <canvas class="ember-canvas" id="emberCanvas" data-parallax="0.01" aria-hidden="true"></canvas>
 
@@ -55,12 +58,6 @@
 
   <!-- ══════════════╔TOP HUD ══════════════╔-->
   <header class="hud">
-    <div class="hud__group">
-      <div class="hud__stat"><span class="hud__label">SYS</span><span class="hud__value">ONLINE</span></div>
-      <div class="hud__stat"><span class="hud__label">NODE</span><span class="hud__value">ZROV-PRIME</span></div>
-      <div class="hud__stat"><span class="hud__label">CLEARANCE</span><span class="hud__value--warn">RESTRICTED</span>
-      </div>
-    </div>
     <div class="hud__player" aria-label="Music controls">
       <button type="button" id="audioToggle" aria-label="Toggle YouTube music" title="Play / Pause">▶</button>
       <button type="button" id="playlistToggle" title="Playlist (shuffle: ON)" aria-expanded="false" aria-controls="playlistMenu">♫</button>
@@ -97,27 +94,25 @@
         <ul class="playlist-menu__list" id="playlistList" aria-label="Curated YouTube music"></ul>
       </div>
     </div>
-    <div class="hud__group">
-      <div class="hud__stat"><span class="hud__label">VOX</span><span class="hud__value">TRILINGUAL</span></div>
-      <div class="hud__stat"><span class="hud__label">LOCUS</span><span class="hud__value">JP-NODE</span></div>
-      <div class="hud__stat"><span class="hud__label">PING</span><span class="hud__value">12ms</span></div>
-    </div>
   </header>
-
-  <!-- ══════════════╔══PAGE NAVIGATION ══════════════╗-->
-  <nav class="page-nav" aria-label="Site navigation">
-    <a href="/index.html">Dossier</a>
-    <a href="/blogs/blogs.html">Blog</a>
-    <a href="/id/wiki/">Wiki</a>
-    <a href="/tools/">Tools</a>
-    <a href="/mods/">Mods</a>
-    <a href="/go/">Go</a>
-  </nav>
 
   <main>
 
     <!-- ══════════════╔HERO / SIGIL ══════════════╔-->
-    <section class="hero">
+    <section class="scene" data-scene="IDENT">
+      <div class="scene__pin">
+        <div class="scene__inner">
+          <!-- page nav lives inside scene 1: pinned with it (never scrolls
+               away during IDENT), exits with it — per Zan -->
+          <nav class="page-nav" aria-label="Site navigation">
+            <a href="/index.html">Dossier</a>
+            <a href="/blogs/blogs.html">Blog</a>
+            <a href="/id/wiki/">Wiki</a>
+            <a href="/tools/">Tools</a>
+            <a href="/mods/">Mods</a>
+            <a href="/go/">Go</a>
+          </nav>
+          <section class="hero">
       <div class="hero__frame">
         <img src="assets/chain_frame.png" alt="">
         <div class="hero__sigil">
@@ -146,8 +141,14 @@
         </div>
       </div>
     </section>
+        </div>
+      </div>
+    </section>
 
-    <section class="access-node" aria-label="ghostZER0 quick access terminal">
+    <section class="scene" data-scene="ACCESS">
+      <div class="scene__pin">
+        <div class="scene__inner">
+          <section class="access-node" aria-label="ghostZER0 quick access terminal">
       <div class="access-node__sigil">
         <img src="assets/ghostZeroMedTrans.png" alt="ghostZER0 sigil">
       </div>
@@ -189,8 +190,14 @@
         </button>
       </div>
     </section>
+        </div>
+      </div>
+    </section>
 
     <!-- ══════════════╔DOSSIER ══════════════╔-->
+    <section class="scene" data-scene="DOSSIER">
+      <div class="scene__pin">
+        <div class="scene__inner">
     <div class="section-hd">
       <h2>Classified Dossier</h2>
       <span class="ref">REF: ZRV-Ω-7</span>
@@ -206,10 +213,9 @@
               <span><span class="dossier-hl">3 years</span> game dev study in <span class="dossier-hl">Japan</span></span>
             </div>
             <div class="dossier-entry-detail">
-              Zrov focused on practical game development by relocating to Japan to specialize in production as a team leader. 
-              He prioritized understanding team workflows and transforming concepts into playable builds. 
-              Throughout his academic career, he consistently led his teams to foster collaborative learning and professional growth. 
-              Additionally, he dedicated time to cross-functional collaboration by engaging with other classes on outsourcing projects.
+              Moved to Japan to learn production the hard way: leading student teams
+              from concept to playable build, every project. Took outsourcing work
+              from other classes on the side.
             </div>
           </div>
           <div class="dossier-entry">
@@ -218,10 +224,9 @@
               <span><span class="dossier-hl">5+ years</span> programming &bull; <span class="dossier-hl">7+ years</span> game design &amp; development</span>
             </div>
             <div class="dossier-entry-detail">
-              Zrov develops gameplay systems, prototypes, tools, UI flows, and technical experiments 
-              using Unity, C#, Python, and modding environments as side projects. 
-              He also works on web servers, managing and understanding various web server providers, 
-              and he possesses a strong understanding of AI APIs and their implementation into applications.
+              Gameplay systems, prototypes, editor tools, and UI flows in Unity, C#,
+              and Python, plus modding environments as side projects. Also runs his
+              own web servers and wires AI APIs into working applications.
             </div>
           </div>
           <div class="dossier-entry">
@@ -230,12 +235,9 @@
               <span><span class="dossier-hl">3+ years</span> filmmaking &bull; <span class="dossier-hl">1+ year</span> film direction &amp; real crew work</span>
             </div>
             <div class="dossier-entry-detail">
-              He has practical experience with shot planning, 
-              scene direction, and production coordination. 
-              He also worked on story breakdowns and screenplays with writers, 
-              camera operators, and sound designers, 
-              while collaborating with various crew members. 
-              Additionally, he won many film competitions, earning first place in several of them.
+              Shot planning, scene direction, and production coordination on real
+              crews: writers, camera operators, sound designers. First place in
+              several film competitions.
             </div>
           </div>
           <div class="dossier-entry">
@@ -244,9 +246,8 @@
               <span>Trilingual: <span class="dossier-accent">EN</span> <span class="dossier-accent">JP</span> <span class="dossier-accent">ID</span></span>
             </div>
             <div class="dossier-entry-detail">
-              Proficient in reading, writing, and communicating in 
-              English, Japanese, and Indonesian for development, documentation, and collaboration. 
-              He has a passion for global culture and linguistics in general.
+              Reads, writes, and works in English, Japanese, and Indonesian:
+              code reviews, documentation, day-to-day collaboration.
             </div>
           </div>
           <div class="dossier-entry">
@@ -255,9 +256,8 @@
               <span>Building a tactical RPG in <span class="dossier-hl">Unity</span> since Aug 2025</span>
             </div>
             <div class="dossier-entry-detail">
-              Current long-term project: 
-              tactical combat, narrative systems, editor tooling, and data-heavy 
-              Unity workflows for a production-scale RPG. Zrov wants to apply all of his life skills to his ultimate game projects.
+              Current long-term project: tactical combat, narrative systems, editor
+              tooling, and data-heavy Unity workflows for a production-scale RPG.
             </div>
           </div>
           <div class="dossier-entry">
@@ -266,9 +266,8 @@
               <span>Mods for <span class="dossier-hl">Minecraft, Fallout, and more</span></span>
             </div>
             <div class="dossier-entry-detail">
-              Develops quality-of-life systems, gameplay adjustments, 
-              UI enhancements, and personal patches for moddable games and modding tools, 
-              available for free online with more than 1,000 downloads.
+              Quality-of-life systems, gameplay tweaks, UI upgrades, and personal
+              patches for moddable games. Free online, 1,000+ downloads.
             </div>
           </div>
           <div class="dossier-entry">
@@ -277,16 +276,18 @@
               <span>Custom Unity editor tools &amp; AI integrations</span>
             </div>
             <div class="dossier-entry-detail">
-              Writes tools to speed up repetitive editor work, inspect project state, automate asset wiring, and connect AI-assisted workflows to production tasks.
+              Tools that kill repetitive editor work: project-state inspection,
+              automated asset wiring, AI-assisted workflows hooked into production.
             </div>
           </div>
           <div class="dossier-entry">
             <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
               <span class="dossier-prefix">&gt;</span>
-              <span>Authored non-fictional books &mdash; hundreds sold</span>
+              <span>Authored non-fictional books, hundreds sold</span>
             </div>
             <div class="dossier-entry-detail">
-              Published practical non-fiction work with real readers, giving experience in structure, editing, audience fit, and finishing long-form projects.
+              Wrote, edited, and shipped long-form books that real people paid for.
+              Hundreds of copies sold.
             </div>
           </div>
           <div class="dossier-entry">
@@ -295,13 +296,14 @@
               <span>Fan of dark-themed: Warcraft, Darktide, Fallout</span>
             </div>
             <div class="dossier-entry-detail">
-              Draws inspiration from grim tactical worlds, heavy atmosphere, faction conflict, survival pressure, and player-driven consequence.
+              Grim tactical worlds, heavy atmosphere, faction conflict, survival
+              pressure, player-driven consequence. That is the target feel for DIVE.
             </div>
           </div>
           <div class="dossier-entry">
             <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
               <span class="dossier-prefix">&gt;</span>
-              <span>Speaking of dark &mdash; Zrov is experienced in <span class="redacted">REDACTED BY INQUISITION</span></span>
+              <span>Speaking of dark: Zrov is experienced in <span class="redacted">REDACTED BY INQUISITION</span></span>
             </div>
             <div class="dossier-entry-detail">
               Clearance denied. Classified material remains sealed pending review by the appropriate imaginary authority.
@@ -336,8 +338,14 @@
     <div class="ascii-sep">
       ───── ✠ ╬ ✠ ╬ ✠ ─────
     </div>
+        </div>
+      </div>
+    </section>
 
     <!-- ══════════════╔ASSET INVENTORY ══════════════╔-->
+    <section class="scene" data-scene="ASSETS">
+      <div class="scene__pin">
+        <div class="scene__inner">
     <div class="section-hd">
       <h2>Asset Inventory</h2>
       <span class="ref">REF: ZRV-INV-3</span>
@@ -388,8 +396,14 @@
     <div class="ascii-sep">
       ✠ ════ ☠ ════ ✠
     </div>
+        </div>
+      </div>
+    </section>
 
     <!-- ══════════════╔WORKSHOP MANIFEST ══════════════╔-->
+    <section class="scene" data-scene="WORKSHOP">
+      <div class="scene__pin">
+        <div class="scene__inner">
     <div class="section-hd">
       <h2>Workshop Manifest</h2>
       <span class="ref">REF: ZRV-MOD-11</span>
@@ -413,7 +427,7 @@
       <div class="workshop-tile">
         <div class="ws-game">Minecraft 1.21 · Fabric</div>
         <div class="ws-name">Cobblemon Shortcuts</div>
-        <div class="ws-desc">Keyboard shortcuts for battle HUD. Select moves, switch Pokemon — no mouse needed.</div>
+        <div class="ws-desc">Keyboard shortcuts for battle HUD. Select moves, switch Pokemon, no mouse needed.</div>
       </div>
 
       <div class="workshop-tile">
@@ -452,8 +466,14 @@
     <div class="ascii-sep">
       ─ ✠ ════ ☠ ════ ✠ ─
     </div>
+        </div>
+      </div>
+    </section>
 
     <!-- ══════════════╔INTERESTS ══════════════╔-->
+    <section class="scene" data-scene="PSYCH">
+      <div class="scene__pin">
+        <div class="scene__inner">
     <div class="section-hd">
       <h2>Interests</h2>
       <span class="ref">REF: ZRV-PSY-6</span>
@@ -527,8 +547,14 @@
     <div class="ascii-sep">
       ─ ✠ ════ ☠ ════ ✠ ─
     </div>
+        </div>
+      </div>
+    </section>
 
     <!-- ══════════════╔TERMINAL ══════════════╔-->
+    <section class="scene" data-scene="UPLINK">
+      <div class="scene__pin">
+        <div class="scene__inner">
     <div class="section-hd">
       <h2>Uplink Terminal</h2>
       <span class="ref">REF: ZRV-CON-1</span>
@@ -556,7 +582,7 @@
             class="cursor"></span>
         </div>
         <div class="terminal-line" style="margin-top:0.6rem;">
-          <span class="output">steam&nbsp;&nbsp;: [encrypted channel — request key]</span>
+          <span class="output">steam&nbsp;&nbsp;: [encrypted channel :: request key]</span>
         </div>
         <div class="terminal-line">
           <span class="output">github&nbsp;&nbsp;: <a href="https://github.com/zrovihr"
@@ -575,7 +601,7 @@
               style="color:var(--phosphor);text-decoration:none;">x.com/zrovihr</a></span>
         </div>
         <div class="terminal-line">
-          <span class="output">secure&nbsp;&nbsp;: [encrypted channel — request key]</span>
+          <span class="output">secure&nbsp;&nbsp;: [encrypted channel :: request key]</span>
         </div>
         <div class="terminal-line">
           <span class="output">email&nbsp;&nbsp;&nbsp;&nbsp;: <span style="color:var(--bone-dim);">zrovihr</span><span
@@ -589,31 +615,21 @@
       &nbsp;&nbsp;THE MACHINE SPIRIT WATCHES. SERVE IT WELL.&nbsp;&nbsp;&nbsp;<br>
       ╚══════════════════════════════════════════╝
     </div>
+        </div>
+      </div>
+    </section>
 
   </main>
 
-  <!-- ══════════════╔BOTTOM HUD ══════════════╔-->
-  <footer class="hud hud--bottom">
-    <div class="hud__group">
-      <div class="hud__stat"><span class="hud__label">THREAT</span><span class="hud__value--warn">NOMINAL</span></div>
-      <div class="hud__stat"><span class="hud__label">SYS::UPTIME</span><span class="hud__value" id="uptime">000d 00h
-          00m</span></div>
-    </div>
-    <div class="hud__group">
-      <div class="hud__stat"><span class="hud__label">AUSPEX</span><span class="hud__value">ACTIVE</span></div>
-      <div class="hud__stat"><span class="hud__label">VOX</span><span class="hud__value">EN·JP·ID</span></div>
-      <div class="hud__stat"><span class="hud__label">OMNISSIAH</span><span class="hud__value">PRAISE</span></div>
-    </div>
-  </footer>
+  <!-- ══════════════╔CINEMATIC SCENE CHROME ══════════════╔-->
+  <div class="scene-fade" id="sceneFade" aria-hidden="true"></div>
+  <nav class="scene-rail" id="sceneRail" aria-label="Sections"></nav>
 
   <!-- PGP KEY LOADER -->
   <script src="/static/js/pgp-key-loader.js" defer></script>
 
   <!-- GHOSTZER0 ACCESS NODE CONTROLS -->
   <script src="/static/js/hud-player-terminal.js" defer></script>
-
-  <!-- ══════════════╔FAKE UPTIME ══════════════╔-->
-  <script src="/static/js/uptime.js" defer></script>
 
   <!-- ══════════════╔LAVA EMBER PARTICLE SYSTEM ══════════════╔-->
   <script src="/static/js/ember-canvas.js" defer></script>
@@ -626,6 +642,12 @@
 
 
   <script src="/static/js/dossier.js" defer></script>
+
+  <!-- ══════════════╔COGWORK BACKGROUND (3D wireframe gears) ══════════════╔-->
+  <script src="/static/js/cogwork.js" defer></script>
+
+  <!-- ══════════════╔SCROLL SCENES (pinned cinematic sections) ══════════════╔-->
+  <script src="/static/js/scrollscenes.js" defer></script>
 </body>
 
 </html>

@@ -257,8 +257,8 @@ value={searchQuery}
 onChange={(e) => setSearchQuery(e.target.value)}
 />
 {!searchQuery && (
-<span className="search-kbd">
-<span>⌘</span>
+<span className="search-kbd" title="Press Ctrl+K to search">
+<span>Ctrl</span>
 <span>K</span>
 </span>
 )}

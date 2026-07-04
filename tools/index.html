@@ -346,13 +346,7 @@
 
   <header class="hud">
     <div class="hud__group">
-      <div class="hud__stat"><span class="hud__label">SYS</span><span class="hud__value">ONLINE</span></div>
-      <div class="hud__stat"><span class="hud__label">NODE</span><span class="hud__value">TOOLS-INVENTORY</span></div>
-      <div class="hud__stat"><span class="hud__label">CLEARANCE</span><span class="hud__value--warn">RESTRICTED</span></div>
-    </div>
-    <div class="hud__group">
       <div class="hud__stat"><span class="hud__label">TOOLS</span><span class="hud__value" id="tool-count">--</span></div>
-      <div class="hud__stat"><span class="hud__label">STATUS</span><span class="hud__value">ACTIVE</span></div>
     </div>
   </header>
 
@@ -485,16 +479,6 @@
 
     <div class="ascii-sep">THE MACHINE SPIRIT WATCHES. SERVE IT WELL.</div>
   </main>
-
-  <footer class="hud hud--bottom">
-    <div class="hud__group">
-      <div class="hud__stat"><span class="hud__label">THREAT</span><span class="hud__value--warn">NOMINAL</span></div>
-      <div class="hud__stat"><span class="hud__label">ACTIVE</span><span class="hud__value">1</span></div>
-    </div>
-    <div class="hud__group">
-      <div class="hud__stat"><span class="hud__label">OMNISSIAH</span><span class="hud__value">PRAISE</span></div>
-    </div>
-  </footer>
 
   <script>
     document.getElementById('tool-count').textContent = document.querySelectorAll('.tool-card:not(.tool-card--empty)').length;
