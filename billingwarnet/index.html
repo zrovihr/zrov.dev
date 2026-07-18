@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BillingWarnet — Zrov</title>
+  <meta name="description" content="A funny static web netcafe simulator inspired by old Indonesian warnet billing screens.">
+  <link rel="canonical" href="https://zrov.dev/billingwarnet/">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Zrov">
+  <meta property="og:title" content="BillingWarnet — Zrov">
+  <meta property="og:description" content="A tiny nostalgic warnet simulator with real HTML controls, sounds, and playlist chrome.">
+  <meta property="og:url" content="https://zrov.dev/billingwarnet/">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/img/ghostZeroico.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/static/img/favicon-192.png">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      background: #f5f5f5;
+      color: #00134d;
+      font-family: Arial, "MS Sans Serif", "Microsoft Sans Serif", sans-serif;
+      font-size: 11px;
+      letter-spacing: 0;
+    }
+
+    .site-mark {
+      position: fixed;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      color: #00127c;
+      font: bold 12px Arial, "MS Sans Serif", "Microsoft Sans Serif", sans-serif;
+      text-decoration: none;
+      text-shadow: 1px 1px 0 #ffffff;
+    }
+
+    .sim-layout {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) 600px minmax(220px, 1fr);
+      gap: 16px;
+      align-items: center;
+      width: calc(100vw - 16px);
+    }
+
+    .desktop {
+      container-type: inline-size;
+      position: relative;
+      width: 100%;
+      aspect-ratio: 600 / 367;
+      overflow: hidden;
+      border: 1px solid #00127c;
+      background: #85d8e5 url("./dolphin-bg.jpg") center / cover no-repeat;
+    }
+
+    .control-panel {
+      position: absolute;
+      top: 1.36%;
+      left: 1%;
+      width: 34.84%;
+      height: 24.8%;
+      display: grid;
+      grid-template-columns: 31% 31% 32%;
+      gap: 4.4% 2.4%;
+      padding: 0.7% 0.83%;
+      background: #12eeee;
+      border: 1px solid #067a9a;
+      box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.65);
+    }
+
+    .button-grid {
+      grid-column: 1 / 3;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: repeat(4, 1fr);
+      gap: 4.8% 7.6%;
+    }
+
+    .be-button {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      cursor: pointer;
+      border: 1px solid #8a8a8a;
+      border-top-color: #f7f7f7;
+      border-left-color: #f7f7f7;
+      background: #e9e9e9;
+      color: #565656;
+      font-family: Arial, "MS Sans Serif", "Microsoft Sans Serif", sans-serif;
+      font-size: clamp(6px, 1.67cqw, 10px);
+      line-height: 1;
+      text-align: center;
+      box-shadow: inset -1px -1px 0 #bebebe;
+      appearance: none;
+    }
+
+    .be-button:hover,
+    .be-button.is-selected {
+      background: #f6f6f6;
+      color: #00334d;
+    }
+
+    .be-button:active,
+    .be-button.is-pressed {
+      padding-top: 1px;
+      border-top-color: #777777;
+      border-left-color: #777777;
+      border-right-color: #f5f5f5;
+      border-bottom-color: #f5f5f5;
+      background: #dcdcdc;
+      box-shadow: inset 1px 1px 0 #9d9d9d;
+    }
+
+    .be-button:focus-visible,
+    .minute-input:focus-visible,
+    .warning input[type="radio"]:focus-visible {
+      outline: 1px dotted #111111;
+      outline-offset: 1px;
+    }
+
+    .warning {
+      grid-column: 3;
+      grid-row: 1 / 5;
+      display: grid;
+      grid-template-rows: 48% repeat(4, 12.5%);
+      align-content: start;
+      row-gap: 0;
+      color: #00134d;
+      font-size: clamp(6px, 1.67cqw, 10px);
+      line-height: 1.08;
+      overflow: hidden;
+    }
+
+    .warning-title {
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      font-size: clamp(7px, 1.84cqw, 11px);
+      line-height: 1.05;
+      align-self: start;
+    }
+
+    .warning-row {
+      display: grid;
+      grid-template-columns: 14% 53% 31%;
+      align-items: center;
+      column-gap: 2%;
+      height: auto;
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    .warning input[type="radio"] {
+      width: clamp(7px, 1.5cqw, 9px);
+      height: clamp(7px, 1.5cqw, 9px);
+      margin: 0;
+      cursor: pointer;
+      accent-color: #111111;
+    }
+
+    .minute-text {
+      font-size: clamp(6px, 1.67cqw, 10px);
+    }
+
+    .minute-value {
+      font-size: clamp(6px, 1.67cqw, 10px);
+      text-align: left;
+    }
+
+    .minute-input {
+      width: 100%;
+      height: 100%;
+      padding: 0 1px;
+      border: 1px solid #777777;
+      background: #ffffff;
+      color: #111111;
+      font-family: Arial, "MS Sans Serif", "Microsoft Sans Serif", sans-serif;
+      font-size: clamp(6px, 1.67cqw, 10px);
+      line-height: 1;
+      text-align: center;
+      box-shadow: inset 1px 1px 0 #cfcfcf;
+    }
+
+    .brand-card {
+      position: absolute;
+      top: 1.36%;
+      left: 37.5%;
+      width: 45%;
+      height: 22.9%;
+      background: #ffffff;
+      border: 1px solid rgba(0, 0, 150, 0.55);
+    }
+
+    .brand-head {
+      height: 50%;
+      padding-top: 1.85%;
+      color: #f7ffff;
+      text-align: center;
+      font-size: clamp(11px, 3cqw, 18px);
+      line-height: 1;
+      text-shadow: 1px 1px 1px #003d83;
+      background:
+        radial-gradient(circle at 24% 50%, rgba(113, 255, 255, 0.9), transparent 20%),
+        radial-gradient(circle at 50% 20%, rgba(88, 235, 255, 0.8), transparent 20%),
+        linear-gradient(90deg, #041fc7 0%, #0090f5 30%, #0036a5 58%, #0600f0 100%);
+    }
+
+    .brand-head span {
+      display: block;
+      margin-top: 0;
+      color: #ffff55;
+      font-size: clamp(8px, 2.17cqw, 13px);
+      line-height: 1.08;
+    }
+
+    .brand-empty {
+      display: grid;
+      place-items: center;
+      height: 50%;
+      background: #ffffff;
+    }
+
+    .photo-window {
+      width: 100%;
+      height: min(64vh, 496px);
+      min-height: 360px;
+      border: 1px solid rgba(0, 18, 124, 0.75);
+      background: #ffffff;
+      box-shadow:
+        inset 1px 1px 0 rgba(255, 255, 255, 0.85),
+        1px 1px 0 rgba(0, 0, 0, 0.18);
+    }
+
+    .window-titlebar {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      height: 20px;
+      padding: 2px 3px 2px 5px;
+      color: #ffffff;
+      background: linear-gradient(90deg, #001d9b, #006bd6);
+      font: bold 11px/1 Arial, "MS Sans Serif", "Microsoft Sans Serif", sans-serif;
+    }
+
+    .window-title {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .window-buttons {
+      display: flex;
+      gap: 2px;
+    }
+
+    .window-button {
+      width: 16px;
+      height: 14px;
+      padding: 0;
+      border: 1px solid #4f4f4f;
+      border-top-color: #ffffff;
+      border-left-color: #ffffff;
+      background: #dcdcdc;
+      color: #111111;
+      cursor: pointer;
+      font: bold 10px/10px Arial, "MS Sans Serif", "Microsoft Sans Serif", sans-serif;
+      text-align: center;
+      box-shadow: inset -1px -1px 0 #8a8a8a;
+    }
+
+    .window-button:active {
+      padding-top: 1px;
+      border-top-color: #555555;
+      border-left-color: #555555;
+      border-right-color: #ffffff;
+      border-bottom-color: #ffffff;
+      box-shadow: inset 1px 1px 0 #888888;
+    }
+
+    .window-button[data-window-action="close"] {
+      cursor: not-allowed;
+    }
+
+    .window-body {
+      height: calc(100% - 20px);
+      background: #ffffff;
+    }
+
+    .window-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .photo-window.is-minimized {
+      height: 20px;
+      min-height: 20px;
+    }
+
+    .photo-window.is-minimized .window-body {
+      display: none;
+    }
+
+    .photo-window.is-maximized {
+      height: min(76vh, 560px);
+    }
+
+    .currency-readout {
+      position: absolute;
+      right: 1%;
+      bottom: 1.35%;
+      min-width: 104px;
+      height: 21px;
+      padding: 2px 6px 0;
+      border: 1px solid #4c4c4c;
+      border-top-color: #d9d9d9;
+      border-left-color: #d9d9d9;
+      background: #777777;
+      color: #ffff33;
+      font-family: Arial, "MS Sans Serif", "Microsoft Sans Serif", sans-serif;
+      font-size: clamp(8px, 1.84cqw, 11px);
+      line-height: 1.35;
+      text-align: right;
+      text-shadow: 1px 1px 0 #1e1e1e;
+      box-shadow:
+        inset 1px 1px 0 #bdbdbd,
+        inset -1px -1px 0 #3f3f3f;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .mulai-button {
+      width: 62px;
+      height: 20px;
+      padding: 0;
+      border: 1px solid #7f7f7f;
+      border-top-color: #ffffff;
+      border-left-color: #ffffff;
+      background: #e9e9e9;
+      color: #00134d;
+      cursor: pointer;
+      font-family: Arial, "MS Sans Serif", "Microsoft Sans Serif", sans-serif;
+      font-size: clamp(8px, 1.84cqw, 11px);
+      line-height: 1;
+      text-align: center;
+      box-shadow: inset -1px -1px 0 #bebebe;
+      appearance: none;
+    }
+
+    .mulai-button:hover {
+      background: #f6f6f6;
+    }
+
+    .mulai-button:active,
+    .mulai-button.is-pressed {
+      padding-top: 1px;
+      border-top-color: #777777;
+      border-left-color: #777777;
+      border-right-color: #ffffff;
+      border-bottom-color: #ffffff;
+      background: #dcdcdc;
+      box-shadow: inset 1px 1px 0 #9d9d9d;
+    }
+
+    .back-link {
+      position: fixed;
+      right: 12px;
+      bottom: 10px;
+      color: #00127c;
+      font: 12px Arial, "MS Sans Serif", "Microsoft Sans Serif", sans-serif;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .playlist-toggle {
+      position: fixed;
+      left: 12px;
+      bottom: 10px;
+      min-width: 86px;
+      height: 22px;
+      padding: 0 8px;
+      border: 1px solid #7f7f7f;
+      border-top-color: #ffffff;
+      border-left-color: #ffffff;
+      background: #e9e9e9;
+      color: #00127c;
+      cursor: pointer;
+      font: 11px Arial, "MS Sans Serif", "Microsoft Sans Serif", sans-serif;
+      box-shadow: inset -1px -1px 0 #bebebe;
+    }
+
+    .playlist-toggle:active,
+    .playlist-toggle.is-open {
+      border-top-color: #777777;
+      border-left-color: #777777;
+      border-right-color: #ffffff;
+      border-bottom-color: #ffffff;
+      background: #dcdcdc;
+      box-shadow: inset 1px 1px 0 #9d9d9d;
+    }
+
+    .playlist-dock {
+      position: fixed;
+      left: 12px;
+      right: 12px;
+      bottom: 38px;
+      z-index: 10;
+      display: none;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 7px;
+      border: 1px solid #00127c;
+      background: #12eeee;
+      color: #00134d;
+      font: 11px Arial, "MS Sans Serif", "Microsoft Sans Serif", sans-serif;
+      box-shadow:
+        inset 1px 1px 0 rgba(255, 255, 255, 0.7),
+        2px 2px 0 rgba(0, 0, 0, 0.18);
+    }
+
+    .playlist-dock.is-open {
+      display: block;
+    }
+
+    .playlist-now {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 5px;
+      line-height: 1.2;
+    }
+
+    .playlist-title {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-weight: bold;
+    }
+
+    .playlist-time {
+      flex: 0 0 auto;
+      color: #00127c;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .playlist-controls {
+      display: grid;
+      grid-template-columns: auto auto auto auto minmax(90px, 1fr) auto;
+      gap: 5px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .playlist-control {
+      justify-self: start;
+      height: 20px;
+      min-width: 45px;
+      padding: 0 8px;
+      border: 1px solid #7f7f7f;
+      border-top-color: #ffffff;
+      border-left-color: #ffffff;
+      background: #e9e9e9;
+      color: #00134d;
+      cursor: pointer;
+      font: 11px/18px Arial, "MS Sans Serif", "Microsoft Sans Serif", sans-serif;
+      box-shadow: inset -1px -1px 0 #bebebe;
+    }
+
+    .playlist-control:active {
+      border-top-color: #777777;
+      border-left-color: #777777;
+      border-right-color: #ffffff;
+      border-bottom-color: #ffffff;
+      background: #dcdcdc;
+      box-shadow: inset 1px 1px 0 #9d9d9d;
+    }
+
+    .playlist-control.is-on {
+      background: #001fc7;
+      color: #ffffff;
+      border-top-color: #777777;
+      border-left-color: #777777;
+      border-right-color: #ffffff;
+      border-bottom-color: #ffffff;
+      box-shadow: inset 1px 1px 0 #00105f;
+    }
+
+    .seek {
+      width: 100%;
+      min-width: 0;
+      accent-color: #00127c;
+      cursor: pointer;
+    }
+
+    .volume-control {
+      display: grid;
+      grid-template-columns: auto 68px 28px;
+      gap: 3px;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    .volume {
+      width: 68px;
+      min-width: 0;
+      accent-color: #00127c;
+      cursor: pointer;
+    }
+
+    .volume-value {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .playlist-list {
+      max-height: 112px;
+      margin: 0;
+      padding: 0;
+      overflow: auto;
+      border: 1px solid #07809b;
+      background: rgba(255, 255, 255, 0.72);
+      list-style: none;
+    }
+
+    .playlist-track {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 5px;
+      width: 100%;
+      padding: 3px 5px;
+      border: 0;
+      border-bottom: 1px solid rgba(0, 18, 124, 0.14);
+      background: transparent;
+      color: #00134d;
+      cursor: pointer;
+      font: 11px Arial, "MS Sans Serif", "Microsoft Sans Serif", sans-serif;
+      text-align: left;
+    }
+
+    .playlist-track:hover,
+    .playlist-track.is-current {
+      background: #001fc7;
+      color: #ffffff;
+    }
+
+    .playlist-number {
+      font-variant-numeric: tabular-nums;
+      opacity: 0.78;
+    }
+
+    .youtube-slot {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @media (max-width: 620px) {
+      body {
+        place-items: start center;
+        padding-top: 18px;
+      }
+
+      .sim-layout {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        width: calc(100vw - 16px);
+      }
+
+      .desktop {
+        width: 100%;
+      }
+
+      .photo-window {
+        height: 84px;
+        min-height: 84px;
+      }
+
+      .playlist-controls {
+        grid-template-columns: repeat(4, auto);
+      }
+
+      .seek {
+        grid-column: 1 / -1;
+      }
+
+      .volume-control {
+        grid-column: 1 / -1;
+        justify-self: end;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="site-mark" href="/">zrov.dev</a>
+  <main class="sim-layout" aria-label="BillingWarnet simulator">
+    <aside class="photo-window left" aria-label="Empty left display window">
+      <div class="window-titlebar">
+        <span class="window-title">Preview</span>
+        <div class="window-buttons" aria-label="Window controls">
+          <button class="window-button" type="button" data-window-action="minimize" aria-label="Minimize">_</button>
+          <button class="window-button" type="button" data-window-action="maximize" aria-label="Maximize">□</button>
+          <button class="window-button" type="button" data-window-action="close" aria-label="Close disabled">×</button>
+        </div>
+      </div>
+      <div class="window-body"></div>
+    </aside>
+    <section class="desktop" aria-label="BillingWarnet dolphin screen">
+      <section class="control-panel" aria-label="BillingWarnet controls">
+        <div class="button-grid">
+          <button class="be-button is-selected" type="button" aria-pressed="true">Personal</button>
+          <button class="be-button" type="button" aria-pressed="false">Group</button>
+          <button class="be-button" type="button" aria-pressed="false">Game</button>
+          <button class="be-button" type="button" aria-pressed="false">Paket</button>
+          <button class="be-button" type="button" aria-pressed="false">Member</button>
+          <button class="be-button" type="button" aria-pressed="false">Pre-Paid</button>
+          <button class="be-button is-selected" type="button" aria-pressed="true">Admin #</button>
+          <button class="be-button is-selected" type="button" aria-pressed="true">Panduan</button>
+        </div>
+
+        <div class="warning" role="radiogroup" aria-label="Time Warning">
+          <div class="warning-title">WS - 9<br>Time Warning</div>
+          <label class="warning-row">
+            <input type="radio" name="time-warning" checked>
+            <span class="minute-text">Tidak</span>
+            <input class="minute-input" type="text" value="0" aria-label="Tidak minutes">
+          </label>
+          <label class="warning-row">
+            <input type="radio" name="time-warning">
+            <span class="minute-text">Menit</span>
+            <span class="minute-value">30</span>
+          </label>
+          <label class="warning-row">
+            <input type="radio" name="time-warning">
+            <span class="minute-text">Menit</span>
+            <span class="minute-value">60</span>
+          </label>
+          <label class="warning-row">
+            <input type="radio" name="time-warning">
+            <span class="minute-text">Menit</span>
+            <span class="minute-value">45</span>
+          </label>
+        </div>
+      </section>
+
+      <section class="brand-card" aria-label="BillingWarnet title">
+        <div class="brand-head">
+        billingwarnet
+          <span>BillingWarnet 2006</span>
+        </div>
+        <div class="brand-empty">
+          <button class="mulai-button" id="start-session" type="button">Mulai</button>
+        </div>
+      </section>
+
+      <div class="currency-readout" aria-label="Current billing balance">Rp 0</div>
+    </section>
+    <aside class="photo-window right" aria-label="Empty right photo window">
+      <div class="window-titlebar">
+        <span class="window-title">Photo</span>
+        <div class="window-buttons" aria-label="Window controls">
+          <button class="window-button" type="button" data-window-action="minimize" aria-label="Minimize">_</button>
+          <button class="window-button" type="button" data-window-action="maximize" aria-label="Maximize">□</button>
+          <button class="window-button" type="button" data-window-action="close" aria-label="Close disabled">×</button>
+        </div>
+      </div>
+      <div class="window-body">
+        <img class="window-image" id="queue-photo" src="./img/queue-empty.webp" alt="No queue at the billing counter">
+      </div>
+    </aside>
+  </main>
+
+  <a class="back-link" href="/tools/">Back to tools</a>
+  <button class="playlist-toggle" type="button" aria-controls="playlist-dock" aria-expanded="false">Playlist</button>
+  <audio id="phone-ring" src="./sfx/old-telephone-ring-shitty.mp3" preload="auto"></audio>
+  <aside class="playlist-dock" id="playlist-dock" aria-label="YouTube playlist player">
+    <div class="playlist-now">
+      <div class="playlist-title" id="playlist-title">Loading playlist...</div>
+      <div class="playlist-time" id="playlist-time">0:00 / 0:00</div>
+    </div>
+    <div class="playlist-controls">
+      <button class="playlist-control" type="button" data-player-action="play">Play</button>
+      <button class="playlist-control" type="button" data-player-action="pause">Pause</button>
+      <button class="playlist-control" type="button" data-player-action="stop">Stop</button>
+      <button class="playlist-control" type="button" data-player-action="shuffle" aria-pressed="false">Shuffle</button>
+      <input class="seek" id="seek" type="range" min="0" max="0" value="0" step="1" aria-label="Seek through current song">
+      <label class="volume-control" for="volume">
+        <span>Vol</span>
+        <input class="volume" id="volume" type="range" min="0" max="100" value="70" step="1" aria-label="Playlist volume">
+        <span class="volume-value" id="volume-value">70%</span>
+      </label>
+    </div>
+    <ol class="playlist-list" id="playlist-list">
+      <li><button class="playlist-track" type="button"><span class="playlist-number">...</span><span>Loading songs from YouTube</span></button></li>
+    </ol>
+    <div class="youtube-slot" id="youtube-player"></div>
+  </aside>
+  <script>
+    const playlistId = 'PLTMveDwFk-jZm9AZddmmzWLNxYuXogV-j';
+    const firstVideoId = '53IHdiCabSc';
+    const seededPlaylist = [
+      ['53IHdiCabSc', 'Dear God', '6:34'],
+      ['OM3CMYq0a7Q', 'Aishiteru', '3:41'],
+      ['bqu7e1zrLwg', 'Ku Katakan Dengan Indah', '5:35'],
+      ['D6qHMBHERso', 'Teman Tapi Mesra', '4:25'],
+      ['32ymVnrH2gs', 'Hujan', '3:56'],
+      ['zPImzktSfVA', 'Mungkin Nanti', '4:29'],
+      ['P3S50Wu0DnI', 'Cari Pacar Lagi', '3:35'],
+      ['efOdABbe0Ro', 'Biarlah', '4:15'],
+      ['giOpWz-fhqM', 'Hapus Aku', '4:13'],
+      ['NL8WUtq_NDY', 'Ya Sudahlah', '4:15'],
+      ['n8rLISm84_k', 'Kenangan Terindah', '4:07'],
+      ['n9xT9saRRGQ', 'Karena Wanita (Ingin Dimengerti)', '4:37'],
+      ['tYBX2GBJbto', 'Musnah', '4:01'],
+      ['n4yerLIM9MM', 'Seperti Yang Dulu', '4:23'],
+      ['F2y17Tvs9XE', 'Begitu Indah', '5:09'],
+      ['JY1cZJjC86s', 'Hitamku', '4:27'],
+      ['lgY2lwBjMjk', 'Manusia Bodoh', '4:18'],
+      ['QB1eT6BbGW0', 'Bersama Bintang', '4:46'],
+      ['0heOU8EuXGA', 'Jadikan Aku Yang Kedua (Album Version)', '4:12'],
+      ['JGuCa3Ty6R0', 'Seluruh Nafas Ini (feat. Giselle)', '4:53'],
+      ['dO4cvE9Pidw', 'Suka Sama Kamu', '3:13'],
+      ['q-BkaPWRycc', 'Lelaki Buaya Darat', '3:30'],
+      ['8iEIHPQG44o', 'Ku Bahagia', '3:00'],
+      ['rUYAqu0TNbg', 'Main Hati', '3:59'],
+      ['nZ90lgxLF3U', 'Kesempatan Kedua', '3:56'],
+      ['qpUIuxN4-Fo', 'Hampa', '4:59'],
+      ['yHeTPjgbxeo', "Fallin' in Love (Indonesian Version)", '4:15'],
+      ['Cj7I1EYX_2I', 'Dokter Cinta', '3:56'],
+      ['ievvHgKBLWs', 'Kekasih Yang Tak Dianggap', '4:44'],
+      ['Zxw995kN-Qc', 'Makhluk Tuhan Paling Sexy', '4:27'],
+      ['utptSUkeSIc', 'Matahariku', '3:03'],
+      ['k1BfsO0mxWQ', 'Dan...', '4:49'],
+      ['b4UH1zRi6es', 'Gantung', '3:46'],
+      ['NE41kVB0swQ', 'Ruang Rindu', '3:33'],
+      ['aY8kKw19RVE', 'Separuh Nafas', '5:01'],
+      ['nSPj50gQ_m4', 'Seberapa Pantas', '4:02'],
+      ['j9ITOOStWNU', 'Semua Tentang Kita', '4:26'],
+      ['fjY76XnkTME', 'Suara (Ku Berharap)', '3:57'],
+      ['km5vhEwZiyY', 'Cari Jodoh', '4:11'],
+      ['wKFsgood7Ic', 'Siapkah Kau Tuk Jatuh Cinta Lagi', '4:40'],
+      ['aCRGMTBXk4g', 'Mungkinkah', '5:54'],
+      ['m1MREYXCfWg', 'Antara Ada Dan Tiada', '4:03'],
+      ['6S3jYdTsZy4', 'Arjuna', '5:14'],
+      ['tbzpm_KxCus', 'Wonder Woman', '4:37'],
+      ['5Tufr2svt0U', 'Cinta Ini Membunuhku', '4:04'],
+      ['TNKhZzwZRLU', 'Kasih Tak Sampai', '4:54'],
+      ['WvOmQYbNEY8', 'Itu Aku', '4:39'],
+      ['b3oOzsWjdvU', 'Ada Apa Denganmu', '4:41'],
+      ['XoLeyyg5jY0', 'Sakit Minta Ampun', '3:53'],
+      ['-e_VUdAXZXY', 'Melompat Lebih Tinggi', '3:19'],
+      ['ZUm1iTjI8VQ', 'Cinta Luar Biasa', '4:16'],
+      ['Qu4QWfa-yX4', 'Sebuah Kisah Klasik', '4:03'],
+      ['u0L-sU7wQD8', 'To the Bone', '5:45'],
+      ['2RzRNT1FALg', 'Selimut Tetangga', '3:48'],
+      ['sbYaUsldKJI', 'Selalu Mengalah', '3:49'],
+      ['aXiAVn1UeUo', 'Mimpi', '5:39'],
+      ['5S22nHDKA44', 'Untitled', '4:06'],
+      ['v5x1YmNV_C4', 'Andai Dia Tahu', '3:23'],
+      ['AljTamV_zPs', 'Dia', '4:24'],
+      ['LqA_2OqOsAo', 'Akhirnya Ku Menemukanmu', '5:07'],
+      ['bHyp3pq4o-w', 'Ku Tak Bisa', '4:24'],
+      ['-o5mrRkRUQA', 'Januari', '3:43'],
+      ['hxp-5MErFsw', 'Mengenangmu', '4:38'],
+      ['ZUzVImPHMP8', 'Hanya Kamu Yang Bisa', '3:46'],
+      ['7SnmQSBa4p0', 'Cinta Putih', '4:28'],
+      ['jYUTuuAEOD4', 'Perih', '3:21'],
+      ['gCPH3BYfeK0', 'Dengarkan Curhatku', '2:32'],
+      ['cv4diLMn3XY', 'Seandainya', '4:24'],
+      ['Yr5peJDnoZA', 'Berharap Tak Berpisah', '4:08'],
+      ['IC8qM0DAlmU', 'Dibalik Hari Esok', '4:51'],
+      ['UCG-eONB57Q', 'Jika Kami Bersama', '3:49'],
+      ['t8Lci2l2brQ', 'Benci Bilang Cinta', '4:42'],
+      ['2qbjaGcp9eY', 'Bulan', '4:01'],
+      ['sDiiKV6cJOs', 'Jujur', '4:53'],
+      ['QKUoPokNpNQ', 'Cinderella', '3:33'],
+      ['9Df7DUNejbM', 'Tulus', '4:24'],
+      ['-g9Xg1OFaZU', 'Anugerah Terindah Yang Pernah Kumiliki', '4:29'],
+      ['VELaa3AcydM', 'Sahabat Sejati', '3:45'],
+      ['xu76oGlJWZg', 'Mudah Saja', '3:34'],
+      ['NjmdjY_feto', 'Demi Cinta', '4:43'],
+      ['N8-XbkNcQRo', 'Empat Mata', '3:49'],
+      ['cJMuv_P4fp0', 'Jodoh Pasti Bertemu', '4:06'],
+      ['Vno3jbfYZMk', 'Panah Asmara', '4:35'],
+      ['IeEhFF7ZFeU', 'Bukan Cinta Biasa', '4:12'],
+      ['MUhJ7RKSbRU', 'Terima Kasih Cinta', '4:10'],
+      ['VG-cOD7egUw', 'Sadis', '3:20'],
+      ['B_xqat1y53k', 'Voor Dilan #III - Dulu Kita Masih Remaja', '3:13'],
+      ['7jGwhjedUH0', 'Karma', '3:41'],
+      ['yCZlVXl_Vu4', 'Siapa Yang Pantas', '3:32'],
+      ['pyeCtmTKUPc', 'Yang Terdalam', '3:20'],
+      ['poRwK17oX70', 'Tetap Semangat', '4:37'],
+      ['jurrczW2mMg', 'Masih Ada', '3:59'],
+      ['cCWElk5KfJg', 'Bintang di Surga', '5:02'],
+      ['BRPaF-O-3rE', 'Akad', '4:19'],
+      ['eLl5y1xDVv8', 'Menghapus Jejakmu', '3:34'],
+      ['E7kHvjvU6JY', 'Hati-Hati di Jalan', '4:02']
+    ];
+    let player;
+    let playlistIds = seededPlaylist.map(([id]) => id);
+    let playlistTitles = new Map(seededPlaylist.map(([id, title]) => [id, title]));
+    let playlistDurations = new Map(seededPlaylist.map(([id, , duration]) => [id, duration]));
+    let removedTrackIds = new Set();
+    let currentVideoId = firstVideoId;
+    let seekTimer;
+    let userSeeking = false;
+    let phoneRingPlayed = false;
+    let shuffleEnabled = false;
+    let queueTimer;
+    let queueResetTimer;
+    let queueSchedulerStarted = false;
+
+    const buttons = document.querySelectorAll('.be-button');
+    const warningRows = document.querySelectorAll('.warning-row');
+    const minuteInput = document.querySelector('.minute-input');
+    const playlistToggle = document.querySelector('.playlist-toggle');
+    const playlistDock = document.querySelector('.playlist-dock');
+    const playlistList = document.getElementById('playlist-list');
+    const playlistTitle = document.getElementById('playlist-title');
+    const playlistTime = document.getElementById('playlist-time');
+    const seek = document.getElementById('seek');
+    const volume = document.getElementById('volume');
+    const volumeValue = document.getElementById('volume-value');
+    const phoneRing = document.getElementById('phone-ring');
+    const startSession = document.getElementById('start-session');
+    const queuePhoto = document.getElementById('queue-photo');
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        button.classList.toggle('is-selected');
+        button.setAttribute('aria-pressed', button.classList.contains('is-selected') ? 'true' : 'false');
+        button.classList.add('is-pressed');
+        window.setTimeout(() => button.classList.remove('is-pressed'), 120);
+      });
+    });
+
+    warningRows.forEach((row) => {
+      row.addEventListener('click', () => {
+        const radio = row.querySelector('input[type="radio"]');
+        const fixedValue = row.querySelector('.minute-value');
+        if (radio) radio.checked = true;
+        if (fixedValue && minuteInput) minuteInput.value = fixedValue.textContent.trim();
+      });
+    });
+
+    document.querySelectorAll('.window-button').forEach((control) => {
+      control.addEventListener('click', () => {
+        const windowEl = control.closest('.photo-window');
+        if (!windowEl) return;
+
+        if (control.dataset.windowAction === 'minimize') {
+          windowEl.classList.toggle('is-minimized');
+          windowEl.classList.remove('is-maximized');
+        }
+
+        if (control.dataset.windowAction === 'maximize') {
+          windowEl.classList.toggle('is-maximized');
+          windowEl.classList.remove('is-minimized');
+        }
+
+      });
+    });
+
+    function formatTime(seconds) {
+      const safeSeconds = Number.isFinite(seconds) ? Math.max(0, Math.floor(seconds)) : 0;
+      const mins = Math.floor(safeSeconds / 60);
+      const secs = safeSeconds % 60;
+      return `${mins}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function setDockOpen(open) {
+      playlistDock.classList.toggle('is-open', open);
+      playlistToggle.classList.toggle('is-open', open);
+      playlistToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    function playPhoneRing() {
+      phoneRing.currentTime = 0;
+      phoneRing.volume = 0.75;
+      phoneRing.play().catch(() => {});
+    }
+
+    function playStartRingOnce() {
+      if (phoneRingPlayed) return;
+      phoneRingPlayed = true;
+      playPhoneRing();
+    }
+
+    function setQueueState(isFull) {
+      queuePhoto.src = isFull ? './img/queue-full.webp' : './img/queue-empty.webp';
+      queuePhoto.alt = isFull ? 'People lining up at the billing counter' : 'No queue at the billing counter';
+    }
+
+    function randomQueueDelay() {
+      const minMs = 60 * 1000;
+      const maxMs = 15 * 60 * 1000;
+      return minMs + Math.floor(Math.random() * (maxMs - minMs + 1));
+    }
+
+    function triggerQueueEvent() {
+      playPhoneRing();
+      setQueueState(true);
+      window.clearTimeout(queueResetTimer);
+      queueResetTimer = window.setTimeout(() => {
+        setQueueState(false);
+        scheduleQueueEvent();
+      }, 45 * 1000);
+    }
+
+    function scheduleQueueEvent() {
+      window.clearTimeout(queueTimer);
+      queueTimer = window.setTimeout(triggerQueueEvent, randomQueueDelay());
+    }
+
+    function startQueueScheduler() {
+      if (queueSchedulerStarted) return;
+      queueSchedulerStarted = true;
+      setQueueState(false);
+      scheduleQueueEvent();
+    }
+
+    function updateCurrentTitle() {
+      if (!player || typeof player.getVideoData !== 'function') return;
+      const data = player.getVideoData();
+      if (!data) return;
+      currentVideoId = data.video_id || currentVideoId;
+      if (data.title) playlistTitles.set(currentVideoId, data.title);
+      playlistTitle.textContent = data.title || playlistTitles.get(currentVideoId) || 'YouTube playlist';
+      renderPlaylist();
+    }
+
+    function updateSeek() {
+      if (!player || typeof player.getDuration !== 'function') return;
+      const duration = player.getDuration() || 0;
+      const current = player.getCurrentTime() || 0;
+      seek.max = Math.max(0, Math.floor(duration));
+      if (!userSeeking) seek.value = Math.min(Number(seek.max), Math.floor(current));
+      playlistTime.textContent = `${formatTime(current)} / ${formatTime(duration)}`;
+    }
+
+    function startSeekTimer() {
+      window.clearInterval(seekTimer);
+      seekTimer = window.setInterval(() => {
+        updateCurrentTitle();
+        updateSeek();
+      }, 500);
+    }
+
+    function renderPlaylist() {
+      playlistList.textContent = '';
+      playlistIds.forEach((videoId, index) => {
+        const item = document.createElement('li');
+        const track = document.createElement('button');
+        const number = document.createElement('span');
+        const title = document.createElement('span');
+
+        track.type = 'button';
+        track.className = `playlist-track${videoId === currentVideoId ? ' is-current' : ''}`;
+        number.className = 'playlist-number';
+        number.textContent = String(index + 1).padStart(2, '0');
+        title.textContent = playlistDurations.has(videoId)
+          ? `${playlistTitles.get(videoId) || `Song ${index + 1}`} (${playlistDurations.get(videoId)})`
+          : playlistTitles.get(videoId) || `Song ${index + 1}`;
+
+        track.append(number, title);
+        track.addEventListener('click', () => {
+          loadTrack(videoId);
+          setDockOpen(true);
+        });
+
+        item.append(track);
+        playlistList.append(item);
+      });
+    }
+
+    function shuffleVisiblePlaylist() {
+      const currentIndex = playlistIds.indexOf(currentVideoId);
+      const current = currentIndex >= 0 ? playlistIds[currentIndex] : playlistIds[0];
+      const rest = playlistIds.filter((id) => id !== current);
+
+      for (let i = rest.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [rest[i], rest[j]] = [rest[j], rest[i]];
+      }
+
+      playlistIds = current ? [current, ...rest] : rest;
+      renderPlaylist();
+    }
+
+    function currentTrackIndex() {
+      const index = playlistIds.indexOf(currentVideoId);
+      return index >= 0 ? index : 0;
+    }
+
+    function loadTrack(videoId) {
+      currentVideoId = videoId;
+      renderPlaylist();
+      playlistTitle.textContent = playlistTitles.get(videoId) || 'YouTube playlist';
+      if (player && typeof player.loadVideoById === 'function') {
+        player.loadVideoById(videoId);
+      }
+    }
+
+    function playNextTrack() {
+      if (!playlistIds.length) {
+        playlistTitle.textContent = 'No playable songs left';
+        return;
+      }
+
+      const nextIndex = (currentTrackIndex() + 1) % playlistIds.length;
+      loadTrack(playlistIds[nextIndex]);
+    }
+
+    function playTrackAt(index) {
+      if (!playlistIds.length) {
+        playlistTitle.textContent = 'No playable songs left';
+        return;
+      }
+
+      const safeIndex = ((index % playlistIds.length) + playlistIds.length) % playlistIds.length;
+      loadTrack(playlistIds[safeIndex]);
+    }
+
+    function removeUnplayableTrack(videoId) {
+      if (!videoId || removedTrackIds.has(videoId)) return -1;
+      const removedIndex = playlistIds.indexOf(videoId);
+      removedTrackIds.add(videoId);
+      playlistIds = playlistIds.filter((id) => id !== videoId);
+      renderPlaylist();
+      return removedIndex;
+    }
+
+    async function hydratePlaylistTitles() {
+      const idsToName = playlistIds.filter((id) => !playlistTitles.has(id) || /^Track|^Song/.test(playlistTitles.get(id)));
+      await Promise.all(idsToName.slice(0, 25).map(async (id, index) => {
+        try {
+          const response = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`);
+          if (!response.ok) return;
+          const data = await response.json();
+          if (data.title) playlistTitles.set(id, data.title);
+        } catch {
+          playlistTitles.set(id, playlistTitles.get(id) || `Song ${index + 1}`);
+        }
+      }));
+      renderPlaylist();
+      updateCurrentTitle();
+    }
+
+    playlistToggle.addEventListener('click', () => {
+      setDockOpen(!playlistDock.classList.contains('is-open'));
+    });
+
+    startSession.addEventListener('click', () => {
+      startSession.classList.add('is-pressed');
+      window.setTimeout(() => startSession.classList.remove('is-pressed'), 120);
+      playStartRingOnce();
+      startQueueScheduler();
+      setDockOpen(true);
+    });
+
+    document.querySelectorAll('[data-player-action]').forEach((control) => {
+      control.addEventListener('click', () => {
+        if (!player) return;
+        const action = control.dataset.playerAction;
+        if (action === 'play') {
+          if (typeof player.getVideoData === 'function') {
+            const data = player.getVideoData();
+            if (!data || !data.video_id) {
+              loadTrack(currentVideoId);
+              return;
+            }
+          }
+          player.playVideo();
+        }
+        if (action === 'pause') player.pauseVideo();
+        if (action === 'stop') {
+          player.stopVideo();
+          seek.value = 0;
+          playlistTime.textContent = `0:00 / ${formatTime(player.getDuration ? player.getDuration() : 0)}`;
+        }
+        if (action === 'shuffle') {
+          shuffleEnabled = !shuffleEnabled;
+          control.classList.toggle('is-on', shuffleEnabled);
+          control.setAttribute('aria-pressed', shuffleEnabled ? 'true' : 'false');
+          if (typeof player.setShuffle === 'function') player.setShuffle(shuffleEnabled);
+          if (shuffleEnabled) shuffleVisiblePlaylist();
+          if (!shuffleEnabled) {
+            playlistIds = seededPlaylist.map(([id]) => id).filter((id) => !removedTrackIds.has(id));
+            renderPlaylist();
+            updateCurrentTitle();
+          }
+        }
+      });
+    });
+
+    seek.addEventListener('input', () => {
+      userSeeking = true;
+      playlistTime.textContent = `${formatTime(Number(seek.value))} / ${formatTime(Number(seek.max))}`;
+    });
+
+    seek.addEventListener('change', () => {
+      if (player && typeof player.seekTo === 'function') {
+        player.seekTo(Number(seek.value), true);
+      }
+      userSeeking = false;
+    });
+
+    volume.addEventListener('input', () => {
+      const level = Number(volume.value);
+      volumeValue.textContent = `${level}%`;
+      if (player && typeof player.setVolume === 'function') player.setVolume(level);
+    });
+
+    window.onYouTubeIframeAPIReady = function onYouTubeIframeAPIReady() {
+      player = new YT.Player('youtube-player', {
+        width: '1',
+        height: '1',
+        videoId: firstVideoId,
+        playerVars: {
+          rel: 0,
+          playsinline: 1
+        },
+        events: {
+          onReady: () => {
+            player.setVolume(Number(volume.value));
+            renderPlaylist();
+            updateCurrentTitle();
+            updateSeek();
+            hydratePlaylistTitles();
+            startSeekTimer();
+          },
+          onStateChange: (event) => {
+            updateCurrentTitle();
+            updateSeek();
+            if (event.data === YT.PlayerState.ENDED) {
+              playNextTrack();
+            }
+          },
+          onError: () => {
+            const failedId = currentVideoId;
+            const removedIndex = removeUnplayableTrack(failedId);
+            playTrackAt(removedIndex >= 0 ? removedIndex : currentTrackIndex());
+          }
+        }
+      });
+    };
+
+    renderPlaylist();
+    playlistTitle.textContent = playlistTitles.get(firstVideoId) || 'YouTube playlist';
+
+    const youtubeApi = document.createElement('script');
+    youtubeApi.src = 'https://www.youtube.com/iframe_api';
+    document.head.append(youtubeApi);
+  </script>
+</body>
+</html>

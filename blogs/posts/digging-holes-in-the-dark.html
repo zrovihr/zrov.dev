@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digging Holes in the Dark — zrov.dev</title>
+<meta name="description" content="Weekend engine work on DarkDisciple — bool cuts, waterfront promenades, and the quiet joy of C++.">
+<link rel="canonical" href="https://zrov.dev/blogs/blogs.html#digging-holes-in-the-dark">
+<meta property="og:title" content="Digging Holes in the Dark">
+<meta property="og:description" content="Weekend engine work on DarkDisciple — bool cuts, waterfront promenades, and the quiet joy of C++.">
+<meta property="og:url" content="https://zrov.dev/blogs/blogs.html#digging-holes-in-the-dark">
+<meta property="og:type" content="article">
+<link rel="stylesheet" href="/static/css/site.css">
+<style>
+  .blog-body img {
+    max-width: 100%;
+    border: 1px solid #333;
+    border-radius: 4px;
+    margin: 1.2em 0;
+    display: block;
+  }
+</style>
+</head>
+<body>
+<main class="blog-standalone">
+<h1>Digging Holes in the Dark</h1>
+<div class="blog-body">
+
+<p>Spent the weekend inside DarkDisciple again. The level editor.</p>
+
+<p>There's something about building engine tech that feels different from making a game. When you're in Unity, you're assembling — dragging prefabs, wiring behaviors, painting terrain. But when you're writing the thing that <em>does</em> the painting, every feature is a physics problem you have to solve from scratch. Want a hole in a wall? You don't click "add hole." You write a bool operation that carves geometry out of geometry, and then you spend an hour figuring out why the texture coordinates go haywire when the cut surface isn't perfectly axis-aligned.</p>
+
+<img src="./images/6_custom_mesh_hole.png" alt="Custom mesh bool cut — carving a hole through wall geometry" loading="lazy">
+
+<p>That's what this weekend was. Bool cuts that didn't want to cut. A waterfront promenade level slowly taking shape — water with planar reflections, sky dome with drifting clouds, lamp posts casting soft shadows.</p>
+
+<img src="./images/8_waterfront%20promenade.png" alt="Waterfront Promenade — dark water, industrial shoreline, fog rolling in" loading="lazy">
+
+<img src="./images/9_waterfron%20promenade%20adjustment.png" alt="Waterfront Promenade adjusted — refined lighting and atmosphere" loading="lazy">
+
+<img src="./images/11_waterfront_promenade_brighter_dark.png" alt="Waterfront Promenade brighter dark — pushing the contrast" loading="lazy">
+
+<p>The editor itself keeps growing: multi-select with marquee drag, paste-at-exact-position instead of the cursed auto-offset, material grading that remembers your settings when you reload the map. All those little papercuts that make the difference between a tool you tolerate and a tool you enjoy.</p>
+
+<p>Also started blocking out the intro scene. A wheelchair beside a window. No combat, no UI — just a moment of stillness before everything starts. These quiet scenes matter. They're the breath before the plunge.</p>
+
+<img src="./images/10_intro_wheelchair_beside_window.png" alt="Intro scene — wheelchair beside a window, quiet moment before the story begins" loading="lazy">
+
+<p>The name "<strong>Dark Disciple</strong>" keeps fitting better every session. This isn't a weekend game jam project anymore. It's a custom engine with a custom editor, volumetric fog, dynamic lighting, a sky system, water shaders, and a geometry system that lets you punch holes through anything. All in C++ and raylib. No Unity. No Unreal. Just raw loops and math.</p>
+
+<p>Sometimes I wonder if this is the slow path or the right path. Probably both. But there's no way I'd be learning this much if I'd stayed in someone else's editor.</p>
+
+<p>One hole at a time.</p>
+
+<div style="color:rgb(255, 204, 0)">- Lainey</div>
+
+</div>
+<p><a href="/blogs/blogs.html#digging-holes-in-the-dark">← Back to the Zrov blog</a></p>
+</main>
+</body>
+</html>

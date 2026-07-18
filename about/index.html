@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Zrov — Dossier, Projects &amp; Mods</title>
+  <meta name="description"
+    content="The full Zrov dossier: game dev background, Unity projects, Minecraft &amp; Fallout mods, interests, and contact channels.">
+  <link rel="canonical" href="https://zrov.dev/about/">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / social -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Zrov">
+  <meta property="og:title" content="About Zrov — Dossier, Projects &amp; Mods">
+  <meta property="og:description"
+    content="Full dossier: Unity game development, modding, interests, and contact channels.">
+  <meta property="og:url" content="https://zrov.dev/about/">
+  <meta property="og:image" content="https://zrov.dev/static/img/favicon-192.png">
+  <meta name="twitter:card" content="summary">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/img/ghostZeroico.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/static/img/favicon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/site.css">
+</head>
+
+<body>
+
+  <!-- ══════════════╔COGWORK BACKGROUND ══════════════╔-->
+  <canvas class="cogwork-canvas" id="cogworkCanvas" aria-hidden="true"></canvas>
+
+  <!-- ══════════════╔LAVA EMBER PARTICLES ══════════════╔-->
+  <canvas class="ember-canvas" id="emberCanvas" data-parallax="0.01" aria-hidden="true"></canvas>
+
+  <!-- ══════════════╔GLITCH OVERLAY ══════════════╔-->
+  <div class="glitch-overlay" aria-hidden="true">
+    <div class="glitch-burst">
+      <span class="glitch-burst__band"></span>
+      <span class="glitch-burst__band"></span>
+      <span class="glitch-burst__band"></span>
+    </div>
+    <div class="postprocess-glitch">
+      <span class="postprocess-glitch__slice"></span>
+      <span class="postprocess-glitch__slice"></span>
+      <span class="postprocess-glitch__slice"></span>
+      <span class="postprocess-glitch__slice"></span>
+      <span class="postprocess-glitch__slice"></span>
+      <span class="postprocess-glitch__slice"></span>
+    </div>
+    <div class="powerglitch-layer"></div>
+  </div>
+
+  <!-- ══════════════╔TOP HUD ══════════════╔-->
+  <header class="hud">
+    <div class="hud__player" aria-label="Music controls">
+      <button type="button" id="audioToggle" aria-label="Toggle YouTube music" title="Play / Pause">▶</button>
+      <button type="button" id="playlistToggle" title="Playlist (shuffle: ON)" aria-expanded="false" aria-controls="playlistMenu">♫</button>
+      <input class="hud__volume" id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.35"
+        aria-label="Audio volume">
+      <span class="hud__now-playing" id="nowPlaying" aria-live="polite"><strong>Idle</strong></span>
+      <button class="hud__progress" id="musicProgress" type="button" aria-label="Seek music" aria-valuemin="0"
+        aria-valuemax="100" aria-valuenow="0">
+        <span class="hud__progress-fill" id="musicProgressFill"></span>
+      </button>
+      <div class="hud__wave" id="musicWave" aria-hidden="true">
+        <span style="--i: 1"></span>
+        <span style="--i: 2"></span>
+        <span style="--i: 3"></span>
+        <span style="--i: 4"></span>
+        <span style="--i: 5"></span>
+        <span style="--i: 6"></span>
+        <span style="--i: 7"></span>
+        <span style="--i: 8"></span>
+        <span style="--i: 9"></span>
+        <span style="--i: 10"></span>
+        <span style="--i: 11"></span>
+        <span style="--i: 12"></span>
+      </div>
+      <div class="yt-player-shell" aria-hidden="true">
+        <div id="ytPlayer"></div>
+      </div>
+      <div class="playlist-menu" id="playlistMenu" hidden>
+        <div class="playlist-menu__head">
+          <span>ZROV curated YouTube</span>
+          <a class="playlist-menu__open" id="playlistOpenAll" href="https://www.youtube.com" target="_blank"
+            rel="noopener noreferrer">Open queue</a>
+        </div>
+        <ul class="playlist-menu__list" id="playlistList" aria-label="Curated YouTube music"></ul>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ══════════════╔ACCESS NODE ══════════════╔-->
+    <section class="scene" data-scene="ACCESS">
+      <div class="scene__pin">
+        <div class="scene__inner">
+          <!-- page nav lives inside the first scene: pinned with it (never
+               scrolls away), exits with it — mirrors the home hero -->
+          <nav class="page-nav" aria-label="Site navigation">
+            <a href="/">Dossier</a>
+            <a href="/about/" aria-current="page">About</a>
+            <a href="/blogs/blogs.html">Blog</a>
+            <a href="/id/wiki/">Wiki</a>
+            <a href="/tools/">Tools</a>
+            <a href="/mods/">Mods</a>
+            <a href="/go/">Go</a>
+          </nav>
+          <section class="access-node" aria-label="ghostZER0 quick access terminal">
+      <div class="access-node__sigil">
+        <img src="/assets/ghostZeroMedTrans.png" alt="ghostZER0 sigil">
+      </div>
+
+      <div class="access-node__console">
+        <div class="access-node__marquee" aria-hidden="true">
+          <span>WELCOME GHOSTZER0 // QUICK TERMINAL ONLINE // SEARCH RELAY READY // SESSION WATCH ACTIVE</span>
+        </div>
+
+        <div class="access-node__meta">
+          <span>Local Time <span class="access-node__clock" id="nodeClock">--:--:--</span></span>
+          <span>Channel <span class="hud__value">ghostZER0</span></span>
+        </div>
+
+        <div class="access-node__forms">
+          <form class="node-form" id="quickTerminalForm">
+            <label class="node-form__label" for="commandInput">Quick Terminal</label>
+            <input class="node-input" id="commandInput" type="text" name="query" placeholder="Command..."
+              autocomplete="off">
+            <button class="node-button" type="submit">Execute</button>
+          </form>
+
+          <form class="node-form" id="googleSearchForm">
+            <label class="node-form__label" for="searchInput">Search Google</label>
+            <input class="node-input" id="searchInput" type="search" name="q" placeholder="Search..."
+              autocomplete="off">
+            <button class="node-button" type="submit">Search</button>
+          </form>
+        </div>
+
+        <div class="node-output" id="quickTerminalOutput">
+          <span class="prompt">Terminal:</span>
+          <span>Awaiting command. Try github, modrinth, nexus, music, time, lock, or any search query.</span>
+        </div>
+
+        <button class="node-button node-button--lock" type="button" id="lockSession">
+          <span>Lock Session</span>
+          <img src="/assets/lockpad.ico" alt="">
+        </button>
+      </div>
+    </section>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════╔DOSSIER ══════════════╔-->
+    <section class="scene" data-scene="DOSSIER">
+      <div class="scene__pin">
+        <div class="scene__inner">
+    <div class="section-hd">
+      <h2>Classified Dossier</h2>
+      <span class="ref">REF: ZRV-Ω-7</span>
+    </div>
+
+    <div class="dossier-grid">
+      <div class="dossier-block">
+        <div class="dossier-label">// Operative Summary</div>
+        <div class="dossier-entries">
+          <div class="dossier-entry">
+            <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
+              <span class="dossier-prefix">&gt;</span>
+              <span><span class="dossier-hl">3 years</span> game dev study in <span class="dossier-hl">Japan</span></span>
+            </div>
+            <div class="dossier-entry-detail">
+              Moved to Japan to learn production the hard way: leading student teams
+              from concept to playable build, every project. Took outsourcing work
+              from other classes on the side.
+            </div>
+          </div>
+          <div class="dossier-entry">
+            <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
+              <span class="dossier-prefix">&gt;</span>
+              <span><span class="dossier-hl">5+ years</span> programming &bull; <span class="dossier-hl">7+ years</span> game design &amp; development</span>
+            </div>
+            <div class="dossier-entry-detail">
+              Gameplay systems, prototypes, editor tools, and UI flows in Unity, C#,
+              and Python, plus modding environments as side projects. Also runs his
+              own web servers and wires AI APIs into working applications.
+            </div>
+          </div>
+          <div class="dossier-entry">
+            <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
+              <span class="dossier-prefix">&gt;</span>
+              <span><span class="dossier-hl">3+ years</span> filmmaking &bull; <span class="dossier-hl">1+ year</span> film direction &amp; real crew work</span>
+            </div>
+            <div class="dossier-entry-detail">
+              Shot planning, scene direction, and production coordination on real
+              crews: writers, camera operators, sound designers. First place in
+              several film competitions.
+            </div>
+          </div>
+          <div class="dossier-entry">
+            <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
+              <span class="dossier-prefix">&gt;</span>
+              <span>Trilingual: <span class="dossier-accent">EN</span> <span class="dossier-accent">JP</span> <span class="dossier-accent">ID</span></span>
+            </div>
+            <div class="dossier-entry-detail">
+              Reads, writes, and works in English, Japanese, and Indonesian:
+              code reviews, documentation, day-to-day collaboration.
+            </div>
+          </div>
+          <div class="dossier-entry">
+            <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
+              <span class="dossier-prefix">&gt;</span>
+              <span>Building a tactical RPG in <span class="dossier-hl">Unity</span> since Aug 2025</span>
+            </div>
+            <div class="dossier-entry-detail">
+              Current long-term project: tactical combat, narrative systems, editor
+              tooling, and data-heavy Unity workflows for a production-scale RPG.
+            </div>
+          </div>
+          <div class="dossier-entry">
+            <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
+              <span class="dossier-prefix">&gt;</span>
+              <span>Mods for <span class="dossier-hl">Minecraft, Fallout, and more</span></span>
+            </div>
+            <div class="dossier-entry-detail">
+              Quality-of-life systems, gameplay tweaks, UI upgrades, and personal
+              patches for moddable games. Free online, 1,000+ downloads.
+            </div>
+          </div>
+          <div class="dossier-entry">
+            <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
+              <span class="dossier-prefix">&gt;</span>
+              <span>Custom Unity editor tools &amp; AI integrations</span>
+            </div>
+            <div class="dossier-entry-detail">
+              Tools that kill repetitive editor work: project-state inspection,
+              automated asset wiring, AI-assisted workflows hooked into production.
+            </div>
+          </div>
+          <div class="dossier-entry">
+            <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
+              <span class="dossier-prefix">&gt;</span>
+              <span>Authored non-fictional books, hundreds sold</span>
+            </div>
+            <div class="dossier-entry-detail">
+              Wrote, edited, and shipped long-form books that real people paid for.
+              Hundreds of copies sold.
+            </div>
+          </div>
+          <div class="dossier-entry">
+            <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
+              <span class="dossier-prefix">&gt;</span>
+              <span>Fan of dark-themed: Warcraft, Darktide, Fallout</span>
+            </div>
+            <div class="dossier-entry-detail">
+              Grim tactical worlds, heavy atmosphere, faction conflict, survival
+              pressure, player-driven consequence. That is the target feel for DIVE.
+            </div>
+          </div>
+          <div class="dossier-entry">
+            <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
+              <span class="dossier-prefix">&gt;</span>
+              <span>Speaking of dark: Zrov is experienced in <span class="redacted">REDACTED BY INQUISITION</span></span>
+            </div>
+            <div class="dossier-entry-detail">
+              Clearance denied. Classified material remains sealed pending review by the appropriate imaginary authority.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dossier-block">
+        <div class="dossier-label">// Core Stats</div>
+        <table class="stat-slate">
+          <tr>
+            <td class="stat-label">Experience</td>
+            <td class="stat-value">3 years</td>
+          </tr>
+          <tr>
+            <td class="stat-label">DIVE Project</td>
+            <td class="stat-value">600+hrs</td>
+          </tr>
+          <tr>
+            <td class="stat-label">Modding</td>
+            <td class="stat-value">Minecraft / Fallout / Skyrim</td>
+          </tr>
+          <tr>
+            <td class="stat-label">Languages</td>
+            <td class="stat-value">EN · JP · ID</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="ascii-sep">
+      ───── ✠ ╬ ✠ ╬ ✠ ─────
+    </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════╔ASSET INVENTORY ══════════════╔-->
+    <section class="scene" data-scene="ASSETS">
+      <div class="scene__pin">
+        <div class="scene__inner">
+    <div class="section-hd">
+      <h2>Asset Inventory</h2>
+      <span class="ref">REF: ZRV-INV-3</span>
+    </div>
+
+    <div class="inventory-grid">
+      <article class="inventory-item">
+        <div class="inv-ref">PROJ-001</div>
+        <h3 class="inv-name">DIVE</h3>
+        <p class="inv-desc">Time-travel tactical RPG. 375+ scripts. FFTA meets Fallout. Cyberpunk meets dark western.
+          Choices echo across timelines.</p>
+        <div class="inv-tech">
+          <span>Unity</span><span>C#</span><span>Ink</span><span>ML</span>
+        </div>
+      </article>
+
+      <article class="inventory-item">
+        <div class="inv-ref">PROJ-002</div>
+        <h3 class="inv-name">ZombieDOTS</h3>
+        <p class="inv-desc">Unity ECS zombie survival. Data-Oriented Tech Stack. Custom actor, selection, and player
+          controller systems.</p>
+        <div class="inv-tech">
+          <span>Unity DOTS</span><span>C#</span><span>ECS</span>
+        </div>
+      </article>
+
+      <article class="inventory-item">
+        <div class="inv-ref">PROJ-003</div>
+        <h3 class="inv-name">desktoptts</h3>
+        <p class="inv-desc">AI desktop companion with multi-provider TTS. Indonesian + English. Python-Unity interop.
+          Streaming audio.</p>
+        <div class="inv-tech">
+          <span>Unity</span><span>Python</span><span>Coqui</span><span>OpenAI</span>
+        </div>
+      </article>
+
+      <article class="inventory-item">
+        <div class="inv-ref">PROJ-004</div>
+        <h3 class="inv-name">AgentTools</h3>
+        <p class="inv-desc">Unity Editor utility suite. Automated asset wiring, null-field reporting, sprite slicing,
+          batch import.</p>
+        <div class="inv-tech">
+          <span>C#</span><span>Unity Editor</span><span>Python</span>
+        </div>
+      </article>
+    </div>
+
+    <div class="ascii-sep">
+      ✠ ════ ☠ ════ ✠
+    </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════╔WORKSHOP MANIFEST ══════════════╔-->
+    <section class="scene" data-scene="WORKSHOP">
+      <div class="scene__pin">
+        <div class="scene__inner">
+    <div class="section-hd">
+      <h2>Workshop Manifest</h2>
+      <span class="ref">REF: ZRV-MOD-11</span>
+    </div>
+
+    <div class="workshop-grid">
+      <div class="workshop-tile">
+        <div class="ws-game">Minecraft 1.21 · Fabric</div>
+        <div class="ws-name">BetterWaystonesMenu</div>
+        <div class="ws-desc">Enhanced waystone teleport UI with search, scroll, sorting, drag-drop reorder. Published on
+          Modrinth.</div>
+      </div>
+
+      <div class="workshop-tile">
+        <div class="ws-game">Minecraft 1.21 · Fabric</div>
+        <div class="ws-name">Auto Walk Forward</div>
+        <div class="ws-desc">Toggle auto-walk keybind. Works while swimming, riding mounts, even with inventory open.
+        </div>
+      </div>
+
+      <div class="workshop-tile">
+        <div class="ws-game">Minecraft 1.21 · Fabric</div>
+        <div class="ws-name">Cobblemon Shortcuts</div>
+        <div class="ws-desc">Keyboard shortcuts for battle HUD. Select moves, switch Pokemon, no mouse needed.</div>
+      </div>
+
+      <div class="workshop-tile">
+        <div class="ws-game">Minecraft 1.21 · Fabric</div>
+        <div class="ws-name">Cobblemon Mouse Menu</div>
+        <div class="ws-desc">Hold Alt to free cursor, interact with Cobblemon sidebar. Camera locks so you don't spin
+          out.</div>
+      </div>
+
+      <div class="workshop-tile">
+        <div class="ws-game">Minecraft 1.21 · Fabric</div>
+        <div class="ws-name">Cobblemon Interactions</div>
+        <div class="ws-desc">Expanded interaction system for the Cobblemon mod. More ways to engage with your party.
+        </div>
+      </div>
+
+      <div class="workshop-tile">
+        <div class="ws-game">Minecraft 1.21 · Fabric</div>
+        <div class="ws-name">DigitalFabricator</div>
+        <div class="ws-desc">Custom fabricator block mod. WIP experimental crafting system.</div>
+      </div>
+
+      <div class="workshop-tile">
+        <div class="ws-game">Fallout 4</div>
+        <div class="ws-name">Custom Mods</div>
+        <div class="ws-desc">Personal gameplay tweaks and adjustments for the Commonwealth wasteland.</div>
+      </div>
+
+      <div class="workshop-tile">
+        <div class="ws-game">Skyrim</div>
+        <div class="ws-name">Custom Mods</div>
+        <div class="ws-desc">Nordic tinkering. Custom patches and tweaks for a heavily-modded Skyrim load order.</div>
+      </div>
+    </div>
+
+    <div class="ascii-sep">
+      ─ ✠ ════ ☠ ════ ✠ ─
+    </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════╔INTERESTS ══════════════╔-->
+    <section class="scene" data-scene="PSYCH">
+      <div class="scene__pin">
+        <div class="scene__inner">
+    <div class="section-hd">
+      <h2>Interests</h2>
+      <span class="ref">REF: ZRV-PSY-6</span>
+    </div>
+
+    <div class="dossier-grid">
+      <div class="dossier-block">
+        <div class="dossier-label">// Gaming & Creativity</div>
+        <div class="psych-line">
+          <span class="psych-label">Darktide</span>
+          <span class="psych-value">Warhammer 40K: Darktide</span>
+          <span class="psych-hours">491hrs</span>
+        </div>
+        <div class="psych-line">
+          <span class="psych-label">Fallout 4</span>
+          <span class="psych-value">Favorite franchise</span>
+          <span class="psych-hours">606hrs</span>
+        </div>
+        <div class="psych-line">
+          <span class="psych-label">Aseprite</span>
+          <span class="psych-value">Pixel art & sprites</span>
+          <span class="psych-hours">346hrs</span>
+        </div>
+        <div class="psych-line">
+          <span class="psych-label">Library</span>
+          <span class="psych-value">272 games · 240 DLC</span>
+          <span class="psych-hours">13yr badge</span>
+        </div>
+        <div class="psych-line">
+          <span class="psych-label">Reviews</span>
+          <span class="psych-value">153 Steam reviews written</span>
+          <span class="psych-hours"></span>
+        </div>
+        <div class="psych-line" style="border:none;">
+          <span class="psych-label">Workshop</span>
+          <span class="psych-value">10 items · 374 screenshots</span>
+          <span class="psych-hours"></span>
+        </div>
+      </div>
+
+      <div class="dossier-block">
+        <div class="dossier-label">// Languages</div>
+        <div class="psych-line">
+          <span class="psych-label">EN</span>
+          <span class="psych-value" style="display:flex;gap:3px;">
+            <span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot"></span><span
+              class="pip-dot"></span><span class="pip-dot"></span>
+          </span>
+        </div>
+        <div class="psych-line">
+          <span class="psych-label">JP</span>
+          <span class="psych-value" style="display:flex;gap:3px;">
+            <span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot"></span><span
+              class="pip-dot"></span><span class="pip-dot--dim"></span>
+          </span>
+        </div>
+        <div class="psych-line">
+          <span class="psych-label">ID</span>
+          <span class="psych-value" style="display:flex;gap:3px;">
+            <span class="pip-dot"></span><span class="pip-dot"></span><span class="pip-dot"></span><span
+              class="pip-dot"></span><span class="pip-dot"></span>
+          </span>
+        </div>
+        <div class="psych-line" style="border:none;margin-top:0.8rem;">
+          <span class="psych-label" style="width:100%;font-size:0.72rem;color:var(--phosphor-dim);">Lived & studied in
+            Japan. Play on JP servers. Mods include EN, JP, PT-BR, FR, ES translations.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ascii-sep">
+      ─ ✠ ════ ☠ ════ ✠ ─
+    </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════╔TERMINAL ══════════════╔-->
+    <section class="scene" data-scene="UPLINK">
+      <div class="scene__pin">
+        <div class="scene__inner">
+    <div class="section-hd">
+      <h2>Uplink Terminal</h2>
+      <span class="ref">REF: ZRV-CON-1</span>
+    </div>
+
+    <div class="terminal-window">
+      <div class="terminal-bar">
+        <span class="terminal-dot terminal-dot--active"></span>
+        <span class="terminal-dot"></span>
+        <span class="terminal-dot"></span>
+        <span class="terminal-title">zrov@prime:~$</span>
+      </div>
+      <div class="terminal-body">
+        <div class="terminal-line">
+          <span class="output">Establishing handshake with outer node...</span>
+        </div>
+        <div class="terminal-line">
+          <span class="output">Handshake accepted. Channel open.</span>
+        </div>
+        <div class="terminal-line">
+          <span class="output">─── Uplink active. Send your signal. ───</span>
+        </div>
+        <div class="terminal-line">
+          <span class="prompt">zrov@prime:~$ </span><span class="cmd">contact --method=</span><span
+            class="cursor"></span>
+        </div>
+        <div class="terminal-line" style="margin-top:0.6rem;">
+          <span class="output">steam&nbsp;&nbsp;: [encrypted channel :: request key]</span>
+        </div>
+        <div class="terminal-line">
+          <span class="output">github&nbsp;&nbsp;: <a href="https://github.com/zrovihr"
+              style="color:var(--phosphor);text-decoration:none;">github.com/zrovihr</a></span>
+        </div>
+        <div class="terminal-line">
+          <span class="output">modrinth : <a href="https://modrinth.com/user/zrov"
+              style="color:var(--phosphor);text-decoration:none;">modrinth.com/user/zrov</a></span>
+        </div>
+        <div class="terminal-line">
+          <span class="output">nexus&nbsp;&nbsp;: <a href="https://www.nexusmods.com/profile/zrovihr/mods"
+              style="color:var(--phosphor);text-decoration:none;">nexusmods.com/zrovihr</a></span>
+        </div>
+        <div class="terminal-line">
+          <span class="output">x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <a href="https://x.com/zrovihr"
+              style="color:var(--phosphor);text-decoration:none;">x.com/zrovihr</a></span>
+        </div>
+        <div class="terminal-line">
+          <span class="output">secure&nbsp;&nbsp;: [encrypted channel :: request key]</span>
+        </div>
+        <div class="terminal-line">
+          <span class="output">email&nbsp;&nbsp;&nbsp;&nbsp;: <span style="color:var(--bone-dim);">zrovihr</span><span
+              style="color:var(--iron-light);">@</span><span style="color:var(--bone-dim);">gmail.com</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ascii-sep" style="padding-top:2rem;">
+      ╔══════════════════════════════════════════╗<br>
+      &nbsp;&nbsp;THE MACHINE SPIRIT WATCHES. SERVE IT WELL.&nbsp;&nbsp;&nbsp;<br>
+      ╚══════════════════════════════════════════╝
+    </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══════════════╔CINEMATIC SCENE CHROME ══════════════╔-->
+  <div class="scene-fade" id="sceneFade" aria-hidden="true"></div>
+  <nav class="scene-rail" id="sceneRail" aria-label="Sections"></nav>
+
+  <!-- GHOSTZER0 ACCESS NODE + HUD CONTROLS -->
+  <script src="/static/js/hud-player-terminal.js" defer></script>
+
+  <!-- ══════════════╔LAVA EMBER PARTICLE SYSTEM ══════════════╔-->
+  <script src="/static/js/ember-canvas.js" defer></script>
+
+  <!-- ══════════════╔PARALLAX SCROLL ══════════════╔-->
+  <script src="/static/js/parallax.js" defer></script>
+
+  <script src="/static/js/glitch.js" defer></script>
+
+  <script src="/static/js/dossier.js" defer></script>
+
+  <!-- ══════════════╔COGWORK BACKGROUND (3D wireframe gears) ══════════════╔-->
+  <script src="/static/js/cogwork.js" defer></script>
+
+  <!-- ══════════════╔SCROLL SCENES (pinned cinematic sections) ══════════════╔-->
+  <script src="/static/js/scrollscenes.js" defer></script>
+</body>
+
+</html>

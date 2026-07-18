@@ -2303,6 +2303,172 @@ body.scenes-on .scene__inner {
   }
 }
 
+/* home is a static (no-scene) page: main sits directly under the sticky HUD,
+   so the gutter's TOP padding just opens a dead band above the nav — drop it.
+   Side/bottom gutter stays; the nav's own 0.5rem padding is the breathing room. */
+body.home main {
+  padding-top: 0;
+}
+
+/* ---- TOOLS / GAMES HUB (neal.fun-style thumbnail wall) ----
+   Home-page cabinet grid: each tool is a thumbnail (image + title). The
+   blurb is hidden until hover/focus, like a flash-game portal. /tools/ keeps
+   its own detailed list (its styles are inline in that page). */
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(158px, 1fr));
+  gap: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.tool-tile {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  display: block;
+  overflow: hidden;
+  border: var(--border);
+  background: var(--void-warm);
+  text-decoration: none;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.tool-tile:hover,
+.tool-tile:focus-visible {
+  border-color: var(--phosphor);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+/* signature phosphor scanline across the cabinet's top edge */
+.tool-tile::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  z-index: 4;
+  background: linear-gradient(90deg, transparent, var(--phosphor-dim), transparent);
+}
+
+.tool-tile__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.4;
+  filter: sepia(0.4) hue-rotate(70deg) saturate(0.6);
+  transition: transform 0.3s ease, opacity 0.2s;
+}
+
+.tool-tile:hover .tool-tile__img,
+.tool-tile:focus-visible .tool-tile__img {
+  opacity: 0.62;
+  transform: scale(1.06);
+}
+
+.tool-tile__icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -62%);
+  font-size: 2.5rem;
+  z-index: 1;
+  filter: drop-shadow(0 0 14px rgba(46, 255, 78, 0.3));
+}
+
+.tool-tile__ref {
+  position: absolute;
+  top: 0.45rem;
+  left: 0.55rem;
+  z-index: 3;
+  font-size: 0.52rem;
+  letter-spacing: 0.14em;
+  color: var(--phosphor-dim);
+}
+
+.tool-tile__label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 1.5rem 0.7rem 0.6rem;
+  font-family: 'MedievalSharp', cursive;
+  font-size: 0.95rem;
+  line-height: 1.1;
+  color: var(--phosphor);
+  background: linear-gradient(to top, rgba(5, 5, 8, 0.95) 30%, transparent);
+}
+
+/* hover blurb: a full-cover panel that fades in over the thumbnail */
+.tool-tile__desc {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.4rem;
+  padding: 0.7rem;
+  background: linear-gradient(to top, rgba(5, 5, 8, 0.97), rgba(5, 5, 8, 0.85));
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  font-size: 0.66rem;
+  line-height: 1.45;
+  color: var(--bone-dim);
+}
+
+.tool-tile:hover .tool-tile__desc,
+.tool-tile:focus-visible .tool-tile__desc {
+  opacity: 1;
+}
+
+.tool-tile__desc strong {
+  display: block;
+  font-family: 'MedievalSharp', cursive;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--phosphor);
+}
+
+.tool-tile__tags {
+  color: var(--phosphor-dim);
+  letter-spacing: 0.06em;
+}
+
+/* empty cabinet slot: dim, inert, no hover reveal */
+.tool-tile--empty {
+  cursor: default;
+  opacity: 0.4;
+}
+
+.tool-tile--empty:hover {
+  border-color: var(--iron-light);
+  transform: none;
+}
+
+.tool-tile--empty .tool-tile__icon {
+  color: var(--iron);
+  filter: none;
+  font-size: 1.8rem;
+}
+
+.tool-tile--empty .tool-tile__label {
+  color: var(--iron-light);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 680px) {
+  .tool-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+}
+
 /* ---- PRINT ---- */
 @media print {
   body::before {
