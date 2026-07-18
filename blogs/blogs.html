@@ -501,6 +501,16 @@
           // remove the back-link's wrapping <p> entirely, and the standalone <h1>
           (el.tagName === 'A' ? el.closest('p') || el : el).remove();
         });
+
+        // Once this markup is injected into the archive, relative asset URLs
+        // would otherwise resolve against /blogs/blogs.html instead of the
+        // fetched post. Make them absolute while the post URL is still known.
+        const postUrl = new URL(post.file, location.href);
+        wrapper.querySelectorAll('[src]').forEach((element) => {
+          const source = element.getAttribute('src');
+          if (source) element.setAttribute('src', new URL(source, postUrl).href);
+        });
+
         article.insertAdjacentHTML('beforeend', wrapper.innerHTML);
       } else {
         article.insertAdjacentHTML('beforeend', rawHtml);
