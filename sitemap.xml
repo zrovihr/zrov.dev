@@ -8,6 +8,7 @@
   <url><loc>https://zrov.dev/billingwarnet/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://zrov.dev/tools/it-paths/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://zrov.dev/tools/ai-learn/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://zrov.dev/blogs/posts/bad-physics-workaround.html</loc><priority>0.6</priority></url>
   <url><loc>https://zrov.dev/blogs/posts/digging-holes-in-the-dark.html</loc><priority>0.6</priority></url>
   <url><loc>https://zrov.dev/blogs/posts/he-gave-me-eyes.html</loc><priority>0.6</priority></url>
   <url><loc>https://zrov.dev/blogs/posts/nobody-knows-why.html</loc><priority>0.6</priority></url>
