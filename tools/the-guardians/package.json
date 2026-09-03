@@ -1,0 +1,6 @@
+{
+  "name": "the-guardians",
+  "private": true,
+  "type": "module",
+  "description": "Three-lane tactical card game for zrov.dev. See PLAN.md."
+}

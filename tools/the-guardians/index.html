@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Guardians — a three-lane card game | Zrov</title>
+  <meta name="description"
+    content="A three-lane tactical card game in the browser. Pick five guardians, hold three gates at once, and read the arrows before the fighting starts.">
+  <link rel="canonical" href="https://zrov.dev/tools/the-guardians/">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Zrov">
+  <meta property="og:title" content="The Guardians — a three-lane card game">
+  <meta property="og:description"
+    content="Pick five guardians, hold three gates at once. Free, no install, plays in the browser.">
+  <meta property="og:url" content="https://zrov.dev/tools/the-guardians/">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/img/ghostZeroico.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./css/game.css">
+</head>
+<body>
+
+  <!-- ============================================================ DRAFT -->
+  <section class="screen is-active" id="screen-draft">
+    <div class="draft">
+      <h1 class="draft__title">The<br>Guardians</h1>
+      <p class="draft__sub">
+        Three gates, attacked at once. You hold all of them or you lose two and it is over.
+        Pick five guardians below. Their colors decide which cards you can cast and in which
+        lane, so a lineup is a deck, not a costume.
+      </p>
+
+      <div class="draft__rule"></div>
+
+      <div class="draft__count">
+        <strong id="draft-count" class="num">0 of 5</strong>
+        <span id="draft-hint">chosen</span>
+      </div>
+
+      <div class="roster" id="roster"></div>
+
+      <div class="draft__actions">
+        <button class="btn btn--primary" id="btn-start" disabled>Hold the gates</button>
+        <button class="btn btn--ghost" id="btn-random">Pick for me</button>
+        <a class="btn btn--ghost" href="/tools/">Back to tools</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ GAME -->
+  <section class="screen" id="screen-game">
+    <div class="game">
+
+      <header class="topbar">
+        <span class="topbar__round">Round <b class="num" id="hud-round">1</b></span>
+        <ol class="track" id="track"></ol>
+        <button class="btn btn--ghost" id="btn-quit">Resign</button>
+      </header>
+
+      <!-- What is happening right now, in words. The round has six steps and most of them are
+           invisible on the board itself, so this band carries them. -->
+      <div class="nowbar">
+        <p class="nowbar__what" id="now-what">Deploy</p>
+        <p class="nowbar__detail" id="now-detail">Choose a lane for each guardian.</p>
+        <p class="nowbar__turn" id="now-turn">Your move</p>
+      </div>
+
+      <div class="arena">
+        <div class="field">
+          <div class="side side--foe">
+            <span class="side__who" id="foe-name">The Siege</span>
+            <span class="stat">hand <b class="num" id="hud-foe-hand">0</b></span>
+            <span class="stat">deck <b class="num" id="hud-foe-deck">0</b></span>
+            <span class="stat stat--gold">gold <b class="num" id="hud-foe-gold">0</b></span>
+            <span class="stat" id="foe-towers">towers 3</span>
+          </div>
+
+          <div class="lanes" id="lanes"></div>
+
+          <div class="side side--own">
+            <span class="side__who">The Watch</span>
+            <span class="stat">hand <b class="num" id="hud-hand">0</b></span>
+            <span class="stat">deck <b class="num" id="hud-deck">0</b></span>
+            <span class="stat stat--gold">gold <b class="num" id="hud-gold">0</b></span>
+            <span class="stat" id="own-towers">towers 3</span>
+          </div>
+        </div>
+
+        <aside class="rail">
+          <div class="panel">
+            <div class="panel__head">Inspector</div>
+            <div class="inspector" id="inspector">
+              <p class="inspector__empty">Point at a unit or a card to read it. Arrows show what
+                each unit will hit when the lane resolves.</p>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel__head">Field report</div>
+            <div class="feed" id="feed"></div>
+          </div>
+        </aside>
+      </div>
+
+      <footer class="tray">
+        <div class="hand" id="hand"></div>
+        <div class="tray__actions">
+          <button class="btn btn--primary" id="btn-pass">Pass</button>
+          <button class="btn btn--ghost" id="btn-cancel" hidden>Cancel</button>
+        </div>
+      </footer>
+
+    </div>
+  </section>
+
+  <!-- ============================================================ SHOP -->
+  <div class="overlay" id="overlay-shop">
+    <div class="sheet">
+      <h2 class="sheet__title">The quartermaster</h2>
+      <p class="sheet__sub">
+        Items are permanent and stay on a guardian through death. Buy what you can afford,
+        then pick who carries it.
+      </p>
+      <p class="sheet__sub">Gold on hand: <b class="num" id="shop-gold">0</b></p>
+      <div class="shop-grid" id="shop-grid"></div>
+      <div id="shop-equip"></div>
+      <button class="btn btn--primary" id="btn-shop-done">Done buying</button>
+    </div>
+  </div>
+
+  <!-- ============================================================ RESULT -->
+  <div class="overlay" id="overlay-result">
+    <div class="sheet result">
+      <p class="result__verdict display" id="result-verdict">Held</p>
+      <p class="sheet__sub" id="result-detail"></p>
+      <div class="draft__actions" style="justify-content:center">
+        <button class="btn btn--primary" id="btn-again">Play again</button>
+        <a class="btn btn--ghost" href="/tools/">Back to tools</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Motion layer: floating numbers, card ghosts, banners. Lives outside the screens so it
+       survives the board being rebuilt. See js/ui/anim.js. -->
+  <div class="fx" id="fx" aria-hidden="true"></div>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
