@@ -1642,6 +1642,43 @@ main {
   letter-spacing: 0.06em;
 }
 
+/* contract cards (about page): fact list inside an inventory card */
+.contracts-note {
+  font-size: 0.78rem;
+  color: var(--bone-dim);
+  margin: -0.4rem 0 1.2rem;
+}
+
+/* lead text sits on top; the list takes the stretch so tags stay bottom-aligned */
+.inv-desc--lead {
+  flex: none;
+}
+
+.inv-list {
+  flex: 1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.inv-list li {
+  font-size: 0.74rem;
+  color: var(--bone-dim);
+  line-height: 1.5;
+  padding-left: 1.1em;
+  position: relative;
+}
+
+.inv-list li::before {
+  content: '>';
+  position: absolute;
+  left: 0;
+  color: var(--phosphor-dim);
+}
+
 /* ---- TERMINAL / CONNECT ---- */
 .terminal-window {
   background-color: var(--void-soft);

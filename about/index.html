@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About Zrov — Dossier, Projects &amp; Mods</title>
   <meta name="description"
-    content="The full Zrov dossier: game dev background, Unity projects, Minecraft &amp; Fallout mods, interests, and contact channels.">
+    content="The full Zrov dossier: game dev background, paid web and server contracts, Unity projects, mods, interests, and contact channels.">
   <link rel="canonical" href="https://zrov.dev/about/">
   <meta name="robots" content="index, follow">
 
@@ -208,6 +208,18 @@
           <div class="dossier-entry">
             <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
               <span class="dossier-prefix">&gt;</span>
+              <span>Paid <span class="dossier-hl">web &amp; server</span> contracts: full-stack, DevOps, security</span>
+            </div>
+            <div class="dossier-entry-detail">
+              Rebuilt and hosts client sites end to end: Node backends, Linux servers,
+              CI/CD, and monthly maintenance. Stopped a live SSH brute-force attack and
+              cleaned a hacked WordPress site in one day. Case files below, client
+              names withheld.
+            </div>
+          </div>
+          <div class="dossier-entry">
+            <div class="dossier-entry-main" role="button" tabindex="0" aria-expanded="false">
+              <span class="dossier-prefix">&gt;</span>
               <span>Trilingual: <span class="dossier-accent">EN</span> <span class="dossier-accent">JP</span> <span class="dossier-accent">ID</span></span>
             </div>
             <div class="dossier-entry-detail">
@@ -289,6 +301,10 @@
             <td class="stat-value">600+hrs</td>
           </tr>
           <tr>
+            <td class="stat-label">Web Contracts</td>
+            <td class="stat-value">3 clients</td>
+          </tr>
+          <tr>
             <td class="stat-label">Modding</td>
             <td class="stat-value">Minecraft / Fallout / Skyrim</td>
           </tr>
@@ -302,6 +318,81 @@
 
     <div class="ascii-sep">
       ───── ✠ ╬ ✠ ╬ ✠ ─────
+    </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════╔FIELD CONTRACTS (paid web/server work) ══════════════╔-->
+    <!-- per Zan: no client names, domains, locations, prices or bank details here.
+         Source: the ZRV-2026-001..006 invoices, rewritten without identifiers. -->
+    <section class="scene" data-scene="CONTRACTS">
+      <div class="scene__pin">
+        <div class="scene__inner">
+    <div class="section-hd">
+      <h2>Field Contracts</h2>
+      <span class="ref">REF: ZRV-OPS-3</span>
+    </div>
+    <p class="contracts-note">Paid client work. Names withheld; every number below is from the job record.</p>
+
+    <div class="inventory-grid">
+      <article class="inventory-item">
+        <div class="inv-ref">CONTRACT-001 // NONPROFIT FOUNDATION</div>
+        <h3 class="inv-name">Rebuild Under Fire</h3>
+        <p class="inv-desc inv-desc--lead">A legacy PHP site on a server that was under a live SSH brute-force attack.
+          Secured, rebuilt and live again in three days, with no data lost.</p>
+        <ul class="inv-list">
+          <li>Stopped the attack: key-only SSH, firewall, fail2ban with alerts</li>
+          <li>Closed a public database port and an IDOR bug that exposed donor data</li>
+          <li>Migrated CodeIgniter/PHP to Express 5, EJS and MySQL</li>
+          <li>VPS setup: Node, systemd, nginx, certbot SSL, one-command deploy with auto-rollback</li>
+          <li>QR donation flow with per-transaction tokens, payment gateway wired in</li>
+          <li>Later: bilingual ID/EN system (hreflang, canonical, sitemap) and a landing page with hand-written WebGL shaders</li>
+          <li>Ongoing: monitoring, patching, daily backups</li>
+        </ul>
+        <div class="inv-tech">
+          <span>Express 5</span><span>MySQL</span><span>nginx</span><span>Linux</span><span>WebGL</span>
+        </div>
+      </article>
+
+      <article class="inventory-item">
+        <div class="inv-ref">CONTRACT-002 // WELLNESS RETREAT</div>
+        <h3 class="inv-name">Self-Serve Site</h3>
+        <p class="inv-desc inv-desc--lead">Built from zero, with an admin panel so the owners change everything
+          themselves without touching code.</p>
+        <ul class="inv-list">
+          <li>Express, EJS and SQLite site with a custom design system, not a theme</li>
+          <li>Admin CMS: multiple admins, catalog, photo uploads, newsletter, "last edited by" audit trail</li>
+          <li>Fly.io hosting, GitHub Actions CI/CD: push to live in about 50 seconds</li>
+          <li>Domain, canonical redirects and SSL</li>
+          <li>Ongoing: monthly maintenance</li>
+        </ul>
+        <div class="inv-tech">
+          <span>Express</span><span>SQLite</span><span>Fly.io</span><span>GitHub Actions</span>
+        </div>
+      </article>
+
+      <article class="inventory-item">
+        <div class="inv-ref">CONTRACT-003 // BUSINESS SITE</div>
+        <h3 class="inv-name">Casino Exorcism</h3>
+        <p class="inv-desc inv-desc--lead">A WordPress site hacked for months: normal for visitors, gambling spam for
+          Google and social apps. Cleaned in one day, and the site still looks the same.</p>
+        <ul class="inv-list">
+          <li>Removed 4 backdoors, 7 fake plugins, a hidden admin, 9 attacker app passwords, 2 hidden scheduled tasks</li>
+          <li>Stopped cloaked redirects for search engines and social apps</li>
+          <li>Trashed 986 spam posts; all 294 real posts and 58 pages kept</li>
+          <li>WordPress, theme and 18 plugins updated, PHP 8.0 to 8.3, 12 dead plugins removed</li>
+          <li>Hardened: login limits, XML-RPC login off, malware scans, owner alerts</li>
+          <li>Second site on the same host checked clean and updated</li>
+        </ul>
+        <div class="inv-tech">
+          <span>WordPress</span><span>PHP 8.3</span><span>Wordfence</span><span>Incident response</span>
+        </div>
+      </article>
+    </div>
+
+    <div class="ascii-sep">
+      ✠ ════ ☠ ════ ✠
     </div>
         </div>
       </div>
