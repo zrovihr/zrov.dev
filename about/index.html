@@ -677,10 +677,6 @@
 
   </main>
 
-  <!-- ══════════════╔CINEMATIC SCENE CHROME ══════════════╔-->
-  <div class="scene-fade" id="sceneFade" aria-hidden="true"></div>
-  <nav class="scene-rail" id="sceneRail" aria-label="Sections"></nav>
-
   <!-- GHOSTZER0 ACCESS NODE + HUD CONTROLS -->
   <script src="/static/js/hud-player-terminal.js" defer></script>
 
@@ -697,8 +693,9 @@
   <!-- ══════════════╔COGWORK BACKGROUND (3D wireframe gears) ══════════════╔-->
   <script src="/static/js/cogwork.js" defer></script>
 
-  <!-- ══════════════╔SCROLL SCENES (pinned cinematic sections) ══════════════╔-->
-  <script src="/static/js/scrollscenes.js" defer></script>
+  <!-- per Zan 2026-11-10: scene-by-scene fade transitions removed ("too many
+       transition"); the page scrolls normally. static/js/scrollscenes.js is kept
+       unloaded in case it comes back. -->
 </body>
 
 </html>
